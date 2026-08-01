@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>D Studio – 3D Interactive Web Experience</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+:root {
+  --bg: #050814;
+  --fg: #f5f7ff;
+  --accent: #4fd1ff;
+  --accent2: #a855ff;
+  --accent3: #f97316;
+}
+
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: "Inter", system-ui;
+  background: radial-gradient(circle at top, #111827 0, #020617 40%, #000 100%);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+/* PAGE */
+.page { min-height:100vh; display:flex; flex-direction:column; }
+
+/* HEADER */
+header {
+  position:fixed; top:0; left:0; right:0;
+  z-index:40;
+  padding:1rem 1.25rem;
+  display:flex; justify-content:space-between; align-items:center;
+  backdrop-filter:blur(18px);
+  background:linear-gradient(to bottom, rgba(5,8,20,0.95), rgba(5,8,20,0.5));
+  border-bottom:1px solid rgba(148,163,184,0.35);
+}
+
+.logo {
+  font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+  font-size:0.9rem;
+  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip:text; color:transparent;
+  background-size:200% 200%;
+  animation:logoShimmer 12s ease-in-out infinite;
+}
+
+@keyframes logoShimmer {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* MENU BUTTON */
+.menu-button {
+  border-radius:999px;
+  padding:0.45rem 1rem;
+  display:flex; align-items:center; gap:0.45rem;
+  font-size:0.8rem; cursor:pointer;
+  background:radial-gradient(circle at top left, #0f172a, #020617);
+  border:1px solid rgba(148,163,184,0.7);
+  color:var(--fg);
+  box-shadow:0 10px 24px rgba(15,23,42,0.8);
+  transition:transform .2s, box-shadow .2s;
+}
+
+.menu-button:active { transform:scale(0.96); }
+
+/* MENU ICON */
+.menu-icon { width:14px; height:14px; position:relative; }
+.menu-icon span {
+  position:absolute; left:0; right:0; height:2px; border-radius:999px;
+  background:linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  transition:transform .25s, opacity .25s;
+}
+.menu-icon span:nth-child(1){top:2px;}
+.menu-icon span:nth-child(2){top:6px;}
+.menu-icon span:nth-child(3){top:10px;}
+
+.menu-button.open .menu-icon span:nth-child(1){transform:translateY(4px) rotate(45deg);}
+.menu-button.open .menu-icon span:nth-child(2){opacity:0;}
+.menu-button.open .menu-icon span:nth-child(3){transform:translateY(-4px) rotate(-45deg);}
+
+/* NAV OVERLAY */
+.nav-overlay {
+  position:fixed; inset:0; z-index:30;
+  background:radial-gradient(circle at top, #020617, #000);
+  backdrop-filter:blur(24px);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s;
+}
+.nav-overlay.open { opacity:1; pointer-events:auto; }
+
+.nav-inner {
+  height:100%;
+  padding:5rem 1.75rem 2rem;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+
+/* NAV LIST */
+.nav-list { list-style:none; display:flex; flex-direction:column; gap:1.4rem; }
+
+.nav-item {
+  font-size:1.4rem; font-weight:600; letter-spacing:0.08em;
+  text-transform:uppercase; cursor:pointer;
+  display:flex; align-items:center; gap:0.4rem;
+  position:relative;
+}
+
+.nav-label {
+  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip:text; color:transparent;
+  background-size:200% 200%;
+  animation:navShimmer 10s ease-in-out infinite;
+}
+
+@keyframes navShimmer {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.chevron {
+  font-size:0.9rem;
+  color:rgba(148,163,184,0.9);
+  transition:transform .25s, color .25s;
+}
+.mega-trigger.open .chevron {
+  transform:rotate(180deg);
+  color:var(--accent);
+}
+
+/* COLLAPSED MEGA MENU */
+.mega-menu {
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(-10px);
+  transition:max-height .35s ease, opacity .35s ease, transform .35s ease;
+  display:flex; flex-direction:column; gap:0.55rem;
+}
+
+.mega-trigger.open .mega-menu {
+  max-height:600px;
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* SUB ITEMS (S1-C + GG1) */
+.mega-menu li {
+  list-style:none;
+  opacity:0;
+  transform:translateX(-8px);
+  transition:opacity .35s, transform .35s;
+  margin-left:0.75rem;
+  padding:0.35rem 0.9rem;
+  border-radius:999px;
+  background:radial-gradient(circle at left,
+    rgba(79,209,255,0.18),
+    rgba(168,85,247,0.12),
+    rgba(249,115,22,0.08)
+  );
+}
+
+.mega-trigger.open .mega-menu li { opacity:1; transform:translateX(0); }
+
+.mega-menu li span {
+  font-size:1rem;
+  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip:text; color:transparent;
+  cursor:pointer;
+  transition:transform .25s, opacity .25s;
+}
+
+.mega-menu li span:hover {
+  transform:translateX(6px) rotateY(8deg);
+  opacity:1;
+}
+
+/* FOOTER */
+.nav-footer {
+  font-size:0.8rem;
+  color:rgba(148,163,184,0.9);
+}
+
+/* MAIN */
+main { margin-top:64px; }
+
+/* HERO */
+.hero {
+  min-height:calc(100vh - 64px);
+  display:flex; flex-direction:column; justify-content:center;
+  gap:1.75rem; position:relative;
+}
+
+.hero-grid {
+  position:absolute; inset:0; pointer-events:none;
+  opacity:0.35;
+  background-image:radial-gradient(circle, rgba(148,163,184,0.3) 1px, transparent 0);
+  background-size:24px 24px;
+}
+
+.hero-3d-shell {
+  width:100%; height:260px;
+  border-radius:24px; overflow:hidden;
+  background:radial-gradient(circle at top, #1f2937, #020617);
+  border:1px solid rgba(148,163,184,0.4);
+  box-shadow:0 40px 80px rgba(15,23,42,0.9);
+  transition:transform .2s;
+  position:relative;
+}
+
+.hero-3d-layer {
+  position:absolute;
+  border-radius:16px;
+  border:1px solid rgba(148,163,184,0.5);
+  background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,64,175,0.8));
+  box-shadow:0 20px 40px rgba(15,23,42,0.8);
+  transition:transform .2s;
+}
+
+.hero-3d-layer.code {
+  width:70%; height:46%; top:12%; left:8%;
+}
+
+.hero-3d-layer.ui {
+  width:52%; height:38%; bottom:10%; right:6%;
+  background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(168,85,247,0.8));
+}
+
+.hero-text h1 {
+  font-size:2rem; line-height:1.1;
+}
+
+.hero-text h1 span {
+  background:linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip:text; color:transparent;
+}
+
+.hero-text p {
+  margin-top:0.75rem;
+  font-size:0.95rem;
+  color:rgba(209,213,219,0.9);
+  max-width:32rem;
+}
+
+.hero-actions {
+  display:flex; flex-wrap:wrap; gap:0.75rem;
+  margin-top:1rem;
+}
+
+.btn-primary {
+  border-radius:999px;
+  padding:0.7rem 1.4rem;
+  background:radial-gradient(circle at top left, var(--accent), var(--accent2));
+  color:#0b1020; font-weight:600;
+  border:1px solid rgba(148,163,184,0.6);
+}
+
+.btn-secondary {
+  border-radius:999px;
+  padding:0.7rem 1.4rem;
+  background:rgba(15,23,42,0.8);
+  color:var(--fg);
+  border:1px solid rgba(148,163,184,0.6);
+}
+
+/* SECTIONS */
+section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
+
+.section-title {
+  font-size:1.2rem; margin-bottom:1.5rem;
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:rgba(148,163,184,0.9);
+}
+
+.cards { display:grid; gap:1rem; }
+
+.card {
+  border-radius:18px;
+  padding:1.25rem;
+  background:radial-gradient(circle at top, #111827, #020617);
+  border:1px solid rgba(148,163,184,0.4);
+  box-shadow:0 20px 40px rgba(15,23,42,0.8);
+}
+
+.card-tag {
+  position:absolute; top:1rem; right:1rem;
+  font-size:0.7rem;
+  padding:0.2rem 0.6rem;
+  border-radius:999px;
+  border:1px solid rgba(148,163,184,0.6);
+}
+
+/* CONTACT */
+.contact {
+  background:#020617;
+  border-top:1px solid rgba(31,41,55,0.9);
+  padding-bottom:4rem;
+}
+
+.contact-inner {
+  border-radius:24px;
+  padding:2rem 1.5rem;
+  background:radial-gradient(circle at top, #0f172a, #020617);
+  border:1px solid rgba(148,163,184,0.5);
+  box-shadow:0 30px 60px rgba(15,23,42,0.9);
+}
+
+.contact-inner input,
+.contact-inner textarea {
+  width:100%;
+  margin-bottom:0.75rem;
+  padding:0.6rem 0.8rem;
+  border-radius:12px;
+  border:1px solid rgba(55,65,81,0.9);
+  background:rgba(15,23,42,0.9);
+  color:var(--fg);
+}
+
+.contact-inner button {
+  width:100%;
+  border-radius:999px;
+  padding:0.7rem 1.4rem;
+  background:radial-gradient(circle at top left, var(--accent), var(--accent2));
+  color:#020617;
+  font-weight:600;
+  border:none;
+}
+
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<header>
+  <div class="logo">D Studio</div>
+  <button class="menu-button" id="menuButton">
+    <div class="menu-icon">
+      <span></span><span></span><span></span>
+    </div>
+    Navigation
+  </button>
+</header>
+
+<div class="nav-overlay" id="navOverlay">
+  <div class="nav-inner">
+
+    <ul class="nav-list">
+
+      <li class="nav-item" onclick="navGo('hero')">
+        <span class="nav-label">🏠 Home</span>
+      </li>
+
+      <li class="nav-item mega-trigger">
+        <span class="nav-label">🛠️ Services</span>
+        <span class="chevron">▾</span>
+        <ul class="mega-menu">
+          <li><span onclick="scrollToSection('services')">🎨 Web Design</span></li>
+          <li><span onclick="scrollToSection('services')">💻 Web Development</span></li>
+          <li><span onclick="scrollToSection('services')">🛒 E‑commerce</span></li>
+          <li><span onclick="scrollToSection('services')">✨ Branding</span></li>
+          <li><span onclick="scrollToSection('services')">🔍 SEO</span></li>
+          <li><span onclick="scrollToSection('services')">🔧 Maintenance</span></li>
+          <li><span onclick="scrollToSection('services')">📊 Consulting</span></li>
+        </ul>
+      </li>
+
+      <li class="nav-item mega-trigger">
+        <span class="nav-label">🎨 Portfolio</span>
+        <span class="chevron">▾</span>
+        <ul class="mega-menu">
+          <li><span onclick="scrollToSection('portfolio')">📁 Case Studies</span></li>
+          <li><span onclick="scrollToSection('portfolio')">🏭 By Industry</span></li>
+          <li><span onclick="scrollToSection('portfolio')">🛠️ By Service</span></li>
+          <li><span class="glow" onclick="scrollToSection('portfolio')">⭐ Featured Projects</span></li>
+        </ul>
+      </li>
+
+      <li class="nav-item mega-trigger">
+        <span class="nav-label">👤 About</span>
+        <span class="chevron">▾</span>
+        <ul class="mega-menu">
+          <li><span>🏢 About Us</span></li>
+          <li><span>👥 Team</span></li>
+          <li><span>💼 Careers</span></li>
+          <li><span>📰 Press</span></li>
+        </ul>
+      </li>
+
+      <li class="nav-item mega-trigger">
+        <span class="nav-label">📝 Blog</span>
+        <span class="chevron">▾</span>
+        <ul class="mega-menu">
+          <li><span>🎨 Design</span></li>
+          <li><span>💻 Development</span></li>
+          <li><span>✨ Branding</span></li>
+          <li><span>🔍 SEO</span></li>
+          <li><span>📈 Business</span></li>
+          <li><span>📚 Guides</span></li>
+          <li><span>📄 Checklists</span></li>
+          <li><span>⬇️ Downloads</span></li>
+        </ul>
+      </li>
+
+      <li class="nav-item mega-trigger">
+        <span class="nav-label">📞 Contact</span>
+        <span class="chevron">▾</span>
+        <ul class="mega-menu">
+          <li><span onclick="scrollToSection('contact')">📨 Contact Form</span></li>
+          <li><span>📍 Locations</span></li>
+          <li><span class="glow" onclick="scrollToSection('contact')">📅 Book a Call</span></li>
+        </ul>
+      </li>
+
+    </ul>
+
+    <div class="nav-footer">
+      <strong>Web design · development · internet programming</strong><br>
+      Crafted with motion, depth, and 3D.
+    </div>
+
+  </div>
+</div>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+
+  <div class="hero-3d-shell" id="heroScene">
+    <div class="hero-3d-layer code"></div>
+    <div class="hero-3d-layer ui"></div>
+  </div>
+
+  <div class="hero-text">
+    <h1>Engineering <span>immersive web experiences</span>.</h1>
+    <p>Web design, development, and internet programming with real-time motion, depth, and interactive 3D.</p>
+
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollToSection('portfolio')">View work</button>
+      <button class="btn-secondary" onclick="scrollToSection('services')">Services</button>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-title">Services</div>
+
+      <article class="card">
+      <span class="card-tag">Design</span>
+      <h3>Web Design</h3>
+      <p>High-end interfaces with depth, motion, and a focus on mobile-first experiences.</p>
+    </article>
+
+    <article class="card">
+      <span class="card-tag">Build</span>
+      <h3>Web Development</h3>
+      <p>Modern front-end stacks, performance-focused builds, and clean, maintainable code.</p>
+    </article>
+
+    <article class="card">
+      <span class="card-tag">Code</span>
+      <h3>Internet Programming</h3>
+      <p>APIs, integrations, and custom logic powering interactive and data-driven experiences.</p>
+    </article>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="section-title">Selected Work</div>
+
+  <div class="cards">
+    <article class="card">
+      <h3>Interactive Agency Landing</h3>
+      <p>3D hero, parallax gallery, and cinematic transitions for a digital studio.</p>
+    </article>
+
+    <article class="card">
+      <h3>Product Showcase Experience</h3>
+      <p>Scroll-driven storytelling with layered UI and motion-driven highlights.</p>
+    </article>
+
+    <article class="card">
+      <h3>Developer Tools Portal</h3>
+      <p>Code-inspired UI with live components and reactive layouts.</p>
+    </article>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <h2>Ready to build something immersive?</h2>
+    <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
+
+    <form>
+      <input type="text" placeholder="Name" />
+      <input type="email" placeholder="Email" />
+      <textarea rows="4" placeholder="Project details"></textarea>
+      <button type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+/* Smooth scroll */
+function scrollToSection(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
+
+/* Nav toggle */
+const menuButton=document.getElementById("menuButton");
+const navOverlay=document.getElementById("navOverlay");
+
+menuButton.addEventListener("click",()=>{
+  const open=menuButton.classList.toggle("open");
+  navOverlay.classList.toggle("open",open);
+});
+
+function navGo(id){
+  navOverlay.classList.remove("open");
+  menuButton.classList.remove("open");
+  scrollToSection(id);
+}
+
+/* Mega-menu accordion */
+document.querySelectorAll(".mega-trigger").forEach(item=>{
+  item.addEventListener("click",()=>{
+    const open=item.classList.toggle("open");
+    if(open){
+      document.querySelectorAll(".mega-trigger").forEach(other=>{
+        if(other!==item) other.classList.remove("open");
+      });
+    }
+  });
+});
+
+/* Hero tilt */
+const heroShell=document.getElementById("heroScene");
+const codeLayer=document.querySelector(".hero-3d-layer.code");
+const uiLayer=document.querySelector(".hero-3d-layer.ui");
+
+heroShell.addEventListener("pointermove",(e)=>{
+  const r=heroShell.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width-.5;
+  const y=(e.clientY-r.top)/r.height-.5;
+  heroShell.style.transform=`perspective(800px) rotateX(${y*-10}deg) rotateY(${x*10}deg)`;
+  codeLayer.style.transform=`translate3d(${x*-12}px,${y*-12}px,0)`;
+  uiLayer.style.transform=`translate3d(${x*16}px,${y*16}px,0)`;
+});
+
+heroShell.addEventListener("pointerleave",()=>{
+  heroShell.style.transform="perspective(800px) rotateX(0) rotateY(0)";
+  codeLayer.style.transform="translate3d(0,0,0)";
+  uiLayer.style.transform="translate3d(0,0,0)";
+});
+
+/* Section reveal */
+const sections=document.querySelectorAll("section");
+
+function checkSections(){
+  sections.forEach(section=>{
+    const rect=section.getBoundingClientRect();
+    if(rect.top<window.innerHeight*.85 && rect.bottom>0){
+      if(section.id==="services"||section.id==="portfolio"){
+        section.classList.add("section-visible");
+      }
+      if(section.id==="contact"){
+        section.querySelector(".contact-inner").classList.add("section-visible");
+      }
+    }
+  });
+}
+
+window.addEventListener("load",checkSections);
+window.addEventListener("scroll",checkSections);
+</script>
+
+</body>
+</html>
+
