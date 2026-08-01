@@ -95,6 +95,8 @@ header {
 
 .nav-inner {
   height:100%;
+  max-height:100%;
+  overflow-y:auto; /* FIX: prevents Contact cutoff */
   padding:5rem 1.75rem 2rem;
   display:flex; flex-direction:column; justify-content:space-between;
 }
@@ -107,6 +109,7 @@ header {
   text-transform:uppercase; cursor:pointer;
   display:flex; align-items:center; gap:0.4rem;
   position:relative;
+  flex-direction:row !important; /* FIX: icons + labels on same line */
 }
 
 .nav-label {
@@ -132,23 +135,30 @@ header {
   color:var(--accent);
 }
 
-/* COLLAPSED MEGA MENU */
+/* COLLAPSED MEGA MENU — FIXED */
 .mega-menu {
-  max-height:0;
-  overflow:hidden;
+  max-height:0;              /* collapsed by default */
+  overflow:hidden;           /* prevents auto-expansion */
   opacity:0;
   transform:translateY(-10px);
-  transition:max-height .35s ease, opacity .35s ease, transform .35s ease;
+  transition:
+    max-height .35s ease,
+    opacity .35s ease,
+    transform .35s ease;
   display:flex; flex-direction:column; gap:0.55rem;
+  padding-bottom:1rem;
+  position:relative;
+  z-index:10;
 }
 
 .mega-trigger.open .mega-menu {
-  max-height:600px;
+  max-height:60vh;           /* FIX: scrollable when tall */
+  overflow-y:auto;
   opacity:1;
   transform:translateY(0);
 }
 
-/* SUB ITEMS (S1-C + GG1) */
+/* SUB ITEMS */
 .mega-menu li {
   list-style:none;
   opacity:0;
@@ -284,6 +294,7 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   background:radial-gradient(circle at top, #111827, #020617);
   border:1px solid rgba(148,163,184,0.4);
   box-shadow:0 20px 40px rgba(15,23,42,0.8);
+  position:relative;
 }
 
 .card-tag {
@@ -330,6 +341,15 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   border:none;
 }
 
+/* MOBILE TUNING */
+@media (max-width:480px) {
+  .nav-item {
+    font-size:1.2rem;
+  }
+  .mega-menu li span {
+    font-size:0.95rem;
+  }
+}
 </style>
 </head>
 
@@ -376,7 +396,7 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
           <li><span onclick="scrollToSection('portfolio')">📁 Case Studies</span></li>
           <li><span onclick="scrollToSection('portfolio')">🏭 By Industry</span></li>
           <li><span onclick="scrollToSection('portfolio')">🛠️ By Service</span></li>
-          <li><span class="glow" onclick="scrollToSection('portfolio')">⭐ Featured Projects</span></li>
+          <li><span onclick="scrollToSection('portfolio')">⭐ Featured Projects</span></li>
         </ul>
       </li>
 
@@ -412,7 +432,7 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
         <ul class="mega-menu">
           <li><span onclick="scrollToSection('contact')">📨 Contact Form</span></li>
           <li><span>📍 Locations</span></li>
-          <li><span class="glow" onclick="scrollToSection('contact')">📅 Book a Call</span></li>
+          <li><span onclick="scrollToSection('contact')">📅 Book a Call</span></li>
         </ul>
       </li>
 
@@ -437,7 +457,7 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   </div>
 
   <div class="hero-text">
-    <h1>Engineering <span>immersive web experiences</span>.</h1>
+        <h1>Engineering <span>immersive web experiences</span>.</h1>
     <p>Web design, development, and internet programming with real-time motion, depth, and interactive 3D.</p>
 
     <div class="hero-actions">
@@ -450,7 +470,8 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
 <section id="services">
   <div class="section-title">Services</div>
 
-      <article class="card">
+  <div class="cards">
+    <article class="card">
       <span class="card-tag">Design</span>
       <h3>Web Design</h3>
       <p>High-end interfaces with depth, motion, and a focus on mobile-first experiences.</p>
@@ -573,7 +594,8 @@ function checkSections(){
         section.classList.add("section-visible");
       }
       if(section.id==="contact"){
-        section.querySelector(".contact-inner").classList.add("section-visible");
+        const inner=section.querySelector(".contact-inner");
+        if(inner) inner.classList.add("section-visible");
       }
     }
   });
