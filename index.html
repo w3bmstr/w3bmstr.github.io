@@ -71,43 +71,160 @@ header {
 .menu-button.open .menu-icon span:nth-child(1){transform:translateY(4px) rotate(45deg);}
 .menu-button.open .menu-icon span:nth-child(2){opacity:0;}
 .menu-button.open .menu-icon span:nth-child(3){transform:translateY(-4px) rotate(-45deg);}
-/* NAV OVERLAY */
+/* ─── NAV OVERLAY — cinematic full-screen system ─── */
 .nav-overlay {
   position:fixed; inset:0; z-index:30;
-  background:radial-gradient(circle at top, #020617, #000);
-  backdrop-filter:blur(24px);
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(79,209,255,0.08), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(168,85,247,0.1), transparent 50%),
+    radial-gradient(circle at top, #0a0f1e 0%, #020617 55%, #000 100%);
+  backdrop-filter:blur(28px) saturate(1.2);
+  -webkit-backdrop-filter:blur(28px) saturate(1.2);
   opacity:0; pointer-events:none;
-  transition:opacity .25s;
+  transition:opacity .4s cubic-bezier(.4,0,.2,1);
+  --nmx: 50%;
+  --nmy: 30%;
+  overflow:hidden;
 }
 .nav-overlay.open { opacity:1; pointer-events:auto; }
+/* Ambient scan grid + glow — desktop fine-pointer only (hidden by default) */
+.nav-overlay .nav-scan {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(79,209,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,255,0.035) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 55% 45% at var(--nmx) var(--nmy), #000 15%, transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse 55% 45% at var(--nmx) var(--nmy), #000 15%, transparent 70%);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .5s;
+  display:none;
+}
+.nav-overlay .nav-glow {
+  position:absolute;
+  width:320px; height:320px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle, rgba(79,209,255,0.12) 0%, rgba(168,85,247,0.06) 40%, transparent 70%);
+  left:var(--nmx); top:var(--nmy);
+  transform:translate(-50%,-50%);
+  opacity:0;
+  mix-blend-mode:screen;
+  transition:opacity .4s;
+  z-index:0;
+  display:none;
+}
+body.has-fine-pointer .nav-overlay .nav-scan,
+body.has-fine-pointer .nav-overlay .nav-glow {
+  display:block;
+}
+body.has-fine-pointer .nav-overlay.open .nav-scan { opacity:1; }
+body.has-fine-pointer .nav-overlay.open .nav-glow { opacity:1; }
+/* Hard kill on phones / small tablets — overrides has-fine-pointer */
+@media (max-width: 900px) {
+  .nav-overlay .nav-scan,
+  .nav-overlay .nav-glow,
+  body.has-fine-pointer .nav-overlay .nav-scan,
+  body.has-fine-pointer .nav-overlay .nav-glow,
+  body.has-fine-pointer .nav-overlay.open .nav-scan,
+  body.has-fine-pointer .nav-overlay.open .nav-glow,
+  .hero-3d-shell .scan-grid,
+  .hero-3d-shell .cursor-glow,
+  body.has-fine-pointer .hero-3d-shell .scan-grid,
+  body.has-fine-pointer .hero-3d-shell .cursor-glow {
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+  }
+}
+/* Floating particles in nav */
+.nav-overlay .nav-particle {
+  position:absolute;
+  width:2.5px; height:2.5px;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0;
+  animation:navParticleDrift linear infinite;
+}
+.nav-overlay.open .nav-particle { opacity:0.55; }
+@keyframes navParticleDrift {
+  0%   { transform:translateY(0) scale(1); opacity:0; }
+  15%  { opacity:0.55; }
+  85%  { opacity:0.35; }
+  100% { transform:translateY(-140px) scale(0.3); opacity:0; }
+}
 .nav-inner {
+  position:relative;
+  z-index:2;
   height:100%;
   max-height:100%;
   overflow-y:auto;
-  padding:5rem 1.75rem 2rem;
+  padding:5.5rem 1.75rem 2.5rem;
   display:flex; flex-direction:column; justify-content:space-between;
+  /* Staggered entrance when overlay opens */
+}
+.nav-overlay.open .nav-item {
+  animation:navItemIn .55s cubic-bezier(.2,.8,.2,1) both;
+}
+.nav-overlay.open .nav-item:nth-child(1){ animation-delay:.05s; }
+.nav-overlay.open .nav-item:nth-child(2){ animation-delay:.1s; }
+.nav-overlay.open .nav-item:nth-child(3){ animation-delay:.15s; }
+.nav-overlay.open .nav-item:nth-child(4){ animation-delay:.2s; }
+.nav-overlay.open .nav-item:nth-child(5){ animation-delay:.25s; }
+.nav-overlay.open .nav-item:nth-child(6){ animation-delay:.3s; }
+.nav-overlay.open .nav-footer {
+  animation:navItemIn .55s cubic-bezier(.2,.8,.2,1) .38s both;
+}
+@keyframes navItemIn {
+  from { opacity:0; transform:translateY(18px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 /* NAV LIST */
-.nav-list { list-style:none; display:flex; flex-direction:column; gap:0.35rem; }
+.nav-list { list-style:none; display:flex; flex-direction:column; gap:0.2rem; }
 .nav-item {
-  border-bottom:1px solid rgba(148,163,184,0.16);
+  border-bottom:1px solid rgba(148,163,184,0.12);
+  position:relative;
+  transform-style:preserve-3d;
 }
 .nav-item:last-child { border-bottom:none; }
-/* The tappable row itself — icon + label + chevron, always pinned at top of its block */
+/* Magnetic row */
 .nav-row {
   display:flex; align-items:center; justify-content:space-between;
   gap:0.6rem;
-  padding:0.95rem 0.25rem;
+  padding:1.05rem 0.5rem;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
+  border-radius:14px;
+  position:relative;
+  transition:background .3s ease, transform .25s cubic-bezier(.2,.8,.2,1);
 }
+.nav-row::before {
+  content:"";
+  position:absolute; inset:0;
+  border-radius:14px;
+  background:linear-gradient(110deg,
+    rgba(79,209,255,0.08),
+    rgba(168,85,247,0.06),
+    transparent 70%);
+  opacity:0;
+  transition:opacity .3s;
+  pointer-events:none;
+}
+.nav-row:hover::before,
+.nav-item.open .nav-row::before { opacity:1; }
+.nav-row:hover { transform:translateX(4px); }
 .nav-label {
-  font-size:1.25rem; font-weight:600; letter-spacing:0.06em;
+  font-size:1.3rem; font-weight:600; letter-spacing:0.07em;
   text-transform:uppercase;
-  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
   -webkit-background-clip:text; color:transparent;
-  background-size:200% 200%;
-  animation:navShimmer 10s ease-in-out infinite;
+  background-size:300% 100%;
+  animation:navShimmer 9s ease-in-out infinite;
+  transition:filter .3s;
+}
+.nav-row:hover .nav-label {
+  filter:brightness(1.2);
 }
 @keyframes navShimmer {
   0%{background-position:0% 50%;}
@@ -116,83 +233,117 @@ header {
 }
 .chevron {
   flex-shrink:0;
-  width:26px; height:26px;
+  width:28px; height:28px;
   display:flex; align-items:center; justify-content:center;
   border-radius:999px;
-  border:1px solid rgba(148,163,184,0.5);
-  color:rgba(226,232,240,0.9);
-  font-size:0.8rem;
-  transition:transform .3s ease, border-color .3s ease, color .3s ease;
+  border:1px solid rgba(148,163,184,0.4);
+  color:rgba(226,232,240,0.85);
+  font-size:0.75rem;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), border-color .3s, color .3s, box-shadow .3s, background .3s;
+  background:rgba(15,23,42,0.5);
+}
+.nav-row:hover .chevron {
+  border-color:rgba(79,209,255,0.5);
+  box-shadow:0 0 12px rgba(79,209,255,0.2);
 }
 .nav-item.open .chevron {
   transform:rotate(180deg);
   border-color:var(--accent);
   color:var(--accent);
+  background:rgba(79,209,255,0.1);
+  box-shadow:0 0 16px rgba(79,209,255,0.25);
 }
-/* Sub-menu — collapses/expands directly beneath its own parent row (accordion, not overlay) */
+/* Sub-menu accordion */
 .mega-menu {
   list-style:none;
   max-height:0;
   overflow:hidden;
   opacity:0;
   transition:
-    max-height .4s cubic-bezier(.4,0,.2,1),
-    opacity .3s ease;
-  display:flex; flex-direction:column; gap:0.4rem;
+    max-height .45s cubic-bezier(.4,0,.2,1),
+    opacity .35s ease,
+    padding .35s ease;
+  display:flex; flex-direction:column; gap:0.35rem;
+  padding-left:0.25rem;
 }
 .nav-item.open .mega-menu {
   max-height:70vh;
   overflow-y:auto;
   opacity:1;
-  padding-bottom:1.1rem;
+  padding-bottom:1.15rem;
 }
 /* SUB ITEMS */
 .mega-menu li {
   opacity:0;
-  transform:translateX(-8px);
-  transition:opacity .35s, transform .35s;
-  margin-left:0.5rem;
+  transform:translateX(-14px) scale(0.97);
+  transition:opacity .4s cubic-bezier(.2,.8,.2,1), transform .4s cubic-bezier(.2,.8,.2,1);
+  margin-left:0.35rem;
 }
 .nav-item.open .mega-menu li {
   opacity:1;
-  transform:translateX(0);
+  transform:translateX(0) scale(1);
 }
-/* Stagger sub-item entrance for a more polished feel */
-.nav-item.open .mega-menu li:nth-child(1){transition-delay:.03s;}
-.nav-item.open .mega-menu li:nth-child(2){transition-delay:.06s;}
-.nav-item.open .mega-menu li:nth-child(3){transition-delay:.09s;}
-.nav-item.open .mega-menu li:nth-child(4){transition-delay:.12s;}
-.nav-item.open .mega-menu li:nth-child(5){transition-delay:.15s;}
-.nav-item.open .mega-menu li:nth-child(6){transition-delay:.18s;}
-.nav-item.open .mega-menu li:nth-child(7){transition-delay:.21s;}
-.nav-item.open .mega-menu li:nth-child(8){transition-delay:.24s;}
+.nav-item.open .mega-menu li:nth-child(1){transition-delay:.04s;}
+.nav-item.open .mega-menu li:nth-child(2){transition-delay:.08s;}
+.nav-item.open .mega-menu li:nth-child(3){transition-delay:.12s;}
+.nav-item.open .mega-menu li:nth-child(4){transition-delay:.16s;}
+.nav-item.open .mega-menu li:nth-child(5){transition-delay:.2s;}
+.nav-item.open .mega-menu li:nth-child(6){transition-delay:.24s;}
+.nav-item.open .mega-menu li:nth-child(7){transition-delay:.28s;}
+.nav-item.open .mega-menu li:nth-child(8){transition-delay:.32s;}
 .mega-menu li span,
 .mega-menu li a {
   display:block;
   font-size:0.95rem;
-  padding:0.55rem 1rem;
-  border-radius:12px;
-  background:radial-gradient(circle at left,
-    rgba(79,209,255,0.16),
-    rgba(168,85,247,0.10),
-    rgba(249,115,22,0.06)
-  );
-  border:1px solid rgba(148,163,184,0.18);
+  padding:0.65rem 1.1rem;
+  border-radius:14px;
+  background:
+    linear-gradient(135deg, rgba(79,209,255,0.1), rgba(168,85,247,0.07) 50%, rgba(249,115,22,0.04));
+  border:1px solid rgba(148,163,184,0.16);
   color:rgba(226,232,240,0.95);
   cursor:pointer;
   text-decoration:none;
-  transition:transform .2s, border-color .2s, background .2s;
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s, box-shadow .25s, background .25s;
+}
+.mega-menu li span::before,
+.mega-menu li a::before {
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
+  transform:translateX(-100%);
+  transition:transform .5s ease;
+  pointer-events:none;
+}
+.mega-menu li span:hover::before,
+.mega-menu li a:hover::before {
+  transform:translateX(100%);
+}
+.mega-menu li span:hover,
+.mega-menu li a:hover {
+  transform:translateX(5px);
+  border-color:rgba(79,209,255,0.4);
+  box-shadow:0 8px 24px rgba(0,0,0,0.3), 0 0 20px rgba(79,209,255,0.08);
+  background:
+    linear-gradient(135deg, rgba(79,209,255,0.18), rgba(168,85,247,0.12) 50%, rgba(249,115,22,0.06));
 }
 .mega-menu li span:active,
 .mega-menu li a:active {
   transform:scale(0.97);
-  border-color:rgba(148,163,184,0.5);
 }
 /* FOOTER */
 .nav-footer {
   font-size:0.8rem;
-  color:rgba(148,163,184,0.9);
-  padding-top:1.5rem;
+  color:rgba(148,163,184,0.85);
+  padding-top:1.75rem;
+  border-top:1px solid rgba(148,163,184,0.12);
+  margin-top:1rem;
+  position:relative;
+}
+.nav-footer strong {
+  background:linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip:text; color:transparent;
 }
 /* MAIN */
 main { margin-top:64px; }
@@ -260,7 +411,15 @@ main { margin-top:64px; }
   mix-blend-mode:screen;
   z-index:5;
 }
-.hero-3d-shell:hover .cursor-glow { opacity:1; }
+.hero-3d-shell .scan-grid,
+.hero-3d-shell .cursor-glow {
+  display:none;
+}
+body.has-fine-pointer .hero-3d-shell .scan-grid,
+body.has-fine-pointer .hero-3d-shell .cursor-glow {
+  display:block;
+}
+body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
 /* Floating particles */
 .hero-3d-shell .particle {
   position:absolute;
@@ -647,18 +806,21 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   .logo, .nav-label { animation:none; }
   .rim-light, .scanline, .ring, .ring-core, .particle,
   .orbit, .cursor-blink, .panel-code .code-body .line,
-  .panel-ui .bar i {
+  .panel-ui .bar i, .nav-particle, .nav-overlay.open .nav-item,
+  .nav-overlay.open .nav-footer {
     animation:none !important;
   }
   .panel-code .code-body .line { opacity:1; transform:none; }
   .panel-ui .bar i { width:var(--w, 70%) !important; }
+  .nav-overlay.open .nav-item,
+  .nav-overlay.open .nav-footer { opacity:1; transform:none; }
 }
 </style>
 </head>
 <body>
 <div class="page">
 <header>
-  <div class="logo">D Wilds</div>
+  <div class="logo">D Studio</div>
   <button class="menu-button" id="menuButton" aria-label="Open navigation">
     <div class="menu-icon">
       <span></span><span></span><span></span>
@@ -667,6 +829,8 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   </button>
 </header>
 <div class="nav-overlay" id="navOverlay">
+  <div class="nav-scan" aria-hidden="true"></div>
+  <div class="nav-glow" aria-hidden="true"></div>
   <div class="nav-inner">
     <ul class="nav-list">
       <li class="nav-item">
@@ -934,10 +1098,10 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   <div class="contact-inner">
     <h2>Ready to build something immersive?</h2>
     <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
-    <form>
-      <input type="text" placeholder="Name" />
-      <input type="email" placeholder="Email" />
-      <textarea rows="4" placeholder="Project details"></textarea>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <textarea name="message" rows="4" placeholder="Project details" required></textarea>
       <button type="submit">Send message</button>
     </form>
   </div>
@@ -945,35 +1109,107 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
 </main>
 </div>
 <script>
+/* Cursor-spotlight only on desktop mouse. On mobile/touch: strip elements from DOM. */
+(function(){
+  const isFine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const isNarrow = window.matchMedia("(max-width: 900px)").matches;
+  if (isFine && !isNarrow) {
+    document.body.classList.add("has-fine-pointer");
+  } else {
+    // Physically remove so nothing can render or track
+    document.querySelectorAll(".nav-scan, .nav-glow, .scan-grid, .cursor-glow").forEach(el => el.remove());
+  }
+})();
+
 /* Smooth scroll */
 function scrollToSection(id){
   const el=document.getElementById(id);
   if(el) el.scrollIntoView({behavior:"smooth"});
 }
-/* Nav toggle (open/close whole overlay) */
-const menuButton=document.getElementById("menuButton");
-const navOverlay=document.getElementById("navOverlay");
-menuButton.addEventListener("click",()=>{
-  const open=menuButton.classList.toggle("open");
-  navOverlay.classList.toggle("open",open);
+
+/* Contact → opens email app to 2026websites@gmail.com */
+document.getElementById("contactForm")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim();
+  const email = f.email.value.trim();
+  const message = f.message.value.trim();
+  const subject = encodeURIComponent("Project enquiry from " + (name || "website"));
+  const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message);
+  window.location.href = "mailto:2026websites@gmail.com?subject=" + subject + "&body=" + body;
+});
+
+/* ── Cinematic nav overlay ── */
+const menuButton = document.getElementById("menuButton");
+const navOverlay = document.getElementById("navOverlay");
+const reduceNavMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function openNav(){
+  menuButton.classList.add("open");
+  navOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  // Spawn particles once when first opened
+  if (!reduceNavMotion && !navOverlay.dataset.particles) {
+    navOverlay.dataset.particles = "1";
+    for (let i = 0; i < 11; i++) {
+      const p = document.createElement("span");
+      p.className = "nav-particle";
+      p.style.left = (5 + Math.random() * 90) + "%";
+      p.style.bottom = (Math.random() * 40) + "%";
+      p.style.animationDuration = (6 + Math.random() * 8) + "s";
+      p.style.animationDelay = (Math.random() * 5) + "s";
+      p.style.background = i % 3 === 0 ? "var(--accent2)" : "var(--accent)";
+      p.style.boxShadow = `0 0 7px ${i % 3 === 0 ? "var(--accent2)" : "var(--accent)"}`;
+      navOverlay.appendChild(p);
+    }
+  }
+}
+function closeNav(){
+  menuButton.classList.remove("open");
+  navOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+  // Collapse any open accordion so it starts fresh next time
+  document.querySelectorAll(".nav-item.open").forEach(el => el.classList.remove("open"));
+}
+menuButton.addEventListener("click", () => {
+  if (navOverlay.classList.contains("open")) closeNav();
+  else openNav();
 });
 function navGo(id){
-  navOverlay.classList.remove("open");
-  menuButton.classList.remove("open");
-  scrollToSection(id);
+  closeNav();
+  // slight delay so close animation can start before scroll
+  setTimeout(() => scrollToSection(id), 80);
 }
-/* Accordion: tapping a main link expands its sub-list directly beneath it.
-   Main links stay in place at the top of their row; only one section open at a time. */
-document.querySelectorAll(".nav-toggle").forEach(row=>{
-  row.addEventListener("click",()=>{
-    const parentItem=row.closest(".nav-item");
-    const isOpen=parentItem.classList.contains("open");
-    document.querySelectorAll(".nav-item.open").forEach(other=>{
+/* Close on Escape */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && navOverlay.classList.contains("open")) closeNav();
+});
+/* Pointer tracking for scan grid + glow — desktop / fine pointer only */
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+if (finePointer) {
+  navOverlay.addEventListener("pointermove", (e) => {
+    const r = navOverlay.getBoundingClientRect();
+    const mx = ((e.clientX - r.left) / r.width * 100);
+    const my = ((e.clientY - r.top) / r.height * 100);
+    navOverlay.style.setProperty("--nmx", mx + "%");
+    navOverlay.style.setProperty("--nmy", my + "%");
+  });
+}
+/* Accordion: only one open at a time, smooth */
+document.querySelectorAll(".nav-toggle").forEach(row => {
+  row.addEventListener("click", () => {
+    const parentItem = row.closest(".nav-item");
+    const isOpen = parentItem.classList.contains("open");
+    document.querySelectorAll(".nav-item.open").forEach(other => {
       other.classList.remove("open");
     });
-    if(!isOpen){
-      parentItem.classList.add("open");
-    }
+    if (!isOpen) parentItem.classList.add("open");
+  });
+});
+/* Close nav when a sub-item is chosen (scroll targets) */
+navOverlay.querySelectorAll(".mega-menu span[onclick], .mega-menu a").forEach(el => {
+  el.addEventListener("click", () => {
+    setTimeout(closeNav, 60);
   });
 });
 /* ── Hero 3D scene: smoothed pointer, layered parallax, particles ── */
