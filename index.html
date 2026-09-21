@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <title>D Studio – Navigation Systems</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="D Studio — production-ready navigation systems with motion, depth, and precise interaction. Explore immersive web design and development." />
+<meta name="theme-color" content="#050814" />
+<meta name="color-scheme" content="dark" />
 <style>
 :root {
   --bg: #050814;
@@ -12,6 +15,14 @@
   --accent2: #a855ff;
   --accent3: #f97316;
 }
+/* Skip link */
+.skip-link {
+  position:absolute; left:1rem; top:-100px; z-index:100;
+  padding:0.6rem 1rem; border-radius:999px;
+  background:var(--accent); color:#0b1020; font-weight:600; font-size:0.85rem;
+  transition: top .25s ease;
+}
+.skip-link:focus { top:1rem; outline:2px solid #fff; outline-offset:2px; }
 /* RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -31,6 +42,34 @@ header {
   backdrop-filter:blur(18px);
   background:linear-gradient(to bottom, rgba(5,8,20,0.95), rgba(5,8,20,0.5));
   border-bottom:1px solid rgba(148,163,184,0.35);
+  transition: padding .35s ease, background .35s ease, border-color .35s ease;
+}
+header.scrolled {
+  padding:0.65rem 1.25rem;
+  background:rgba(5,8,20,0.92);
+  border-bottom-color:rgba(148,163,184,0.25);
+}
+/* Focus rings — keyboard craft */
+:focus { outline:none; }
+:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.menu-button:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.nav-row:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:14px;
+}
+.mega-menu li span:focus-visible,
+.mega-menu li a:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:2px;
 }
 .logo {
   font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
@@ -39,6 +78,7 @@ header {
   -webkit-background-clip:text; color:transparent;
   background-size:200% 200%;
   animation:logoShimmer 12s ease-in-out infinite;
+  cursor:pointer;
 }
 @keyframes logoShimmer {
   0%{background-position:0% 50%;}
@@ -449,6 +489,23 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
     0 25px 50px rgba(0,0,0,0.55),
     0 0 0 1px rgba(255,255,255,0.04) inset,
     0 1px 0 rgba(255,255,255,0.08) inset;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.hero-panel.is-dragging {
+  cursor:grabbing;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(79,209,255,0.35),
+    0 0 40px rgba(79,209,255,0.15),
+    0 1px 0 rgba(255,255,255,0.1) inset;
+  z-index:20 !important;
+}
+.hero-panel.is-dragging .rim-light {
+  opacity:1;
+  animation-duration:4s;
 }
 .hero-panel .glass {
   position:absolute; inset:0;
@@ -714,10 +771,10 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   margin-bottom:1.75rem;
   line-height:1.6;
 }
-.cards { display:grid; gap:1rem; }
+.cards { display:grid; gap:1rem; perspective:800px; }
 .card {
   border-radius:18px;
-  padding:1.25rem;
+  padding:1.25rem 1.25rem 1.1rem;
   background:radial-gradient(circle at top, #111827, #020617);
   border:1px solid rgba(148,163,184,0.4);
   box-shadow:0 20px 40px rgba(15,23,42,0.8);
@@ -725,11 +782,18 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   text-decoration:none;
   color:inherit;
   display:block;
-  transition: transform .2s ease, border-color .2s ease;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .25s ease, box-shadow .35s ease;
+  transform-style:preserve-3d;
+  opacity:0;
+  transform:translateY(16px);
+}
+.card.is-visible {
+  opacity:1;
+  transform:translateY(0);
 }
 .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(79,209,255,0.5);
+  border-color: rgba(79,209,255,0.55);
+  box-shadow:0 28px 50px rgba(15,23,42,0.9), 0 0 30px rgba(79,209,255,0.08);
 }
 .card-tag {
   position:absolute; top:1rem; right:1rem;
@@ -749,6 +813,24 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   color:rgba(209,213,219,0.85);
   line-height:1.5;
 }
+.card-cta {
+  display:inline-flex;
+  align-items:center;
+  gap:0.35rem;
+  margin-top:0.85rem;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  transition: transform .25s ease, color .25s ease;
+}
+.card:hover .card-cta {
+  color:var(--accent2);
+  transform:translateX(4px);
+}
+.card-cta .arrow { transition:transform .25s ease; }
+.card:hover .card-cta .arrow { transform:translateX(3px); }
 .category-label {
   font-size:0.75rem;
   letter-spacing:0.14em;
@@ -802,6 +884,57 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   }
   .hero-text h1 { font-size:1.7rem; }
 }
+.drag-hint {
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(148,163,184,0.55);
+  margin:0.65rem 0 0;
+  text-align:center;
+}
+
+/* Page load sequence */
+body.is-loading .logo {
+  opacity:0;
+  transform:translateY(-8px);
+}
+body.is-loading .menu-button {
+  opacity:0;
+  transform:translateY(-8px);
+}
+body.is-loading .hero-3d-shell {
+  opacity:0;
+  transform:perspective(1200px) translateY(24px) scale(0.97);
+}
+body.is-loading .hero-text {
+  opacity:0;
+  transform:translateY(18px);
+}
+body.is-loading .drag-hint {
+  opacity:0;
+}
+body:not(.is-loading) .logo,
+body:not(.is-loading) .menu-button {
+  transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
+}
+body:not(.is-loading) .hero-3d-shell {
+  transition: opacity .9s cubic-bezier(.2,.8,.2,1) .15s, transform .9s cubic-bezier(.2,.8,.2,1) .15s;
+}
+body:not(.is-loading) .hero-text {
+  transition: opacity .8s cubic-bezier(.2,.8,.2,1) .35s, transform .8s cubic-bezier(.2,.8,.2,1) .35s;
+}
+body:not(.is-loading) .drag-hint {
+  transition: opacity .7s ease .55s;
+}
+body.ready .logo,
+body.ready .menu-button,
+body.ready .hero-3d-shell,
+body.ready .hero-text,
+body.ready .drag-hint {
+  opacity:1;
+  transform:none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo, .nav-label { animation:none; }
   .rim-light, .scanline, .ring, .ring-core, .particle,
@@ -814,95 +947,105 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   .panel-ui .bar i { width:var(--w, 70%) !important; }
   .nav-overlay.open .nav-item,
   .nav-overlay.open .nav-footer { opacity:1; transform:none; }
+  body.is-loading .logo,
+  body.is-loading .menu-button,
+  body.is-loading .hero-3d-shell,
+  body.is-loading .hero-text,
+  .card {
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+  }
 }
 </style>
 </head>
-<body>
+<body class="is-loading">
+<a class="skip-link" href="#hero">Skip to content</a>
 <div class="page">
-<header>
-  <div class="logo">Daniel Wilds Studio</div>
-  <button class="menu-button" id="menuButton" aria-label="Open navigation">
+<header id="siteHeader">
+  <div class="logo">D Studio</div>
+  <button class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="navOverlay">
     <div class="menu-icon">
       <span></span><span></span><span></span>
     </div>
     Navigation
   </button>
 </header>
-<div class="nav-overlay" id="navOverlay">
+<div class="nav-overlay" id="navOverlay" role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true">
   <div class="nav-scan" aria-hidden="true"></div>
   <div class="nav-glow" aria-hidden="true"></div>
   <div class="nav-inner">
     <ul class="nav-list">
       <li class="nav-item">
-        <div class="nav-row" onclick="navGo('hero')">
+        <div class="nav-row" tabindex="0" role="link" data-nav-go="hero">
           <span class="nav-label">🏠 Home</span>
         </div>
       </li>
       <li class="nav-item">
-        <div class="nav-row nav-toggle">
+        <div class="nav-row nav-toggle" tabindex="0" role="button" aria-expanded="false" aria-haspopup="true">
           <span class="nav-label">🛠️ Services</span>
           <span class="chevron">▾</span>
         </div>
         <ul class="mega-menu">
-          <li><span onclick="scrollToSection('services')">🎨 Web Design</span></li>
-          <li><span onclick="scrollToSection('services')">💻 Web Development</span></li>
-          <li><span onclick="scrollToSection('services')">🛒 E‑commerce</span></li>
-          <li><span onclick="scrollToSection('services')">✨ Branding</span></li>
-          <li><span onclick="scrollToSection('services')">🔍 SEO</span></li>
-          <li><span onclick="scrollToSection('services')">🔧 Maintenance</span></li>
-          <li><span onclick="scrollToSection('services')">📊 Consulting</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">🎨 Web Design</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">💻 Web Development</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">🛒 E‑commerce</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">✨ Branding</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">🔍 SEO</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">🔧 Maintenance</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('services')">📊 Consulting</span></li>
         </ul>
       </li>
       <li class="nav-item">
-        <div class="nav-row nav-toggle">
+        <div class="nav-row nav-toggle" tabindex="0" role="button" aria-expanded="false" aria-haspopup="true">
           <span class="nav-label">🎨 Portfolio</span>
           <span class="chevron">▾</span>
         </div>
         <ul class="mega-menu">
-          <li><span onclick="scrollToSection('portfolio')">📁 All Systems</span></li>
-          <li><span onclick="scrollToSection('portfolio')">♿ Accessible & Editorial</span></li>
-          <li><span onclick="scrollToSection('portfolio')">🎬 Luxury & Cinematic</span></li>
-          <li><span onclick="scrollToSection('portfolio')">🧊 Material & Form</span></li>
-          <li><span onclick="scrollToSection('portfolio')">📱 Adaptive & Mobile</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">📁 All Systems</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">♿ Accessible & Editorial</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">🎬 Luxury & Cinematic</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">🧊 Material & Form</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">📱 Adaptive & Mobile</span></li>
         </ul>
       </li>
       <li class="nav-item">
-        <div class="nav-row nav-toggle">
+        <div class="nav-row nav-toggle" tabindex="0" role="button" aria-expanded="false" aria-haspopup="true">
           <span class="nav-label">👤 About</span>
           <span class="chevron">▾</span>
         </div>
         <ul class="mega-menu">
-          <li><span>🏢 About Us</span></li>
-          <li><span>👥 Team</span></li>
-          <li><span>💼 Careers</span></li>
-          <li><span>📰 Press</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">🏢 About Us</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">👥 Team</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">💼 Careers</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">📰 Press</span></li>
         </ul>
       </li>
       <li class="nav-item">
-        <div class="nav-row nav-toggle">
+        <div class="nav-row nav-toggle" tabindex="0" role="button" aria-expanded="false" aria-haspopup="true">
           <span class="nav-label">📝 Blog</span>
           <span class="chevron">▾</span>
         </div>
         <ul class="mega-menu">
-          <li><span>🎨 Design</span></li>
-          <li><span>💻 Development</span></li>
-          <li><span>✨ Branding</span></li>
-          <li><span>🔍 SEO</span></li>
-          <li><span>📈 Business</span></li>
-          <li><span>📚 Guides</span></li>
-          <li><span>📄 Checklists</span></li>
-          <li><span>⬇️ Downloads</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">🎨 Design</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">💻 Development</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">✨ Branding</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">🔍 SEO</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">📈 Business</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">📚 Guides</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">📄 Checklists</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('portfolio')">⬇️ Downloads</span></li>
         </ul>
       </li>
       <li class="nav-item">
-        <div class="nav-row nav-toggle">
+        <div class="nav-row nav-toggle" tabindex="0" role="button" aria-expanded="false" aria-haspopup="true">
           <span class="nav-label">📞 Contact</span>
           <span class="chevron">▾</span>
         </div>
         <ul class="mega-menu">
-          <li><span onclick="scrollToSection('contact')">📨 Contact Form</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">📨 Contact Form</span></li>
           <li><span>📍 Locations</span></li>
-          <li><span onclick="scrollToSection('contact')">📅 Book a Call</span></li>
+          <li><span tabindex="0" role="link" data-action="scrollToSection('contact')">📅 Book a Call</span></li>
         </ul>
       </li>
     </ul>
@@ -967,6 +1110,7 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
       </div>
     </div>
   </div>
+  <p class="drag-hint">Drag the panels — they stay where you leave them</p>
   <div class="hero-text">
     <h1>Engineering <span>immersive navigation systems</span>.</h1>
     <p>A curated index of production-ready navigation architectures — each designed as a complete system with motion, depth, and precise interaction.</p>
@@ -1008,16 +1152,19 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
       <span class="card-tag">Live</span>
       <h3>Studio Accessible</h3>
       <p>Full studio experience with skip links, clear hierarchy, and quiet confidence.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Index Navigation</h3>
       <p>Structured like a contents page — numbered, exact, and free of noise.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/accessible/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Accessible Core</h3>
       <p>Foundational accessible patterns refined for clarity and keyboard flow.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
   </div>
 
@@ -1027,21 +1174,25 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
       <span class="card-tag">Live</span>
       <h3>Cinelux</h3>
       <p>Cinematic luxury architecture for ambitious digital experiences.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/cinematic/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Cinematic Web</h3>
       <p>Motion, depth, and personality engineered for bold brands.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/premium-nav/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Premium Award Nav</h3>
       <p>Multi-column mega-menus, soft parallax, dual-theme elegance.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/wilds-aurora-nav/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Aurora Navigation</h3>
       <p>Luminous, atmospheric navigation with restrained glow and flow.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
   </div>
 
@@ -1051,16 +1202,19 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
       <span class="card-tag">Live</span>
       <h3>Glassmorphic</h3>
       <p>Frosted surfaces, layered depth, and light that commands attention.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/brutalist/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Brutalist Systems</h3>
       <p>Architectural rawness — grid language, visual engineering, zero ornament.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/Navigation/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Classic Navigation</h3>
       <p>Timeless structure refined for contemporary digital presence.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
   </div>
 
@@ -1070,26 +1224,31 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
       <span class="card-tag">Live</span>
       <h3>Adaptive Navigation</h3>
       <p>Context-aware systems that respond gracefully across breakpoints.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/DynamicPillDock/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Dynamic Pill Dock</h3>
       <p>High-octane interactive dock with fluid motion and precision.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/Bottom-Navigation/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Bottom Navigation</h3>
       <p>Thumb-first mobile navigation with deliberate hierarchy.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/bottomNav3/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Bottom Nav III</h3>
       <p>Refined mobile dock — third iteration of the bottom-nav series.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/bottomNav2/" target="_blank" rel="noopener">
       <span class="card-tag">Live</span>
       <h3>Bottom Nav II</h3>
       <p>Clean, focused mobile navigation with measured interaction.</p>
+          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
   </div>
 </section>
@@ -1139,16 +1298,30 @@ document.getElementById("contactForm")?.addEventListener("submit", (e) => {
   window.location.href = "mailto:2026websites@gmail.com?subject=" + subject + "&body=" + body;
 });
 
-/* ── Cinematic nav overlay ── */
+/* ── Cinematic nav overlay + keyboard ── */
 const menuButton = document.getElementById("menuButton");
 const navOverlay = document.getElementById("navOverlay");
 const reduceNavMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lastFocusBeforeNav = null;
+
+function getNavFocusables(){
+  return Array.from(navOverlay.querySelectorAll(
+    '.nav-row[tabindex="0"], .mega-menu li span[tabindex="0"], .mega-menu a[href]'
+  )).filter(el => {
+    const item = el.closest(".nav-item");
+    if (el.classList.contains("nav-row")) return true;
+    // sub-items only when parent open
+    return item && item.classList.contains("open") && el.offsetParent !== null;
+  });
+}
 
 function openNav(){
+  lastFocusBeforeNav = document.activeElement;
   menuButton.classList.add("open");
+  menuButton.setAttribute("aria-expanded", "true");
   navOverlay.classList.add("open");
+  navOverlay.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  // Spawn particles once when first opened
   if (!reduceNavMotion && !navOverlay.dataset.particles) {
     navOverlay.dataset.particles = "1";
     for (let i = 0; i < 11; i++) {
@@ -1163,13 +1336,24 @@ function openNav(){
       navOverlay.appendChild(p);
     }
   }
+  // focus first row
+  requestAnimationFrame(() => {
+    const first = navOverlay.querySelector('.nav-row[tabindex="0"]');
+    if (first) first.focus();
+  });
 }
 function closeNav(){
   menuButton.classList.remove("open");
+  menuButton.setAttribute("aria-expanded", "false");
   navOverlay.classList.remove("open");
+  navOverlay.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
-  // Collapse any open accordion so it starts fresh next time
-  document.querySelectorAll(".nav-item.open").forEach(el => el.classList.remove("open"));
+  document.querySelectorAll(".nav-item.open").forEach(el => {
+    el.classList.remove("open");
+    const t = el.querySelector(".nav-toggle");
+    if (t) t.setAttribute("aria-expanded", "false");
+  });
+  if (lastFocusBeforeNav) lastFocusBeforeNav.focus();
 }
 menuButton.addEventListener("click", () => {
   if (navOverlay.classList.contains("open")) closeNav();
@@ -1177,109 +1361,286 @@ menuButton.addEventListener("click", () => {
 });
 function navGo(id){
   closeNav();
-  // slight delay so close animation can start before scroll
   setTimeout(() => scrollToSection(id), 80);
 }
-/* Close on Escape */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && navOverlay.classList.contains("open")) closeNav();
+function toggleAccordion(row){
+  const parentItem = row.closest(".nav-item");
+  const isOpen = parentItem.classList.contains("open");
+  document.querySelectorAll(".nav-item.open").forEach(other => {
+    other.classList.remove("open");
+    const t = other.querySelector(".nav-toggle");
+    if (t) t.setAttribute("aria-expanded", "false");
+  });
+  if (!isOpen) {
+    parentItem.classList.add("open");
+    row.setAttribute("aria-expanded", "true");
+  }
+}
+
+/* Home + toggle rows: click & keyboard */
+document.querySelectorAll(".nav-row").forEach(row => {
+  row.addEventListener("click", () => {
+    if (row.dataset.navGo) navGo(row.dataset.navGo);
+    else if (row.classList.contains("nav-toggle")) toggleAccordion(row);
+  });
+  row.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      row.click();
+    } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const list = getNavFocusables();
+      const i = list.indexOf(document.activeElement);
+      if (i < 0) return;
+      const next = e.key === "ArrowDown"
+        ? list[(i + 1) % list.length]
+        : list[(i - 1 + list.length) % list.length];
+      next.focus();
+    }
+  });
 });
-/* Pointer tracking for scan grid + glow — desktop / fine pointer only */
+
+/* Sub-items: data-action handlers + keyboard */
+navOverlay.querySelectorAll("[data-action]").forEach(el => {
+  const run = () => {
+    try { // data-action holds e.g. scrollToSection('services')
+      // eslint-disable-next-line no-new-func
+      new Function(el.getAttribute("data-action"))();
+    } catch(_) {}
+    setTimeout(closeNav, 60);
+  };
+  el.addEventListener("click", run);
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      run();
+    }
+  });
+});
+
+/* Focus trap + Escape */
+document.addEventListener("keydown", (e) => {
+  if (!navOverlay.classList.contains("open")) return;
+  if (e.key === "Escape") {
+    e.preventDefault();
+    closeNav();
+    return;
+  }
+  if (e.key !== "Tab") return;
+  const list = getNavFocusables();
+  if (!list.length) return;
+  const first = list[0], last = list[list.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus();
+  }
+});
+
+/* Pointer tracking for scan grid + glow — desktop only */
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-if (finePointer) {
+if (finePointer && document.body.classList.contains("has-fine-pointer")) {
   navOverlay.addEventListener("pointermove", (e) => {
     const r = navOverlay.getBoundingClientRect();
-    const mx = ((e.clientX - r.left) / r.width * 100);
-    const my = ((e.clientY - r.top) / r.height * 100);
-    navOverlay.style.setProperty("--nmx", mx + "%");
-    navOverlay.style.setProperty("--nmy", my + "%");
+    navOverlay.style.setProperty("--nmx", ((e.clientX - r.left) / r.width * 100) + "%");
+    navOverlay.style.setProperty("--nmy", ((e.clientY - r.top) / r.height * 100) + "%");
   });
 }
-/* Accordion: only one open at a time, smooth */
-document.querySelectorAll(".nav-toggle").forEach(row => {
-  row.addEventListener("click", () => {
-    const parentItem = row.closest(".nav-item");
-    const isOpen = parentItem.classList.contains("open");
-    document.querySelectorAll(".nav-item.open").forEach(other => {
-      other.classList.remove("open");
+
+/* Scroll-aware header */
+const siteHeader = document.getElementById("siteHeader");
+function onScrollHeader(){
+  if (siteHeader) siteHeader.classList.toggle("scrolled", window.scrollY > 16);
+}
+document.addEventListener("scroll", onScrollHeader, { passive: true });
+onScrollHeader();
+
+/* Page load sequence */
+requestAnimationFrame(() => {
+  document.body.classList.remove("is-loading");
+  document.body.classList.add("ready");
+});
+
+/* Portfolio cards: staggered reveal + 3D tilt */
+(function(){
+  const cards = document.querySelectorAll("#portfolio a.card, #services .card");
+  if (!cards.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      const delay = [...cards].indexOf(el) % 6 * 60;
+      setTimeout(() => el.classList.add("is-visible"), delay);
+      io.unobserve(el);
     });
-    if (!isOpen) parentItem.classList.add("open");
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  cards.forEach(c => io.observe(c));
+
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!fine) return;
+  cards.forEach(card => {
+    card.addEventListener("pointermove", (e) => {
+      if (!card.classList.contains("is-visible")) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `translateY(-4px) rotateX(${y * -8}deg) rotateY(${x * 10}deg)`;
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.transform = "";
+    });
   });
+})();
+
+/* Logo → home */
+document.querySelector("header .logo")?.addEventListener("click", () => {
+  scrollToSection("hero");
 });
-/* Close nav when a sub-item is chosen (scroll targets) */
-navOverlay.querySelectorAll(".mega-menu span[onclick], .mega-menu a").forEach(el => {
-  el.addEventListener("click", () => {
-    setTimeout(closeNav, 60);
-  });
-});
-/* ── Hero 3D scene: smoothed pointer, layered parallax, particles ── */
+/* ── Hero 3D scene: design-tool panels — drag, inertia, drift, parallax ── */
 (function(){
   const shell = document.getElementById("heroScene");
   if (!shell) return;
   const panelCode = document.getElementById("panelCode");
   const panelUi   = document.getElementById("panelUi");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!panelCode || !panelUi) return;
 
-  // Spawn ambient particles
-  if (!reduceMotion) {
-    for (let i = 0; i < 9; i++) {
-      const p = document.createElement("span");
-      p.className = "particle";
-      p.style.left = (8 + Math.random() * 84) + "%";
-      p.style.bottom = (Math.random() * 30) + "%";
-      p.style.animationDuration = (5 + Math.random() * 7) + "s";
-      p.style.animationDelay = (Math.random() * 6) + "s";
-      p.style.background = i % 2 ? "var(--accent)" : "var(--accent2)";
-      p.style.boxShadow = `0 0 8px ${i % 2 ? "var(--accent)" : "var(--accent2)"}`;
-      shell.appendChild(p);
-    }
+  if (reduceMotion) return;
+
+  // Ambient particles
+  for (let i = 0; i < 9; i++) {
+    const p = document.createElement("span");
+    p.className = "particle";
+    p.style.left = (8 + Math.random() * 84) + "%";
+    p.style.bottom = (Math.random() * 30) + "%";
+    p.style.animationDuration = (5 + Math.random() * 7) + "s";
+    p.style.animationDelay = (Math.random() * 6) + "s";
+    p.style.background = i % 2 ? "var(--accent)" : "var(--accent2)";
+    p.style.boxShadow = `0 0 8px ${i % 2 ? "var(--accent)" : "var(--accent2)"}`;
+    shell.appendChild(p);
   }
 
-  // Smoothed pointer state
-  let targetX = 0, targetY = 0;
-  let curX = 0, curY = 0;
-  let hovering = false;
-  const ease = 0.08;
+  // Panels park where you leave them; gentle drift orbits that parked spot
+  function makeState(el, zBase, parallaxScale, driftAmp, driftSpeed, phase) {
+    return {
+      el, zBase, parallaxScale, driftAmp, driftSpeed, phase,
+      x: 0, y: 0,
+      parkX: 0, parkY: 0,  // last released position — they stay here
+      vx: 0, vy: 0,
+      dragging: false,
+      dragStartX: 0, dragStartY: 0,
+      pointerStartX: 0, pointerStartY: 0,
+      zBoost: 0
+    };
+  }
+  // Larger drift range so they roam more while idle
+  const code = makeState(panelCode, 18, {x:-32,y:-20,ry:-7,rx:5}, 14, 0.00055, 0);
+  const ui   = makeState(panelUi,   36, {x: 40,y: 24,ry: 8,rx:-6}, 16, 0.00042, 2.1);
+  const panels = [code, ui];
+  const MAX = 120; // freer travel inside the shell
+
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  const ease = 0.07;
+  const SPRING = 0.028; // soft pull toward park + drift (not origin)
+  const DAMP   = 0.90;
 
   shell.addEventListener("pointermove", (e) => {
+    if (panels.some(p => p.dragging)) return;
     const r = shell.getBoundingClientRect();
     targetX = (e.clientX - r.left) / r.width - 0.5;
     targetY = (e.clientY - r.top) / r.height - 0.5;
     shell.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
     shell.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
-    hovering = true;
   });
   shell.addEventListener("pointerleave", () => {
-    targetX = 0; targetY = 0;
-    hovering = false;
+    if (!panels.some(p => p.dragging)) {
+      targetX = 0; targetY = 0;
+    }
   });
 
-  function tick() {
+  panels.forEach((state) => {
+    const el = state.el;
+    el.addEventListener("pointerdown", (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      state.dragging = true;
+      state.vx = 0; state.vy = 0;
+      state.dragStartX = state.x;
+      state.dragStartY = state.y;
+      state.pointerStartX = e.clientX;
+      state.pointerStartY = e.clientY;
+      state.zBoost = 40;
+      el.classList.add("is-dragging");
+      el.setPointerCapture(e.pointerId);
+      panels.forEach(p => { if (p !== state) p.el.style.zIndex = p === code ? "2" : "3"; });
+      el.style.zIndex = "20";
+    });
+    el.addEventListener("pointermove", (e) => {
+      if (!state.dragging) return;
+      const dx = e.clientX - state.pointerStartX;
+      const dy = e.clientY - state.pointerStartY;
+      const prevX = state.x, prevY = state.y;
+      state.x = Math.max(-MAX, Math.min(MAX, state.dragStartX + dx));
+      state.y = Math.max(-MAX, Math.min(MAX, state.dragStartY + dy));
+      state.vx = state.x - prevX;
+      state.vy = state.y - prevY;
+    });
+    function endDrag(e) {
+      if (!state.dragging) return;
+      state.dragging = false;
+      el.classList.remove("is-dragging");
+      try { el.releasePointerCapture(e.pointerId); } catch(_){}
+      // Park where released — panels stay here
+      state.parkX = state.x;
+      state.parkY = state.y;
+      state.vx *= 1.25;
+      state.vy *= 1.25;
+    }
+    el.addEventListener("pointerup", endDrag);
+    el.addEventListener("pointercancel", endDrag);
+  });
+
+  let t0 = performance.now();
+  function tick(now) {
+    const t = now - t0;
     curX += (targetX - curX) * ease;
     curY += (targetY - curY) * ease;
 
-    // Shell subtle tilt
-    const rx = curY * -11;
-    const ry = curX * 14;
-    shell.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    shell.style.transform = `perspective(1200px) rotateX(${curY * -10}deg) rotateY(${curX * 13}deg)`;
 
-    // Code panel — pulls opposite, deeper Z
-    const cx = curX * -28;
-    const cy = curY * -18;
-    const cz = 18 + Math.abs(curX) * 20;
-    panelCode.style.transform =
-      `translate3d(${cx}px, ${cy}px, ${cz}px) rotateY(${curX * -6}deg) rotateX(${curY * 4}deg)`;
+    panels.forEach((s) => {
+      if (!s.dragging) {
+        // Drift around the parked position (not back to origin)
+        const driftX = Math.sin(t * s.driftSpeed + s.phase) * s.driftAmp;
+        const driftY = Math.cos(t * s.driftSpeed * 0.82 + s.phase * 1.35) * s.driftAmp * 0.75;
+        const targetOffX = s.parkX + driftX;
+        const targetOffY = s.parkY + driftY;
+        s.vx += (targetOffX - s.x) * SPRING;
+        s.vy += (targetOffY - s.y) * SPRING;
+        s.vx *= DAMP;
+        s.vy *= DAMP;
+        s.x += s.vx;
+        s.y += s.vy;
+        s.x = Math.max(-MAX, Math.min(MAX, s.x));
+        s.y = Math.max(-MAX, Math.min(MAX, s.y));
+        s.zBoost *= 0.94;
+      }
 
-    // UI panel — stronger parallax, higher Z
-    const ux = curX * 36;
-    const uy = curY * 22;
-    const uz = 36 + Math.abs(curX) * 28;
-    panelUi.style.transform =
-      `translate3d(${ux}px, ${uy}px, ${uz}px) rotateY(${curX * 7}deg) rotateX(${curY * -5}deg)`;
+      const px = s.parallaxScale;
+      const cx = s.x + curX * px.x;
+      const cy = s.y + curY * px.y;
+      const cz = s.zBase + s.zBoost + Math.abs(curX) * 16;
+      const rotY = curX * px.ry + s.vx * 0.15;
+      const rotX = curY * px.rx - s.vy * 0.12;
+
+      s.el.style.transform =
+        `translate3d(${cx}px, ${cy}px, ${cz}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+    });
 
     requestAnimationFrame(tick);
   }
-  if (!reduceMotion) requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
 })();
 /* Section reveal */
 const sections=document.querySelectorAll("section");
