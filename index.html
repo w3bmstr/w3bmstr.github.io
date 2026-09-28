@@ -1042,6 +1042,52 @@ section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
   font-weight:600;
 }
 .category-label:first-of-type { margin-top: 0.5rem; }
+.portfolio-featured-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0.35rem 0 1rem;
+  font-weight: 600;
+}
+.portfolio-archive {
+  margin-top: 1.5rem;
+}
+.portfolio-archive[hidden] {
+  display: none !important;
+}
+.portfolio-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding: 0.7rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.4);
+  background: rgba(15,23,42,0.65);
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .25s, background .25s, transform .2s;
+}
+.portfolio-toggle:hover {
+  border-color: rgba(79,209,255,0.5);
+  background: rgba(15,23,42,0.9);
+  transform: translateY(-1px);
+}
+.portfolio-toggle .toggle-count {
+  color: rgba(148,163,184,0.9);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+.portfolio-toggle[aria-expanded="true"] {
+  border-color: rgba(79,209,255,0.45);
+}
 /* MOBILE TUNING */
 @media (max-width:480px) {
   .nav-label {
@@ -1953,200 +1999,210 @@ body.ready .drag-hint {
 
 <section id="portfolio">
   <div class="section-title">Navigation Systems</div>
-  <p class="section-intro">Production-ready navigation systems and web apps. Explore, adapt, or commission a system tailored to your brand.</p>
+  <p class="section-intro">A curated selection of production-ready systems. Explore, adapt, or commission one tailored to your brand.</p>
 
-  <div class="category-label">Accessible &amp; Editorial</div>
-  <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/wilds-studio-accessible/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Studio Accessible</h3>
-      <p>Full studio experience with skip links, clear hierarchy, and quiet confidence.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Index Navigation</h3>
-      <p>Structured like a contents page — numbered, exact, and free of noise.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/accessible/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Accessible Core</h3>
-      <p>Foundational accessible patterns refined for clarity and keyboard flow.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
+  <div class="portfolio-featured-label">Featured</div>
+  <div class="cards" id="portfolioFeatured">
     <a class="card" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Photography Gallery</h3>
       <p>Original photography with optional fine-art style presets — quiet, editorial, and image-first.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-  </div>
-
-  <div class="category-label">Luxury &amp; Cinematic</div>
-  <div class="cards">
+    <a class="card" href="https://w3bmstr.github.io/wilds-studio-accessible/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <h3>Studio Accessible</h3>
+      <p>Full studio experience with skip links, clear hierarchy, and quiet confidence.</p>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
     <a class="card" href="https://w3bmstr.github.io/cinelux/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Cinelux</h3>
       <p>Cinematic luxury architecture for ambitious digital experiences.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/cinematic/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Cinematic Web</h3>
-      <p>Motion, depth, and personality engineered for bold brands.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/premium-nav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Premium Award Nav</h3>
       <p>Multi-column mega-menus, soft parallax, dual-theme elegance.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/wilds-aurora-nav/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Aurora Navigation</h3>
-      <p>Luminous, atmospheric navigation with restrained glow and flow.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-  </div>
-
-  <div class="category-label">Material &amp; Form</div>
-  <div class="cards">
     <a class="card" href="https://w3bmstr.github.io/glassmorphic/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Glassmorphic</h3>
       <p>Frosted surfaces, layered depth, and light that commands attention.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/brutalist/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Brutalist Systems</h3>
-      <p>Architectural rawness — grid language, visual engineering, zero ornament.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/Navigation/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Classic Navigation</h3>
-      <p>Timeless structure refined for contemporary digital presence.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-  </div>
-
-  <div class="category-label">Adaptive &amp; Mobile</div>
-  <div class="cards">
     <a class="card" href="https://w3bmstr.github.io/adaptivenav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Adaptive Navigation</h3>
       <p>Context-aware systems that respond gracefully across breakpoints.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/DynamicPillDock/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Dynamic Pill Dock</h3>
       <p>High-octane interactive dock with fluid motion and precision.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/Bottom-Navigation/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Bottom Navigation</h3>
-      <p>Thumb-first mobile navigation with deliberate hierarchy.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/bottomNav3/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Bottom Nav III</h3>
-      <p>Refined mobile dock — third iteration of the bottom-nav series.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/bottomNav2/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Bottom Nav II</h3>
-      <p>Clean, focused mobile navigation with measured interaction.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-  </div>
-
-  <div class="category-label">Software &amp; Tools</div>
-  <div class="cards">
     <a class="card" href="https://w3bmstr.github.io/BodyOS/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>BodyOS</h3>
       <p>Personal protocol OS for health, fasting, habits, and recovery — all on-device.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>MyPDF</h3>
-      <p>Private PDF viewer and ink editor — annotate, sign, and scan without uploads.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>ScanMagic</h3>
-      <p>Document scanner with OCR, filters, and multi-page PDF export.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/noteflow/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>NoteFlow</h3>
-      <p>Full notes and document editor with page layout, export, and local AI assist.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>SpreadsheetSaga</h3>
-      <p>Professional spreadsheet workspace with formulas, CSV, and local sessions.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Groove Player</h3>
-      <p>Local music player with equalizer, queue, and DSP tools for MP3/MP4.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/Single-Track-Studio/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Single-Track Studio</h3>
-      <p>Single-track audio studio with waveform editing, FX chain, and export.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/beatmaker" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Pulsar 16 Pro</h3>
-      <p>Synth drum machine and sequencer with pads, patterns, and stem export.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/flowplanner/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>FlowPlanner</h3>
-      <p>Offline day planner with calendar, tasks, notes, habits, and email.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
     <a class="card" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>LedgerOS</h3>
       <p>Full bookkeeping suite — invoices, payroll, reports, and double-entry, all local.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Lumina Calculator</h3>
-      <p>Precision scientific calculator with graphing, finance, and unit conversion.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>CADcalc</h3>
-      <p>CAD and engineering calculation tools for design workflows.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/stream/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Any Place AV Suite</h3>
-      <p>Sources, mix, EQ, and record — multi-cam cut/fade and local recording in the browser.</p>
-          <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
+  </div>
+
+  <button type="button" class="portfolio-toggle" id="portfolioToggle" aria-expanded="false" aria-controls="portfolioArchive">
+    View all systems <span class="toggle-count">(20 more)</span>
+  </button>
+
+  <div class="portfolio-archive" id="portfolioArchive" hidden>
+    <div class="category-label">Accessible &amp; Editorial</div>
+    <div class="cards">
+      <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Index Navigation</h3>
+        <p>Structured like a contents page — numbered, exact, and free of noise.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/accessible/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Accessible Core</h3>
+        <p>Foundational accessible patterns refined for clarity and keyboard flow.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    <div class="category-label">Luxury &amp; Cinematic</div>
+    <div class="cards">
+      <a class="card" href="https://w3bmstr.github.io/cinematic/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Cinematic Web</h3>
+        <p>Motion, depth, and personality engineered for bold brands.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/wilds-aurora-nav/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Aurora Navigation</h3>
+        <p>Luminous, atmospheric navigation with restrained glow and flow.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    <div class="category-label">Material &amp; Form</div>
+    <div class="cards">
+      <a class="card" href="https://w3bmstr.github.io/brutalist/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Brutalist Systems</h3>
+        <p>Architectural rawness — grid language, visual engineering, zero ornament.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/Navigation/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Classic Navigation</h3>
+        <p>Timeless structure refined for contemporary digital presence.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    <div class="category-label">Adaptive &amp; Mobile</div>
+    <div class="cards">
+      <a class="card" href="https://w3bmstr.github.io/Bottom-Navigation/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Bottom Navigation</h3>
+        <p>Thumb-first mobile navigation with deliberate hierarchy.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/bottomNav3/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Bottom Nav III</h3>
+        <p>Refined mobile dock — third iteration of the bottom-nav series.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/bottomNav2/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Bottom Nav II</h3>
+        <p>Clean, focused mobile navigation with measured interaction.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    <div class="category-label">Software &amp; Tools</div>
+    <div class="cards">
+      <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>MyPDF</h3>
+        <p>Private PDF viewer and ink editor — annotate, sign, and scan without uploads.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>ScanMagic</h3>
+        <p>Document scanner with OCR, filters, and multi-page PDF export.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/noteflow/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>NoteFlow</h3>
+        <p>Full notes and document editor with page layout, export, and local AI assist.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>SpreadsheetSaga</h3>
+        <p>Professional spreadsheet workspace with formulas, CSV, and local sessions.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Groove Player</h3>
+        <p>Local music player with equalizer, queue, and DSP tools for MP3/MP4.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/Single-Track-Studio/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Single-Track Studio</h3>
+        <p>Single-track audio studio with waveform editing, FX chain, and export.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/beatmaker" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Pulsar 16 Pro</h3>
+        <p>Synth drum machine and sequencer with pads, patterns, and stem export.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/flowplanner/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>FlowPlanner</h3>
+        <p>Offline day planner with calendar, tasks, notes, habits, and email.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Lumina Calculator</h3>
+        <p>Precision scientific calculator with graphing, finance, and unit conversion.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>CADcalc</h3>
+        <p>CAD and engineering calculation tools for design workflows.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="card" href="https://w3bmstr.github.io/stream/" target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">Live</span>
+        <h3>Any Place AV Suite</h3>
+        <p>Sources, mix, EQ, and record — multi-cam cut/fade and local recording in the browser.</p>
+        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -2274,9 +2330,7 @@ function scrollToSection(id){
   if(el) el.scrollIntoView({behavior:"smooth"});
 }
 
-/* Contact form → FormSubmit AJAX
-   One-time setup: submit a test once, open 2026websites@gmail.com, click FormSubmit’s
-   activation link. After that, submissions deliver without a mail client. */
+/* Contact form — pure JS, zero third-party (mailto + clipboard) */
 document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = e.target;
@@ -2289,67 +2343,48 @@ document.getElementById("contactForm")?.addEventListener("submit", async (e) => 
   const message = form.message.value.trim();
   const gotcha = form.querySelector('[name="_gotcha"]')?.value;
 
-  if (gotcha) return; // bot filled honeypot
+  if (gotcha) return;
   if (!name || !email || !message) {
     status.className = "footer-form-status is-error";
     status.textContent = "Please fill in name, email, and project details.";
     return;
   }
 
+  const subject = "Project enquiry from " + name;
+  const body =
+    "Name: " + name + "\n" +
+    "Email: " + email + "\n\n" +
+    message;
+  const mailto =
+    "mailto:2026websites@gmail.com" +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
+
   btn.disabled = true;
-  if (label) label.textContent = "Sending…";
+  if (label) label.textContent = "Opening…";
   status.className = "footer-form-status";
   status.textContent = "";
 
+  let copied = false;
   try {
-    const res = await fetch("https://formsubmit.co/ajax/2026websites@gmail.com", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-        _replyto: email,
-        _subject: "Project enquiry from " + name,
-        _template: "table",
-        _captcha: "false",
-        _honey: gotcha || ""
-      })
-    });
-
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      const msg = (data && (data.message || data.error)) || "";
-      // First-time activation often returns success-ish; still surface guidance
-      if (/confirm|activate|check your email/i.test(String(msg))) {
-        panel?.classList.add("is-sent");
-        status.className = "footer-form-status is-success";
-        status.textContent = "Almost there — check 2026websites@gmail.com and click FormSubmit’s confirmation link once. After that, messages arrive automatically.";
-        form.reset();
-        return;
-      }
-      throw new Error(msg || "Submit failed");
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(
+        subject + "\n\n" + body + "\n\n→ 2026websites@gmail.com"
+      );
+      copied = true;
     }
+  } catch (_) { /* optional */ }
 
-    panel?.classList.add("is-sent");
-    status.className = "footer-form-status is-success";
-    // FormSubmit’s first response may ask to confirm the inbox
-    if (data && /confirm|activate|check your email/i.test(String(data.message || ""))) {
-      status.textContent = "Check 2026websites@gmail.com and click the FormSubmit confirmation link once. Future messages will land in your inbox automatically.";
-    } else {
-      status.textContent = "Message sent. I’ll get back to you within 24 hours.";
-    }
-    form.reset();
-  } catch (err) {
-    status.className = "footer-form-status is-error";
-    status.textContent = "Something went wrong. Email me directly at 2026websites@gmail.com — or confirm FormSubmit once in that inbox if this is the first submission.";
-    btn.disabled = false;
-    if (label) label.textContent = "Send message";
-  }
+  window.location.href = mailto;
+
+  panel?.classList.add("is-sent");
+  status.className = "footer-form-status is-success";
+  status.innerHTML = copied
+    ? "Your mail app should open with the message ready. A copy is also on your clipboard — paste it to <strong>2026websites@gmail.com</strong> if needed."
+    : "Your mail app should open with the message ready. If nothing opens, email <strong>2026websites@gmail.com</strong> directly.";
+  form.reset();
+  btn.disabled = false;
+  if (label) label.textContent = "Send message";
 });
 
 /* ── Cinematic nav overlay + keyboard ── */
@@ -2521,6 +2556,29 @@ requestAnimationFrame(() => {
   document.body.classList.add("ready");
 });
 
+/* Portfolio View all toggle */
+(function () {
+  const btn = document.getElementById("portfolioToggle");
+  const archive = document.getElementById("portfolioArchive");
+  if (!btn || !archive) return;
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    if (open) {
+      archive.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      btn.innerHTML = 'View all systems <span class="toggle-count">(20 more)</span>';
+    } else {
+      archive.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+      btn.innerHTML = 'Show less <span class="toggle-count">(featured only)</span>';
+      // Reveal archive cards when expanded
+      archive.querySelectorAll("a.card").forEach((c, i) => {
+        setTimeout(() => c.classList.add("is-visible"), (i % 6) * 50);
+      });
+    }
+  });
+})();
+
 /* Portfolio cards: staggered reveal + 3D tilt */
 (function(){
   const cards = document.querySelectorAll("#portfolio a.card, #services .card");
@@ -2534,7 +2592,11 @@ requestAnimationFrame(() => {
       io.unobserve(el);
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-  cards.forEach(c => io.observe(c));
+  cards.forEach(c => {
+    // Don't observe archive cards while hidden — toggle handles them
+    if (c.closest("#portfolioArchive")) return;
+    io.observe(c);
+  });
 
   const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (!fine) return;
