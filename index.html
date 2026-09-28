@@ -2931,6 +2931,7 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
       e.preventDefault();
       e.stopPropagation();
       state.dragging = true;
+      if (e.pointerType !== "mouse") hapticTick(15, "grab");
       state.vx = 0; state.vy = 0;
       state.dragStartX = state.x;
       state.dragStartY = state.y;
@@ -2957,6 +2958,7 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
       state.dragging = false;
       el.classList.remove("is-dragging");
       try { el.releasePointerCapture(e.pointerId); } catch(_){}
+      if (e.type === "pointerup" && e.pointerType !== "mouse") hapticTick(25, "drop");
       // Park where released — panels stay here
       state.parkX = state.x;
       state.parkY = state.y;
@@ -3039,6 +3041,40 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
 
   startHeroLoop();
 })();
+/* ── Haptics ──
+   Android Chrome only allows vibration after a real tap/drag (scrolling doesn't count) and
+   ignores very short pulses on budget motors. Add ?haptics to the page address to see an
+   on-screen readout of exactly why a buzz did or didn't fire. */
+function hapticTick(pattern, why) {
+  let fired = false, info = "";
+  try {
+    const supported = typeof navigator.vibrate === "function";
+    const touch = window.matchMedia("(any-pointer: coarse)").matches;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const active = !navigator.userActivation || navigator.userActivation.hasBeenActive;
+    if (supported && touch && active && !calm) fired = navigator.vibrate(pattern);
+    info = "haptic[" + why + "] supported=" + supported + " touch=" + touch +
+           " activated=" + active + " reducedMotion=" + calm + " fired=" + fired;
+  } catch (err) {
+    info = "haptic[" + why + "] error: " + err.message;
+  }
+  if (/[?&]haptics\b/.test(location.search)) {
+    let t = document.getElementById("hapticToast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "hapticToast";
+      t.style.cssText = "position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;padding:8px 10px;" +
+        "border-radius:10px;background:rgba(2,6,23,.92);border:1px solid rgba(79,209,255,.5);" +
+        "color:#e2e8f0;font:11px/1.4 ui-monospace,Menlo,monospace;pointer-events:none;";
+      document.body.appendChild(t);
+    }
+    t.textContent = info;
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.remove(), 4000);
+  }
+  return fired;
+}
+
 /* ── Signature moment: the hero panels fly down and become the case studies ──
    Each panel docks into its card when the reader reaches it, and returns to the
    hero when they scroll back. One-time triggered flights (not scroll-scrubbed);
@@ -3137,12 +3173,7 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
     void pair.card.offsetWidth;                       // restart the animation if it's mid-run
     pair.card.classList.add("dock-land");
     setTimeout(() => pair.card.classList.remove("dock-land"), 1300);
-    try {
-      if (navigator.vibrate && coarse.matches &&
-          (!navigator.userActivation || navigator.userActivation.hasBeenActive)) {
-        navigator.vibrate(35);
-      }
-    } catch (_) { /* haptics are optional */ }
+    hapticTick([35, 30, 55], "land");
   }
 
   function dock(pair) {
