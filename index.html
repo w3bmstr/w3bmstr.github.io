@@ -3140,7 +3140,7 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
     try {
       if (navigator.vibrate && coarse.matches &&
           (!navigator.userActivation || navigator.userActivation.hasBeenActive)) {
-        navigator.vibrate(8);
+        navigator.vibrate(35);
       }
     } catch (_) { /* haptics are optional */ }
   }
