@@ -2,14 +2,64 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>D Studio – Navigation Systems</title>
+<title>D Wilds Studio – Navigation Systems</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="D Studio — production-ready navigation systems with motion, depth, and precise interaction. Explore immersive web design and development." />
+<meta name="description" content="D Wilds Studio — production-ready navigation systems with motion, depth, and precise interaction. Explore immersive web design and development." />
 <meta name="theme-color" content="#050814" />
 <meta name="color-scheme" content="dark" />
+<meta name="author" content="Daniel Wilds" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://w3bmstr.github.io/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="D Wilds Studio" />
+<meta property="og:title" content="D Wilds Studio – Navigation Systems" />
+<meta property="og:description" content="Production-ready navigation systems engineered with motion, depth, and precise interaction." />
+<meta property="og:url" content="https://w3bmstr.github.io/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image" content="https://w3bmstr.github.io/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="D Wilds Studio — immersive navigation systems" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="D Wilds Studio – Navigation Systems" />
+<meta name="twitter:description" content="Production-ready navigation systems engineered with motion, depth, and precise interaction." />
+<meta name="twitter:image" content="https://w3bmstr.github.io/og-image.png" />
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234fd1ff'/%3E%3Cstop offset='50%25' stop-color='%23a855ff'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%23050814'/%3E%3Cpath d='M8 22V10l8 6 8-6v12' fill='none' stroke='url(%23g)' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234fd1ff'/%3E%3Cstop offset='50%25' stop-color='%23a855ff'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%23050814'/%3E%3Cpath d='M8 22V10l8 6 8-6v12' fill='none' stroke='url(%23g)' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "D Wilds Studio",
+  "description": "Production-ready navigation systems with motion, depth, and precise interaction.",
+  "url": "https://w3bmstr.github.io/",
+  "email": "2026websites@gmail.com",
+  "founder": {
+    "@type": "Person",
+    "name": "Daniel Wilds",
+    "url": "https://www.linkedin.com/in/daniel-wilds/"
+  },
+  "sameAs": [
+    "https://github.com/w3bmstr",
+    "https://www.linkedin.com/in/daniel-wilds/",
+    "https://w3bmstr.github.io/"
+  ],
+  "areaServed": "Worldwide",
+  "serviceType": ["Web Design", "Web Development", "Navigation Systems"]
+}
+</script>
 <style>
 :root {
   --bg: #050814;
@@ -32,12 +82,39 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: var(--font-body);
-  background: radial-gradient(circle at top, #111827 0, #020617 40%, #000 100%);
   color: var(--fg);
   overflow-x: hidden;
+  /* Layered depth — not a flat slab */
+  background-color: #020617;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 15% -5%, rgba(79,209,255,0.07), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 95% 25%, rgba(168,85,247,0.06), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(249,115,22,0.035), transparent 55%),
+    radial-gradient(circle at 50% 0%, #111827 0%, #020617 42%, #01040c 100%);
+  background-attachment: fixed;
+}
+/* Soft ambient grid across the page (very restrained) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image:
+    radial-gradient(rgba(148,163,184,0.22) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, #000 15%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, #000 15%, transparent 75%);
 }
 /* PAGE */
-.page { min-height:100vh; display:flex; flex-direction:column; }
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
 /* HEADER */
 header {
   position:fixed; top:0; left:0; right:0;
@@ -83,8 +160,13 @@ header.scrolled {
   background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
   -webkit-background-clip:text; color:transparent;
   background-size:200% 200%;
-  animation:logoShimmer 12s ease-in-out infinite;
+  background-position:0% 50%;
   cursor:pointer;
+  transition: background-position 1.2s ease, filter .25s;
+}
+.logo:hover {
+  background-position:100% 50%;
+  filter: brightness(1.12);
 }
 @keyframes logoShimmer {
   0%{background-position:0% 50%;}
@@ -278,16 +360,30 @@ body.has-fine-pointer .nav-overlay.open .nav-glow { opacity:1; }
   background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
   -webkit-background-clip:text; color:transparent;
   background-size:300% 100%;
-  animation:navShimmer 9s ease-in-out infinite;
+  background-position:0% 50%;
   transition:filter .3s;
 }
-.nav-row:hover .nav-label {
+/* While the menu is open — continuous gradient motion (critical on mobile: no hover) */
+.nav-overlay.open .nav-label {
+  animation: navShimmer 7s ease-in-out infinite;
+}
+.nav-overlay.open .nav-item:nth-child(1) .nav-label { animation-delay: 0s; }
+.nav-overlay.open .nav-item:nth-child(2) .nav-label { animation-delay: 0.35s; }
+.nav-overlay.open .nav-item:nth-child(3) .nav-label { animation-delay: 0.7s; }
+.nav-overlay.open .nav-item:nth-child(4) .nav-label { animation-delay: 1.05s; }
+.nav-overlay.open .nav-item:nth-child(5) .nav-label { animation-delay: 1.4s; }
+.nav-overlay.open .nav-item:nth-child(6) .nav-label { animation-delay: 1.75s; }
+.nav-row:hover .nav-label,
+.nav-item.open .nav-label {
   filter:brightness(1.2);
 }
 @keyframes navShimmer {
   0%{background-position:0% 50%;}
   50%{background-position:100% 50%;}
   100%{background-position:0% 50%;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-overlay.open .nav-label { animation: none; }
 }
 .chevron {
   flex-shrink:0;
@@ -498,6 +594,15 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
   pointer-events:none;
   opacity:0.5;
   animation:particleDrift linear infinite;
+}
+.hero-3d-shell.is-paused .particle,
+.hero-3d-shell.is-paused .orbit,
+.hero-3d-shell.is-paused .rim-light,
+.hero-3d-shell.is-paused .scanline,
+.hero-3d-shell.is-paused .ring,
+.hero-3d-shell.is-paused .ring-core,
+.hero-3d-shell.is-paused .cursor-blink {
+  animation-play-state: paused !important;
 }
 @keyframes particleDrift {
   0%   { transform:translateY(0) scale(1); opacity:0; }
@@ -780,6 +885,12 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
   color:#0b1020; font-weight:600;
   border:1px solid rgba(148,163,184,0.6);
   cursor:pointer;
+  transition: transform .2s ease, box-shadow .25s ease, filter .2s;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 10px 28px rgba(79,209,255,0.28);
 }
 .btn-secondary {
   border-radius:999px;
@@ -788,37 +899,89 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
   color:var(--fg);
   border:1px solid rgba(148,163,184,0.6);
   cursor:pointer;
+  transition: transform .2s ease, border-color .25s, background .25s;
+}
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  border-color: rgba(79,209,255,0.45);
+  background: rgba(15,23,42,0.95);
 }
 /* SECTIONS */
-section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
+section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
 .section-title {
   font-family:var(--font-display);
-  font-size:1.2rem; margin-bottom:0.5rem;
-  letter-spacing:0.08em; text-transform:uppercase;
-  color:rgba(148,163,184,0.9);
+  font-size:0.8rem;
+  font-weight:600;
+  margin-bottom:0.65rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
 }
 .section-intro {
   font-size:0.95rem;
   color:rgba(209,213,219,0.85);
-  max-width:36rem;
-  margin-bottom:1.75rem;
-  line-height:1.6;
+  max-width:38rem;
+  margin-bottom:2rem;
+  line-height:1.65;
 }
-.cards { display:grid; gap:1rem; perspective:800px; }
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  perspective: 800px;
+}
+@media (min-width: 640px) {
+  .cards { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+}
+@media (min-width: 960px) {
+  #portfolio .cards,
+  #services .cards { grid-template-columns: repeat(3, 1fr); }
+}
+.service-points {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.service-points li {
+  font-size: 0.82rem;
+  color: rgba(186, 198, 214, 0.88);
+  line-height: 1.4;
+  padding-left: 0.95rem;
+  position: relative;
+}
+.service-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(79,209,255,0.5);
+  opacity: 0.9;
+}
 .card {
   border-radius:18px;
-  padding:1.25rem 1.25rem 1.1rem;
-  background:radial-gradient(circle at top, #111827, #020617);
-  border:1px solid rgba(148,163,184,0.4);
-  box-shadow:0 20px 40px rgba(15,23,42,0.8);
+  padding:1.25rem 1.25rem 1.15rem;
+  background:
+    linear-gradient(165deg, rgba(255,255,255,0.04) 0%, transparent 40%),
+    radial-gradient(circle at top, #111827, #020617);
+  border:1px solid rgba(148,163,184,0.35);
+  box-shadow:0 20px 40px rgba(15,23,42,0.75);
   position:relative;
   text-decoration:none;
   color:inherit;
-  display:block;
+  display:flex;
+  flex-direction:column;
   transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .25s ease, box-shadow .35s ease;
   transform-style:preserve-3d;
   opacity:0;
   transform:translateY(16px);
+  cursor: pointer;
 }
 .card.is-visible {
   opacity:1;
@@ -827,6 +990,10 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
 .card:hover {
   border-color: rgba(79,209,255,0.55);
   box-shadow:0 28px 50px rgba(15,23,42,0.9), 0 0 30px rgba(79,209,255,0.08);
+}
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 .card-tag {
   position:absolute; top:1rem; right:1rem;
@@ -851,7 +1018,8 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   display:inline-flex;
   align-items:center;
   gap:0.35rem;
-  margin-top:0.85rem;
+  margin-top: auto;
+  padding-top: 0.95rem;
   font-size:0.75rem;
   font-weight:600;
   letter-spacing:0.1em;
@@ -874,46 +1042,6 @@ section { padding:3.5rem 1.5rem; max-width:960px; margin:0 auto; }
   font-weight:600;
 }
 .category-label:first-of-type { margin-top: 0.5rem; }
-/* CONTACT */
-.contact {
-  background:#020617;
-  border-top:1px solid rgba(31,41,55,0.9);
-  padding-bottom:4rem;
-}
-.contact-inner {
-  border-radius:24px;
-  padding:2rem 1.5rem;
-  background:radial-gradient(circle at top, #0f172a, #020617);
-  border:1px solid rgba(148,163,184,0.5);
-  box-shadow:0 30px 60px rgba(15,23,42,0.9);
-}
-.contact-inner h2 {
-  font-family:var(--font-display);
-  font-size:clamp(1.5rem, 3.5vw, 2.1rem);
-  line-height:1.15;
-  letter-spacing:-0.01em;
-  margin-bottom:0.6rem;
-}
-.contact-inner input,
-.contact-inner textarea {
-  width:100%;
-  margin-bottom:0.75rem;
-  padding:0.6rem 0.8rem;
-  border-radius:12px;
-  border:1px solid rgba(55,65,81,0.9);
-  background:rgba(15,23,42,0.9);
-  color:var(--fg);
-}
-.contact-inner button {
-  width:100%;
-  border-radius:999px;
-  padding:0.7rem 1.4rem;
-  background:radial-gradient(circle at top left, var(--accent), var(--accent2));
-  color:#020617;
-  font-weight:600;
-  border:none;
-  cursor:pointer;
-}
 /* MOBILE TUNING */
 @media (max-width:480px) {
   .nav-label {
@@ -980,7 +1108,8 @@ body.ready .drag-hint {
   .rim-light, .scanline, .ring, .ring-core, .particle,
   .orbit, .cursor-blink, .panel-code .code-body .line,
   .panel-ui .bar i, .nav-particle, .nav-overlay.open .nav-item,
-  .nav-overlay.open .nav-footer {
+  .nav-overlay.open .nav-footer,
+  .footer-logo, .footer-particle {
     animation:none !important;
   }
   .panel-code .code-body .line { opacity:1; transform:none; }
@@ -995,6 +1124,531 @@ body.ready .drag-hint {
     opacity:1 !important;
     transform:none !important;
     transition:none !important;
+  }
+  .footer-particle { opacity:0.2; }
+}
+
+/* ═══════════════════════════════════════════
+   AWWARDS-LEVEL FOOTER — bold statement + architecture
+   ═══════════════════════════════════════════ */
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -10%, rgba(79,209,255,0.1), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 85% 100%, rgba(168,85,247,0.12), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(249,115,22,0.05), transparent 50%),
+    linear-gradient(180deg, #020617 0%, #050814 40%, #000 100%);
+  border-top: 1px solid rgba(148,163,184,0.15);
+  overflow: hidden;
+}
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--accent) 20%,
+    var(--accent2) 50%,
+    var(--accent3) 80%,
+    transparent 100%);
+  opacity: 0.7;
+  z-index: 3;
+}
+.site-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,209,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 20%, #000 5%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 20%, #000 5%, transparent 65%);
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 0;
+}
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 5.5rem 1.75rem 0;
+}
+
+/* ── Hero statement + glass contact form ── */
+.footer-statement {
+  margin-bottom: 3.75rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(148,163,184,0.12);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2.75rem 3.75rem;
+  align-items: start;
+}
+.footer-statement-copy h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.15rem, 5.5vw, 3.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.15rem;
+}
+.footer-statement-copy h2 span {
+  background: linear-gradient(110deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.footer-statement-copy p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(209,213,219,0.88);
+  max-width: 38ch;
+  margin: 0 0 1.5rem;
+}
+.footer-statement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.35rem;
+  font-size: 0.8rem;
+  color: rgba(148,163,184,0.88);
+  letter-spacing: 0.04em;
+}
+.footer-statement-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.footer-statement-meta span::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 6px var(--accent),
+    0 0 14px rgba(79,209,255,0.45);
+  opacity: 0.95;
+  flex-shrink: 0;
+  animation: metaDotPulse 2.8s ease-in-out infinite;
+}
+.footer-statement-meta span:nth-child(2)::before {
+  background: var(--accent2);
+  box-shadow:
+    0 0 6px var(--accent2),
+    0 0 14px rgba(168,85,247,0.45);
+  animation-delay: 0.9s;
+}
+@keyframes metaDotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-statement-meta span::before { animation: none; }
+}
+
+/* Glass form panel — responsible glassmorphism */
+.footer-form-panel {
+  position: relative;
+  border-radius: 22px;
+  padding: 1.5rem 1.4rem 1.35rem;
+  background:
+    linear-gradient(155deg, rgba(255,255,255,0.07) 0%, transparent 42%),
+    rgba(12, 18, 35, 0.72);
+  border: 1px solid rgba(148,163,184,0.28);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 1px 0 rgba(255,255,255,0.06) inset;
+  backdrop-filter: blur(20px) saturate(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  overflow: hidden;
+}
+.footer-form-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79,209,255,0.45), rgba(168,85,247,0.35), transparent);
+  opacity: 0.7;
+}
+.footer-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+.footer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.footer-field label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.9);
+}
+.footer-contact-form input,
+.footer-contact-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.3);
+  background: rgba(5, 8, 20, 0.55);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color .25s, box-shadow .25s, background .25s, transform .2s;
+}
+.footer-contact-form input::placeholder,
+.footer-contact-form textarea::placeholder {
+  color: rgba(148,163,184,0.5);
+}
+.footer-contact-form input:hover,
+.footer-contact-form textarea:hover {
+  border-color: rgba(148,163,184,0.45);
+  background: rgba(5, 8, 20, 0.7);
+}
+.footer-contact-form input:focus,
+.footer-contact-form textarea:focus {
+  outline: none;
+  border-color: rgba(79,209,255,0.65);
+  background: rgba(5, 8, 20, 0.85);
+  box-shadow:
+    0 0 0 3px rgba(79,209,255,0.15),
+    0 0 24px rgba(79,209,255,0.08);
+}
+.footer-contact-form textarea {
+  resize: vertical;
+  min-height: 108px;
+}
+.footer-contact-form button {
+  margin-top: 0.25rem;
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.95rem 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  background: radial-gradient(circle at top left, var(--accent), var(--accent2));
+  color: #0b1020;
+  border: 1px solid rgba(255,255,255,0.22);
+  cursor: pointer;
+  box-shadow:
+    0 12px 36px rgba(79,209,255,0.28),
+    0 0 0 1px rgba(79,209,255,0.12);
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, filter .25s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.footer-contact-form button svg {
+  width: 16px;
+  height: 16px;
+  transition: transform .25s;
+}
+.footer-contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 48px rgba(79,209,255,0.38);
+  filter: brightness(1.07);
+}
+.footer-contact-form button:hover svg {
+  transform: translateX(3px);
+}
+.footer-contact-form button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.footer-contact-form button:active {
+  transform: scale(0.98);
+}
+.footer-contact-form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+}
+/* Honeypot — visually and accessibly hidden from humans */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  tab-index: -1;
+}
+.footer-form-status {
+  display: none;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.footer-form-status.is-success {
+  display: block;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #86efac;
+}
+.footer-form-status.is-error {
+  display: block;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fca5a5;
+}
+.footer-form-panel.is-sent .footer-contact-form {
+  display: none;
+}
+.footer-form-panel.is-sent .footer-form-status.is-success {
+  display: block;
+}
+
+/* ── Link architecture ── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+  padding-bottom: 3.25rem;
+  border-bottom: 1px solid rgba(148,163,184,0.12);
+}
+.footer-brand-block .footer-logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  background: linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  display: inline-block;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: filter .25s, background-position 1.2s ease;
+}
+.footer-brand-block .footer-logo:hover {
+  filter: brightness(1.15);
+  background-position: 100% 50%;
+}
+.footer-brand-block .footer-logo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.footer-brand-block p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: rgba(209,213,219,0.78);
+  max-width: 26ch;
+  margin-bottom: 1.5rem;
+}
+.footer-social {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+.footer-social a {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(148,163,184,0.3);
+  background: rgba(15,23,42,0.6);
+  color: rgba(226,232,240,0.9);
+  transition: border-color .25s, background .25s, box-shadow .25s, color .25s, transform .2s;
+}
+.footer-social a:hover {
+  border-color: rgba(79,209,255,0.6);
+  background: rgba(79,209,255,0.12);
+  color: var(--accent);
+  box-shadow: 0 0 22px rgba(79,209,255,0.22);
+  transform: translateY(-3px);
+}
+.footer-social a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.footer-social a svg {
+  width: 17px;
+  height: 17px;
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.85);
+  margin-bottom: 1.25rem;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.footer-col a {
+  font-size: 0.92rem;
+  color: rgba(226,232,240,0.9);
+  text-decoration: none;
+  transition: color .2s, transform .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.footer-col a::before {
+  content: "";
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transition: width .25s ease;
+  border-radius: 1px;
+}
+.footer-col a:hover {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+.footer-col a:hover::before {
+  width: 10px;
+}
+.footer-col a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Bottom bar ── */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.65rem 0 2.25rem;
+  font-size: 0.8rem;
+  color: rgba(148,163,184,0.75);
+}
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+.footer-legal a {
+  color: rgba(148,163,184,0.8);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-legal a:hover { color: var(--accent); }
+.footer-legal a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.35);
+  background: rgba(15,23,42,0.7);
+  color: rgba(226,232,240,0.92);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .25s, background .25s, color .25s, box-shadow .25s, transform .2s;
+}
+.footer-back-top:hover {
+  border-color: rgba(79,209,255,0.55);
+  background: rgba(79,209,255,0.1);
+  color: var(--accent);
+  box-shadow: 0 0 20px rgba(79,209,255,0.15);
+  transform: translateY(-2px);
+}
+.footer-back-top:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.footer-back-top svg {
+  width: 13px;
+  height: 13px;
+}
+.footer-particle {
+  position: absolute;
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.45;
+  z-index: 1;
+  animation: footerParticleDrift linear infinite;
+}
+@keyframes footerParticleDrift {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  15%  { opacity: 0.55; }
+  85%  { opacity: 0.3; }
+  100% { transform: translateY(-130px) scale(0.3); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .footer-statement {
+    grid-template-columns: 1fr;
+    gap: 2.15rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2.75rem;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem 1.75rem;
+  }
+  .footer-brand-block {
+    grid-column: 1 / -1;
+  }
+  .site-footer::after { opacity: 0.4; }
+}
+@media (max-width: 560px) {
+  .footer-inner {
+    padding: 4rem 1.35rem 0;
+  }
+  .footer-statement-copy h2 {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+  }
+  .footer-form-panel {
+    padding: 1.25rem 1.1rem 1.15rem;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.15rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-logo, .footer-brand-block .footer-logo { animation: none; }
+  .footer-particle { animation: none !important; opacity: 0.25; }
+  .footer-contact-form button:hover { transform: none; }
+  .footer-contact-form button:hover svg { transform: none; }
+  .footer-form-panel {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(12, 18, 35, 0.92);
   }
 }
 </style>
@@ -1220,21 +1874,79 @@ body.ready .drag-hint {
 
 <section id="services">
   <div class="section-title">Services</div>
-  <div class="cards">
-    <article class="card">
+  <p class="section-intro">From interface systems to production code — designed as complete experiences, not isolated pages. Each engagement is scoped to ship something real.</p>
+  <div class="cards services-cards">
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Design</span>
       <h3>Web Design</h3>
-      <p>High-end interfaces with depth, motion, and a focus on mobile-first experiences.</p>
+      <p>High-end interfaces with depth, motion, and mobile-first structure — built as systems, not one-off screens.</p>
+      <ul class="service-points">
+        <li>UI systems &amp; design language</li>
+        <li>Responsive &amp; adaptive layouts</li>
+        <li>Motion &amp; interaction design</li>
+        <li>Accessibility-first structure</li>
+      </ul>
+      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
     </article>
-    <article class="card">
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Build</span>
       <h3>Web Development</h3>
-      <p>Modern front-end stacks, performance-focused builds, and clean, maintainable code.</p>
+      <p>Modern front-end builds with performance budgets, clean architecture, and code you can maintain.</p>
+      <ul class="service-points">
+        <li>Production HTML / CSS / JS</li>
+        <li>Component &amp; layout systems</li>
+        <li>Performance &amp; Core Web Vitals</li>
+        <li>Cross-browser &amp; device QA</li>
+      </ul>
+      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
     </article>
-    <article class="card">
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Code</span>
       <h3>Internet Programming</h3>
-      <p>APIs, integrations, and custom logic powering interactive and data-driven experiences.</p>
+      <p>Custom logic, integrations, and interactive layers that power data-driven experiences in the browser.</p>
+      <ul class="service-points">
+        <li>APIs &amp; third-party integrations</li>
+        <li>Forms, auth flows &amp; tooling</li>
+        <li>Client-side apps &amp; utilities</li>
+        <li>Automation &amp; local-first tools</li>
+      </ul>
+      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
+    </article>
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
+      <span class="card-tag">Systems</span>
+      <h3>Navigation Systems</h3>
+      <p>Commission a complete navigation architecture — cinematic, accessible, adaptive, or mobile — tailored to your brand.</p>
+      <ul class="service-points">
+        <li>Custom nav &amp; menu systems</li>
+        <li>Mega-menus &amp; mobile docks</li>
+        <li>Keyboard &amp; screen-reader flow</li>
+        <li>Adaptation of existing demos</li>
+      </ul>
+      <span class="card-cta">Commission a system <span class="arrow" aria-hidden="true">→</span></span>
+    </article>
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
+      <span class="card-tag">Brand</span>
+      <h3>Branding &amp; Identity</h3>
+      <p>Visual identity that carries through type, color, motion, and interface — coherent from first paint to footer.</p>
+      <ul class="service-points">
+        <li>Logo &amp; wordmark systems</li>
+        <li>Color, type &amp; spacing tokens</li>
+        <li>UI kit &amp; component language</li>
+        <li>Launch assets &amp; social marks</li>
+      </ul>
+      <span class="card-cta">Discuss branding <span class="arrow" aria-hidden="true">→</span></span>
+    </article>
+    <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
+      <span class="card-tag">Care</span>
+      <h3>Maintenance &amp; Support</h3>
+      <p>Keep shipped systems fast, secure, and current — small iterations, dependency updates, and performance checks.</p>
+      <ul class="service-points">
+        <li>Ongoing fixes &amp; polish</li>
+        <li>Dependency &amp; security updates</li>
+        <li>Performance monitoring</li>
+        <li>Feature additions over time</li>
+      </ul>
+      <span class="card-cta">Talk about support <span class="arrow" aria-hidden="true">→</span></span>
     </article>
   </div>
 </section>
@@ -1245,25 +1957,25 @@ body.ready .drag-hint {
 
   <div class="category-label">Accessible &amp; Editorial</div>
   <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/wilds-studio-accessible/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/wilds-studio-accessible/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Studio Accessible</h3>
       <p>Full studio experience with skip links, clear hierarchy, and quiet confidence.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Index Navigation</h3>
       <p>Structured like a contents page — numbered, exact, and free of noise.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/accessible/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/accessible/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Accessible Core</h3>
       <p>Foundational accessible patterns refined for clarity and keyboard flow.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Photography Gallery</h3>
       <p>Original photography with optional fine-art style presets — quiet, editorial, and image-first.</p>
@@ -1273,25 +1985,25 @@ body.ready .drag-hint {
 
   <div class="category-label">Luxury &amp; Cinematic</div>
   <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/cinelux/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/cinelux/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Cinelux</h3>
       <p>Cinematic luxury architecture for ambitious digital experiences.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/cinematic/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/cinematic/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Cinematic Web</h3>
       <p>Motion, depth, and personality engineered for bold brands.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/premium-nav/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/premium-nav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Premium Award Nav</h3>
       <p>Multi-column mega-menus, soft parallax, dual-theme elegance.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/wilds-aurora-nav/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/wilds-aurora-nav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Aurora Navigation</h3>
       <p>Luminous, atmospheric navigation with restrained glow and flow.</p>
@@ -1301,19 +2013,19 @@ body.ready .drag-hint {
 
   <div class="category-label">Material &amp; Form</div>
   <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/glassmorphic/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/glassmorphic/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Glassmorphic</h3>
       <p>Frosted surfaces, layered depth, and light that commands attention.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/brutalist/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/brutalist/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Brutalist Systems</h3>
       <p>Architectural rawness — grid language, visual engineering, zero ornament.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/Navigation/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/Navigation/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Classic Navigation</h3>
       <p>Timeless structure refined for contemporary digital presence.</p>
@@ -1323,31 +2035,31 @@ body.ready .drag-hint {
 
   <div class="category-label">Adaptive &amp; Mobile</div>
   <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/adaptivenav/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/adaptivenav/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Adaptive Navigation</h3>
       <p>Context-aware systems that respond gracefully across breakpoints.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/DynamicPillDock/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/DynamicPillDock/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Dynamic Pill Dock</h3>
       <p>High-octane interactive dock with fluid motion and precision.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/Bottom-Navigation/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/Bottom-Navigation/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Bottom Navigation</h3>
       <p>Thumb-first mobile navigation with deliberate hierarchy.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/bottomNav3/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/bottomNav3/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Bottom Nav III</h3>
       <p>Refined mobile dock — third iteration of the bottom-nav series.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/bottomNav2/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/bottomNav2/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Bottom Nav II</h3>
       <p>Clean, focused mobile navigation with measured interaction.</p>
@@ -1357,79 +2069,79 @@ body.ready .drag-hint {
 
   <div class="category-label">Software &amp; Tools</div>
   <div class="cards">
-    <a class="card" href="https://w3bmstr.github.io/BodyOS/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/BodyOS/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>BodyOS</h3>
       <p>Personal protocol OS for health, fasting, habits, and recovery — all on-device.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>MyPDF</h3>
       <p>Private PDF viewer and ink editor — annotate, sign, and scan without uploads.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>ScanMagic</h3>
       <p>Document scanner with OCR, filters, and multi-page PDF export.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/noteflow/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/noteflow/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>NoteFlow</h3>
       <p>Full notes and document editor with page layout, export, and local AI assist.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>SpreadsheetSaga</h3>
       <p>Professional spreadsheet workspace with formulas, CSV, and local sessions.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Groove Player</h3>
       <p>Local music player with equalizer, queue, and DSP tools for MP3/MP4.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/Single-Track-Studio/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/Single-Track-Studio/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Single-Track Studio</h3>
       <p>Single-track audio studio with waveform editing, FX chain, and export.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/beatmaker" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/beatmaker" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Pulsar 16 Pro</h3>
       <p>Synth drum machine and sequencer with pads, patterns, and stem export.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/flowplanner/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/flowplanner/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>FlowPlanner</h3>
       <p>Offline day planner with calendar, tasks, notes, habits, and email.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>LedgerOS</h3>
       <p>Full bookkeeping suite — invoices, payroll, reports, and double-entry, all local.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Lumina Calculator</h3>
       <p>Precision scientific calculator with graphing, finance, and unit conversion.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>CADcalc</h3>
       <p>CAD and engineering calculation tools for design workflows.</p>
           <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-    <a class="card" href="https://w3bmstr.github.io/stream/" target="_blank" rel="noopener">
+    <a class="card" href="https://w3bmstr.github.io/stream/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Any Place AV Suite</h3>
       <p>Sources, mix, EQ, and record — multi-cam cut/fade and local recording in the browser.</p>
@@ -1438,19 +2150,110 @@ body.ready .drag-hint {
   </div>
 </section>
 
-<section class="contact" id="contact">
-  <div class="contact-inner">
-    <h2>Ready to build something immersive?</h2>
-    <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
-    <form id="contactForm">
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <textarea name="message" rows="4" placeholder="Project details" required></textarea>
-      <button type="submit">Send message</button>
-    </form>
-  </div>
-</section>
 </main>
+
+<footer class="site-footer" id="siteFooter" role="contentinfo">
+  <div class="footer-inner">
+
+    <!-- Contact form as the footer statement -->
+    <div class="footer-statement" id="contact">
+      <div class="footer-statement-copy">
+        <h2>Ready to build something <span>immersive</span>?</h2>
+        <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
+        <div class="footer-statement-meta">
+          <span>Usually replies within 24h</span>
+          <span>No pitch decks required</span>
+        </div>
+      </div>
+      <div class="footer-form-panel">
+        <form id="contactForm" class="footer-contact-form" novalidate>
+          <!-- Honeypot: leave empty — bots fill it, humans never see it -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
+          <div class="footer-field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="footer-field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" type="email" name="email" placeholder="you@studio.com" required autocomplete="email" />
+          </div>
+          <div class="footer-field">
+            <label for="cf-message">Project details</label>
+            <textarea id="cf-message" name="message" rows="4" placeholder="Goals, timeline, links…" required></textarea>
+          </div>
+          <button type="submit" id="cf-submit">
+            <span class="btn-label">Send message</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+        <div class="footer-form-status" id="cf-status" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- Architecture grid -->
+    <div class="footer-grid">
+      <div class="footer-brand-block">
+        <div class="footer-logo" role="button" tabindex="0" onclick="scrollToSection('hero')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('hero')}">D Wilds Studio</div>
+        <p>Production-ready navigation systems engineered with motion, depth, and precise interaction.</p>
+        <div class="footer-social">
+          <a href="https://github.com/w3bmstr" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/daniel-wilds/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://w3bmstr.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Live systems portfolio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+          </a>
+          <a href="mailto:2026websites@gmail.com" aria-label="Email studio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#hero" onclick="event.preventDefault();scrollToSection('hero')">Home</a></li>
+          <li><a href="#services" onclick="event.preventDefault();scrollToSection('services')">Services</a></li>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Navigation Systems</a></li>
+          <li><a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Systems</h4>
+        <ul>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Accessible &amp; Editorial</a></li>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Luxury &amp; Cinematic</a></li>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Material &amp; Form</a></li>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Adaptive &amp; Mobile</a></li>
+          <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Software &amp; Tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">About</a></li>
+          <li><a href="#services" onclick="event.preventDefault();scrollToSection('services')">Web Design</a></li>
+          <li><a href="#services" onclick="event.preventDefault();scrollToSection('services')">Development</a></li>
+          <li><a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">Book a Call</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© <span id="footerYear">2026</span> D Wilds Studio. Crafted with motion &amp; depth.</div>
+      <div class="footer-legal">
+        <a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">Privacy</a>
+        <a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">Terms</a>
+        <button type="button" class="footer-back-top" id="backToTop" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          Top
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </div>
 <script>
 /* Cursor-spotlight only on desktop mouse. On mobile/touch: strip elements from DOM. */
@@ -1471,16 +2274,82 @@ function scrollToSection(id){
   if(el) el.scrollIntoView({behavior:"smooth"});
 }
 
-/* Contact → opens email app to 2026websites@gmail.com */
-document.getElementById("contactForm")?.addEventListener("submit", (e) => {
+/* Contact form → FormSubmit AJAX
+   One-time setup: submit a test once, open 2026websites@gmail.com, click FormSubmit’s
+   activation link. After that, submissions deliver without a mail client. */
+document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const f = e.target;
-  const name = f.name.value.trim();
-  const email = f.email.value.trim();
-  const message = f.message.value.trim();
-  const subject = encodeURIComponent("Project enquiry from " + (name || "website"));
-  const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message);
-  window.location.href = "mailto:2026websites@gmail.com?subject=" + subject + "&body=" + body;
+  const form = e.target;
+  const panel = form.closest(".footer-form-panel");
+  const status = document.getElementById("cf-status");
+  const btn = document.getElementById("cf-submit");
+  const label = btn?.querySelector(".btn-label");
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const message = form.message.value.trim();
+  const gotcha = form.querySelector('[name="_gotcha"]')?.value;
+
+  if (gotcha) return; // bot filled honeypot
+  if (!name || !email || !message) {
+    status.className = "footer-form-status is-error";
+    status.textContent = "Please fill in name, email, and project details.";
+    return;
+  }
+
+  btn.disabled = true;
+  if (label) label.textContent = "Sending…";
+  status.className = "footer-form-status";
+  status.textContent = "";
+
+  try {
+    const res = await fetch("https://formsubmit.co/ajax/2026websites@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        _replyto: email,
+        _subject: "Project enquiry from " + name,
+        _template: "table",
+        _captcha: "false",
+        _honey: gotcha || ""
+      })
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      const msg = (data && (data.message || data.error)) || "";
+      // First-time activation often returns success-ish; still surface guidance
+      if (/confirm|activate|check your email/i.test(String(msg))) {
+        panel?.classList.add("is-sent");
+        status.className = "footer-form-status is-success";
+        status.textContent = "Almost there — check 2026websites@gmail.com and click FormSubmit’s confirmation link once. After that, messages arrive automatically.";
+        form.reset();
+        return;
+      }
+      throw new Error(msg || "Submit failed");
+    }
+
+    panel?.classList.add("is-sent");
+    status.className = "footer-form-status is-success";
+    // FormSubmit’s first response may ask to confirm the inbox
+    if (data && /confirm|activate|check your email/i.test(String(data.message || ""))) {
+      status.textContent = "Check 2026websites@gmail.com and click the FormSubmit confirmation link once. Future messages will land in your inbox automatically.";
+    } else {
+      status.textContent = "Message sent. I’ll get back to you within 24 hours.";
+    }
+    form.reset();
+  } catch (err) {
+    status.className = "footer-form-status is-error";
+    status.textContent = "Something went wrong. Email me directly at 2026websites@gmail.com — or confirm FormSubmit once in that inbox if this is the first submission.";
+    btn.disabled = false;
+    if (label) label.textContent = "Send message";
+  }
 });
 
 /* ── Cinematic nav overlay + keyboard ── */
@@ -1819,7 +2688,14 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
   });
 
   let t0 = performance.now();
+  let rafId = 0;
+  let heroVisible = true;
+
   function tick(now) {
+    if (!heroVisible) {
+      rafId = 0;
+      return;
+    }
     const t = now - t0;
     curX += (targetX - curX) * ease;
     curY += (targetY - curY) * ease;
@@ -1828,7 +2704,6 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
 
     panels.forEach((s) => {
       if (!s.dragging) {
-        // Drift around the parked position (not back to origin)
         const driftX = Math.sin(t * s.driftSpeed + s.phase) * s.driftAmp;
         const driftY = Math.cos(t * s.driftSpeed * 0.82 + s.phase * 1.35) * s.driftAmp * 0.75;
         const targetOffX = s.parkX + driftX;
@@ -1855,9 +2730,34 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
         `translate3d(${cx}px, ${cy}px, ${cz}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
     });
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
   }
-  requestAnimationFrame(tick);
+
+  function startHeroLoop() {
+    if (rafId || !heroVisible) return;
+    rafId = requestAnimationFrame(tick);
+  }
+  function stopHeroLoop() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+  }
+
+  // Pause continuous RAF + CSS animations when hero is off-screen
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        heroVisible = en.isIntersecting;
+        shell.classList.toggle("is-paused", !heroVisible);
+        if (heroVisible) startHeroLoop();
+        else stopHeroLoop();
+      });
+    }, { rootMargin: "40px 0px", threshold: 0.01 });
+    io.observe(shell);
+  }
+
+  startHeroLoop();
 })();
 /* Section reveal */
 const sections=document.querySelectorAll("section");
@@ -1868,15 +2768,40 @@ function checkSections(){
       if(section.id==="services"||section.id==="portfolio"){
         section.classList.add("section-visible");
       }
-      if(section.id==="contact"){
-        const inner=section.querySelector(".contact-inner");
-        if(inner) inner.classList.add("section-visible");
-      }
+/* contact form now lives in footer — no section reveal needed */
     }
   });
 }
 window.addEventListener("load",checkSections);
 window.addEventListener("scroll",checkSections);
+
+/* Footer: year, back-to-top, ambient particles */
+(function () {
+  const yearEl = document.getElementById("footerYear");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  document.getElementById("backToTop")?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  const footer = document.getElementById("siteFooter");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!footer || reduce) return;
+
+  for (let i = 0; i < 8; i++) {
+    const p = document.createElement("span");
+    p.className = "footer-particle";
+    p.setAttribute("aria-hidden", "true");
+    p.style.left = (6 + Math.random() * 88) + "%";
+    p.style.bottom = (Math.random() * 40) + "%";
+    p.style.animationDuration = (7 + Math.random() * 10) + "s";
+    p.style.animationDelay = (Math.random() * 7) + "s";
+    const accent = i % 3 === 0 ? "var(--accent2)" : "var(--accent)";
+    p.style.background = accent;
+    p.style.boxShadow = `0 0 7px ${accent}`;
+    footer.appendChild(p);
+  }
+})();
 </script>
 </body>
 </html>
