@@ -276,6 +276,8 @@ body.has-fine-pointer .nav-overlay.open .nav-glow { opacity:1; }
   animation:navParticleDrift linear infinite;
 }
 .nav-overlay.open .nav-particle { opacity:0.55; }
+/* Pause drift while the overlay is closed (particles are invisible then anyway) */
+.nav-overlay:not(.open) .nav-particle { animation-play-state:paused; }
 @keyframes navParticleDrift {
   0%   { transform:translateY(0) scale(1); opacity:0; }
   15%  { opacity:0.55; }
@@ -1088,6 +1090,108 @@ section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
 .portfolio-toggle[aria-expanded="true"] {
   border-color: rgba(79,209,255,0.45);
 }
+
+/* Case studies */
+.case-studies {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.case-study {
+  border-radius: 20px;
+  padding: 1.5rem 1.4rem 1.35rem;
+  background:
+    linear-gradient(165deg, rgba(255,255,255,0.045) 0%, transparent 42%),
+    radial-gradient(circle at top left, #111827, #020617);
+  border: 1px solid rgba(148,163,184,0.32);
+  box-shadow: 0 20px 40px rgba(15,23,42,0.7);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease, border-color .25s, box-shadow .35s;
+}
+.case-study.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.case-study:hover {
+  border-color: rgba(79,209,255,0.45);
+  box-shadow: 0 28px 50px rgba(15,23,42,0.85), 0 0 28px rgba(79,209,255,0.06);
+}
+.case-study-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+  margin-bottom: 0.65rem;
+}
+.case-study-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.45);
+  color: rgba(226,232,240,0.9);
+}
+.case-study-tag.tool {
+  border-color: rgba(168,85,247,0.45);
+  color: #d8b4fe;
+}
+.case-study h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1 1 auto;
+}
+.case-study-grid {
+  display: grid;
+  gap: 0.85rem 1.25rem;
+  margin: 1rem 0 1.15rem;
+}
+@media (min-width: 640px) {
+  .case-study-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.case-study-block dt {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.case-study-block dd {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(209,213,219,0.88);
+}
+.case-study-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color .25s, transform .25s;
+}
+.case-study-link:hover {
+  color: var(--accent2);
+  transform: translateX(3px);
+}
+.case-study-link .arrow {
+  transition: transform .25s;
+}
+.case-study-link:hover .arrow {
+  transform: translateX(3px);
+}
+
 /* MOBILE TUNING */
 @media (max-width:480px) {
   .nav-label {
@@ -1649,6 +1753,7 @@ body.ready .drag-hint {
   85%  { opacity: 0.3; }
   100% { transform: translateY(-130px) scale(0.3); opacity: 0; }
 }
+.site-footer.is-paused .footer-particle { animation-play-state: paused !important; }
 
 @media (max-width: 900px) {
   .footer-statement {
@@ -1696,6 +1801,63 @@ body.ready .drag-hint {
     -webkit-backdrop-filter: none;
     background: rgba(12, 18, 35, 0.92);
   }
+}
+
+/* ── Signature moment: hero panels dock into the case studies ── */
+.hero-panel.is-docked { visibility:hidden; pointer-events:none; }
+.case-study.dock-hold { opacity:0 !important; transform:none !important; }
+.dock-ghost {
+  position:fixed; left:0; top:0; z-index:25;
+  pointer-events:none; overflow:hidden;
+  border-radius:18px;
+  border:1px solid rgba(79,209,255,0.45);
+  background:radial-gradient(circle at top left, #111827, #020617);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.6),
+    0 0 44px rgba(79,209,255,0.2),
+    0 0 0 1px rgba(255,255,255,0.04) inset;
+  will-change:transform, width, height;
+  transition:opacity .35s ease;
+}
+.dock-ghost .dock-clone {
+  position:absolute !important; left:0 !important; top:0 !important;
+  right:auto !important; bottom:auto !important;
+  width:var(--cw) !important; height:var(--ch) !important;
+  transform:none !important; will-change:auto;
+  cursor:default; pointer-events:none;
+  border:0; box-shadow:none; border-radius:0;
+}
+
+/* Flying clone: freeze everything at its "finished" look (otherwise the clone replays the
+   type-in / bar-fill entrance animations and would fly in empty) */
+.dock-ghost .dock-clone,
+.dock-ghost .dock-clone * { animation:none !important; }
+.dock-ghost .dock-clone .code-body .line { opacity:1 !important; transform:none !important; }
+.dock-ghost .dock-clone .panel-ui .bar i,
+.dock-ghost .dock-clone .bar i { width:var(--w, 70%) !important; }
+/* Label that rides with the panel mid-flight */
+.dock-tag {
+  position:absolute; inset:0; z-index:5;
+  display:flex; align-items:center; justify-content:center;
+  padding:0 12px; text-align:center; text-wrap:balance;
+  font:600 10.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent); text-shadow:0 0 16px rgba(79,209,255,0.65);
+  opacity:0; pointer-events:none;
+}
+/* Landing pulse on the card the panel just became */
+@keyframes dockLand {
+  0%   { border-color:rgba(79,209,255,0.9);
+         box-shadow:0 20px 40px rgba(15,23,42,0.7), 0 0 0 1px rgba(79,209,255,0.55), 0 0 70px rgba(79,209,255,0.4); }
+  100% { border-color:rgba(148,163,184,0.32);
+         box-shadow:0 20px 40px rgba(15,23,42,0.7), 0 0 0 1px rgba(79,209,255,0), 0 0 0 rgba(79,209,255,0); }
+}
+.case-study.dock-land { animation:dockLand 1.2s ease-out; }
+/* Touch devices: swipes over a panel scroll the page; only the title bar drags */
+@media (any-pointer: coarse) {
+  .hero-panel { touch-action:pan-y; }
+  .hero-panel .titlebar, .hero-panel .ui-header { touch-action:none; min-height:40px; cursor:grab; }
+  .dock-ghost .dock-clone .rim-light, .dock-ghost .dock-clone .scanline { display:none; }
 }
 </style>
 </head>
@@ -1912,9 +2074,62 @@ body.ready .drag-hint {
     <h1>Engineering <span>immersive navigation systems</span>.</h1>
     <p>A curated index of production-ready navigation architectures — each designed as a complete system with motion, depth, and precise interaction.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="scrollToSection('portfolio')">View systems</button>
-      <button class="btn-secondary" onclick="scrollToSection('services')">Services</button>
+      <button class="btn-primary" onclick="scrollToSection('case-studies')">See the work</button>
+      <button class="btn-secondary" onclick="scrollToSection('portfolio')">View systems</button>
     </div>
+  </div>
+</section>
+
+<section id="case-studies">
+  <div class="section-title">Case Studies</div>
+  <p class="section-intro">Two shipped tools — problem, approach, and result. Both run fully in the browser with no account required.</p>
+  <div class="case-studies">
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Software</span>
+        <h3>SpreadsheetSaga</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Teams needed a serious spreadsheet workspace without uploading sensitive data to a cloud suite.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Built a local-first grid with formulas, CSV import/export, and session persistence — all on-device, no backend.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A production spreadsheet tool that opens instantly, keeps data private, and works offline by design.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Audio</span>
+        <h3>Groove Player</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Most browser players are thin wrappers — no real EQ, queue control, or local file workflow for MP3/MP4.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Designed a local music player with equalizer, queue, and DSP tools that never leaves the user’s machine.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A focused listening tool with studio-leaning controls and zero upload friction — open a file and play.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
   </div>
 </section>
 
@@ -2270,6 +2485,7 @@ body.ready .drag-hint {
         <h4>Explore</h4>
         <ul>
           <li><a href="#hero" onclick="event.preventDefault();scrollToSection('hero')">Home</a></li>
+          <li><a href="#case-studies" onclick="event.preventDefault();scrollToSection('case-studies')">Case Studies</a></li>
           <li><a href="#services" onclick="event.preventDefault();scrollToSection('services')">Services</a></li>
           <li><a href="#portfolio" onclick="event.preventDefault();scrollToSection('portfolio')">Navigation Systems</a></li>
           <li><a href="#contact" onclick="event.preventDefault();scrollToSection('contact')">Contact</a></li>
@@ -2581,7 +2797,7 @@ requestAnimationFrame(() => {
 
 /* Portfolio cards: staggered reveal + 3D tilt */
 (function(){
-  const cards = document.querySelectorAll("#portfolio a.card, #services .card");
+  const cards = document.querySelectorAll("#portfolio a.card, #services .card, #case-studies .case-study");
   if (!cards.length) return;
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
@@ -2710,6 +2926,8 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
     const el = state.el;
     el.addEventListener("pointerdown", (e) => {
       if (e.button !== undefined && e.button !== 0) return;
+      // Touch/pen: only the title bar starts a drag, so swiping over a panel still scrolls the page
+      if (e.pointerType && e.pointerType !== "mouse" && !e.target.closest(".titlebar, .ui-header")) return;
       e.preventDefault();
       e.stopPropagation();
       state.dragging = true;
@@ -2821,6 +3039,228 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
 
   startHeroLoop();
 })();
+/* ── Signature moment: the hero panels fly down and become the case studies ──
+   Each panel docks into its card when the reader reaches it, and returns to the
+   hero when they scroll back. One-time triggered flights (not scroll-scrubbed);
+   works on desktop and phones; skipped entirely under prefers-reduced-motion. */
+(function () {
+  const panels = [document.getElementById("panelCode"), document.getElementById("panelUi")];
+  const cards = document.querySelectorAll("#case-studies .case-study");
+  if (!panels[0] || !panels[1] || cards.length < 2) return;
+
+  const FROM = ["scene.ts", "live metrics"];
+  const pairs = panels.map((panel, i) => {
+    const h3 = cards[i].querySelector("h3");
+    return {
+      panel, card: cards[i], from: FROM[i],
+      name: ((h3 && h3.textContent) || "the work").trim(),
+      state: "idle", busy: false, token: 0, raf: 0, ghost: null
+    };
+  });
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const coarse = window.matchMedia("(any-pointer: coarse)");
+  const hint = document.querySelector(".drag-hint");
+  const narrow = () => window.innerWidth < 900;   // phones get earlier triggers + snappier flights
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const tagAt = (r) => Math.pow(Math.sin(Math.PI * r), 1.4);   // label peaks mid-flight
+  let enabled = false, ticking = false;
+
+  const rectOf = (el) => {
+    const r = el.getBoundingClientRect();
+    return { x: r.left, y: r.top, w: r.width, h: r.height };
+  };
+  // Panel rect, clamped so a panel scrolled far above the viewport enters/leaves from just off the top edge
+  const panelRect = (panel) => {
+    const r = panel.getBoundingClientRect();
+    let y = r.top;
+    if (r.bottom < 0) y = -r.height;
+    else if (r.top > window.innerHeight) y = window.innerHeight;
+    return { x: r.left, y, w: r.width, h: r.height };
+  };
+  const place = (g, r) => {
+    g.style.transform = "translate3d(" + r.x + "px," + r.y + "px,0)";
+    g.style.width = r.w + "px";
+    g.style.height = r.h + "px";
+  };
+
+  function makeGhost(panel, rect, label) {
+    const g = document.createElement("div");
+    g.className = "dock-ghost";
+    g.setAttribute("aria-hidden", "true");
+    const clone = panel.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.removeAttribute("style");
+    clone.classList.remove("is-dragging", "is-docked");
+    clone.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
+    clone.classList.add("dock-clone");
+    clone.style.setProperty("--cw", panel.offsetWidth + "px");
+    clone.style.setProperty("--ch", panel.offsetHeight + "px");
+    const tag = document.createElement("span");
+    tag.className = "dock-tag";
+    tag.textContent = label;
+    g.appendChild(clone);
+    g.appendChild(tag);
+    document.body.appendChild(g);
+    place(g, rect);
+    return { g, clone, tag };
+  }
+
+  // Animate the ghost from a fixed start rect to a LIVE target rect (so it still lands
+  // correctly if the page is scrolling, e.g. after a nav click).
+  function flight(pair, gh, from, getTo, dur, contentAt, done) {
+    const tok = pair.token;
+    const t0 = performance.now();
+    function frame(now) {
+      if (pair.token !== tok) return;
+      const raw = Math.min(1, (now - t0) / dur);
+      const p = ease(raw);
+      const to = getTo();
+      place(gh.g, {
+        x: from.x + (to.x - from.x) * p,
+        y: from.y + (to.y - from.y) * p,
+        w: from.w + (to.w - from.w) * p,
+        h: from.h + (to.h - from.h) * p
+      });
+      gh.clone.style.opacity = contentAt(raw);
+      gh.tag.style.opacity = tagAt(raw);
+      if (raw < 1) pair.raf = requestAnimationFrame(frame);
+      else done();
+    }
+    pair.raf = requestAnimationFrame(frame);
+  }
+
+  // Landing payoff: glow pulse on the card + a tiny haptic tick where the phone supports it
+  function land(pair) {
+    pair.card.classList.remove("dock-land");
+    void pair.card.offsetWidth;                       // restart the animation if it's mid-run
+    pair.card.classList.add("dock-land");
+    setTimeout(() => pair.card.classList.remove("dock-land"), 1300);
+    try {
+      if (navigator.vibrate && coarse.matches &&
+          (!navigator.userActivation || navigator.userActivation.hasBeenActive)) {
+        navigator.vibrate(8);
+      }
+    } catch (_) { /* haptics are optional */ }
+  }
+
+  function dock(pair) {
+    pair.busy = true; pair.state = "docking";
+    ++pair.token;
+    const from = panelRect(pair.panel);
+    const gh = makeGhost(pair.panel, from, pair.from + " \u2192 " + pair.name);
+    pair.ghost = gh.g;
+    pair.panel.classList.add("is-docked");
+    flight(pair, gh, from, () => rectOf(pair.card), narrow() ? 780 : 950,
+      (r) => 1 - clamp01(r / 0.55),
+      () => {
+        pair.card.classList.remove("dock-hold");
+        pair.card.classList.add("is-visible");
+        land(pair);
+        gh.g.style.opacity = "0";
+        setTimeout(() => gh.g.remove(), 400);
+        pair.ghost = null; pair.state = "docked"; pair.busy = false;
+        evaluate(false);
+      });
+  }
+
+  function undock(pair) {
+    pair.busy = true; pair.state = "undocking";
+    ++pair.token;
+    const from = rectOf(pair.card);
+    pair.card.classList.add("dock-hold");
+    const gh = makeGhost(pair.panel, from, pair.name + " \u2192 " + pair.from);
+    pair.ghost = gh.g;
+    gh.g.style.opacity = "0";
+    gh.clone.style.opacity = "0";
+    requestAnimationFrame(() => { gh.g.style.opacity = "1"; });
+    flight(pair, gh, from, () => panelRect(pair.panel), narrow() ? 700 : 850,
+      (r) => clamp01((r - 0.45) / 0.55),
+      () => {
+        pair.panel.classList.remove("is-docked");
+        gh.g.style.opacity = "0";
+        setTimeout(() => gh.g.remove(), 250);
+        pair.ghost = null; pair.state = "idle"; pair.busy = false;
+        evaluate(false);
+      });
+  }
+
+  function cancelFlight(pair) {
+    ++pair.token;
+    cancelAnimationFrame(pair.raf);
+    if (pair.ghost) { pair.ghost.remove(); pair.ghost = null; }
+  }
+  function snapDock(pair) {           // final docked state, no animation
+    cancelFlight(pair);
+    pair.panel.classList.add("is-docked");
+    pair.card.classList.remove("dock-hold");
+    pair.card.classList.add("is-visible");
+    pair.state = "docked"; pair.busy = false;
+  }
+  function snapIdle(pair) {           // back to normal page, no dock behaviour
+    cancelFlight(pair);
+    pair.panel.classList.remove("is-docked");
+    pair.card.classList.remove("dock-hold");
+    pair.card.classList.add("is-visible");
+    pair.state = "idle"; pair.busy = false;
+  }
+
+  function evaluate(snap) {
+    if (!enabled) return;
+    const vh = window.innerHeight;
+    const dockAt = narrow() ? 0.72 : 0.62;     // dock when the card's top rises above this fraction of the viewport
+    const undockAt = narrow() ? 0.94 : 0.92;   // return only after it drops below this (hysteresis)
+    pairs.forEach((pair) => {
+      if (pair.busy) return;
+      const top = pair.card.getBoundingClientRect().top;
+      if (pair.state === "idle" && top < vh * dockAt) snap ? snapDock(pair) : dock(pair);
+      else if (pair.state === "docked" && top > vh * undockAt) undock(pair);
+    });
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; evaluate(false); });
+  }
+
+  function setHint(on) {
+    if (!hint) return;
+    const lead = coarse.matches ? "Drag a panel by its title bar" : "Drag the panels";
+    hint.textContent = lead + " \u2014 they stay where you leave them" + (on ? ". Then keep scrolling." : "");
+  }
+
+  function enable() {
+    if (enabled) return;
+    enabled = true;
+    pairs.forEach((pair) => pair.card.classList.add("dock-hold"));
+    window.addEventListener("scroll", onScroll, { passive: true });
+    evaluate(true);                   // e.g. page reloaded partway down
+  }
+  function disable() {
+    if (!enabled) return;
+    enabled = false;
+    window.removeEventListener("scroll", onScroll);
+    pairs.forEach(snapIdle);
+  }
+  function sync() {
+    if (!reduce.matches) enable(); else disable();
+    setHint(enabled);
+  }
+
+  // Keyboard users tabbing into a held card must never land on something invisible
+  pairs.forEach((pair) => {
+    pair.card.addEventListener("focusin", () => {
+      if (enabled && pair.state !== "docked") snapDock(pair);
+    });
+  });
+
+  if (reduce.addEventListener) reduce.addEventListener("change", sync);
+  window.addEventListener("load", () => evaluate(true));
+  sync();
+})();
+
 /* Section reveal */
 const sections=document.querySelectorAll("section");
 function checkSections(){
@@ -2862,6 +3302,15 @@ window.addEventListener("scroll",checkSections);
     p.style.background = accent;
     p.style.boxShadow = `0 0 7px ${accent}`;
     footer.appendChild(p);
+  }
+
+  // Pause particle animations while the footer is off-screen
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        footer.classList.toggle("is-paused", !en.isIntersecting);
+      });
+    }, { rootMargin: "40px 0px", threshold: 0.01 }).observe(footer);
   }
 })();
 </script>
