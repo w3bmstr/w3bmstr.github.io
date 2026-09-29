@@ -107,17 +107,15 @@ body::before {
   mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, #000 15%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, #000 15%, transparent 75%);
 }
-/* PAGE */
+/* PAGE — no z-index (a z-index here would paint the whole page box, including
+   any transparent spacer, over the fixed footer and kill the curtain). */
 .page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 1;
 }
-/* Curtain-reveal: content sits above a fixed footer and slides up to uncover it.
-   Use margin-bottom (not padding) so the gap is transparent — padding would paint
-   the curtain's opaque background over the footer and hide it forever. */
+/* Only the opaque content sits above the footer */
 .curtain-content {
   position: relative;
   z-index: 2;
@@ -129,7 +127,25 @@ body::before {
     radial-gradient(circle at 50% 0%, #111827 0%, #020617 42%, #01040c 100%);
   background-attachment: fixed;
   box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-  margin-bottom: 0; /* set by JS = footer height */
+}
+@media (max-width: 900px) {
+  .curtain-content {
+    background-attachment: scroll;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  }
+}
+/* Outside .page — transparent scroll gap so the fixed footer shows through */
+#curtainSpacer {
+  display: block;
+  width: 100%;
+  height: 0; /* set by JS = full footer height */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+  background: transparent;
+  position: relative;
+  z-index: 0;
 }
 /* HEADER */
 header {
@@ -1328,10 +1344,11 @@ body.ready .drag-hint {
    ═══════════════════════════════════════════ */
 .site-footer {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  z-index: 0;
+  bottom: 0;
+  top: auto;
+  z-index: 1; /* under .curtain-content (z-index:2) */
   isolation: isolate;
   background:
     radial-gradient(ellipse 100% 60% at 50% -10%, rgba(79,209,255,0.1), transparent 50%),
@@ -1339,20 +1356,18 @@ body.ready .drag-hint {
     radial-gradient(ellipse 50% 40% at 10% 80%, rgba(249,115,22,0.05), transparent 50%),
     linear-gradient(180deg, #020617 0%, #050814 40%, #000 100%);
   border-top: 1px solid rgba(148,163,184,0.15);
-  overflow: hidden;
+  /* Classic curtain: pinned to bottom; content spacer lifts over it */
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: auto;
+  transform: none;
+  pointer-events: none; /* enabled when fully revealed so page scroll isn't stolen */
 }
-/* Phones: footer is taller than the viewport — fixed would hide the statement + form.
-   Fall back to normal document flow so the whole block is scrollable and visible. */
-@media (max-width: 900px) {
-  .site-footer {
-    position: relative;
-    z-index: 2;
-    overflow: visible;
-  }
-  .curtain-content {
-    margin-bottom: 0 !important;
-    box-shadow: none;
-  }
+.site-footer.is-revealed {
+  pointer-events: auto;
 }
 .site-footer::before {
   content: "";
@@ -2624,7 +2639,10 @@ body.is-docking::before {
 </section>
 
 </main>
-</div><!-- /.curtain-content — slides up to reveal the fixed footer underneath -->
+</div><!-- /.curtain-content -->
+</div><!-- /.page -->
+
+<div id="curtainSpacer" aria-hidden="true"></div>
 
 <footer class="site-footer" id="siteFooter" role="contentinfo">
   <div class="footer-inner">
@@ -2736,8 +2754,7 @@ body.is-docking::before {
     </div>
   </div>
 </footer>
-
-</div>
+<!-- footer is outside .page so fixed + z-index paint above body and under the curtain -->
 <script>
 /* Cursor-spotlight only on desktop mouse. On mobile/touch: strip elements from DOM. */
 (function(){
@@ -2754,16 +2771,9 @@ body.is-docking::before {
 /* Smooth scroll — contact lives in the fixed curtain footer, so scroll to page end */
 function scrollToSection(id){
   if (id === "contact") {
-    // Desktop curtain: scroll to page end so fixed footer is fully revealed.
-    // Mobile: footer is in normal flow — scroll to the contact block itself.
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      const el = document.getElementById("contact");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-    const footer = document.getElementById("siteFooter");
-    const target = document.documentElement.scrollHeight - (footer ? footer.offsetHeight : 0);
-    window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+    window.scrollTo({ top: maxScroll, behavior: "smooth" });
     return;
   }
   const el = document.getElementById(id);
@@ -3647,23 +3657,93 @@ window.addEventListener("scroll",checkSections);
   const curtain = document.getElementById("curtainContent");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* 1. Curtain reveal: desktop only (phones use normal flow so statement+form stay visible) */
+  /* 1. Curtain reveal — classic fixed bottom + spacer (all viewports)
+     Content lifts to uncover the footer. Nested footer scroll only runs when
+     fully revealed; wheel/touch at the top edge chains back to the page so
+     you can always scroll back up. */
+  const spacer = document.getElementById("curtainSpacer");
+  let ticking = false;
+
   function syncCurtain() {
-    if (!footer || !curtain) return;
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      curtain.style.marginBottom = "0px";
-      return;
+    if (!footer) return;
+    footer.style.transform = "none";
+    footer.style.position = "fixed";
+    footer.style.left = "0";
+    footer.style.right = "0";
+    footer.style.bottom = "0";
+    footer.style.top = "auto";
+    footer.style.zIndex = "1";
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const h = Math.max(
+      200,
+      Math.min(
+        Math.ceil(footer.scrollHeight || footer.offsetHeight || 0),
+        vh
+      )
+    );
+    if (spacer) {
+      spacer.style.display = "block";
+      spacer.style.height = h + "px";
     }
-    curtain.style.marginBottom = footer.offsetHeight + "px";
+    syncRevealState();
   }
+
+  function syncRevealState() {
+    if (!footer) return;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    // Fully uncovered when we're at (or past) the end of the page scroll
+    const revealed = maxScroll <= 0 || scrollY >= maxScroll - 4;
+    footer.classList.toggle("is-revealed", revealed);
+  }
+
+  function onScrollReveal() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      syncRevealState();
+    });
+  }
+
+  // When footer is at its own top and user scrolls up → move the page instead
+  footer.addEventListener("wheel", (e) => {
+    if (e.deltaY >= 0) return; // only care about scrolling up
+    if (footer.scrollTop > 1) return; // still room inside footer
+    window.scrollBy(0, e.deltaY);
+    e.preventDefault();
+  }, { passive: false });
+
+  // Touch: same idea — at top of footer, upward flick scrolls the page
+  let touchLastY = 0;
+  footer.addEventListener("touchstart", (e) => {
+    if (e.touches[0]) touchLastY = e.touches[0].clientY;
+  }, { passive: true });
+  footer.addEventListener("touchmove", (e) => {
+    if (!e.touches[0]) return;
+    const y = e.touches[0].clientY;
+    const dy = touchLastY - y; // >0 means content scrolling down
+    touchLastY = y;
+    if (dy < 0 && footer.scrollTop <= 1) {
+      window.scrollBy(0, dy);
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   syncCurtain();
   if (window.ResizeObserver && footer) {
     new ResizeObserver(syncCurtain).observe(footer);
   }
   window.addEventListener("resize", syncCurtain);
+  window.addEventListener("scroll", onScrollReveal, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncCurtain);
+  }
   window.addEventListener("load", () => {
     requestAnimationFrame(syncCurtain);
-    setTimeout(syncCurtain, 120);
+    setTimeout(syncCurtain, 100);
+    setTimeout(syncCurtain, 400);
   });
 
   /* 2. Live local time + availability status */
