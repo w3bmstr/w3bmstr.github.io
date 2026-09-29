@@ -115,6 +115,22 @@ body::before {
   position: relative;
   z-index: 1;
 }
+/* Curtain-reveal: content sits above a fixed footer and slides up to uncover it.
+   Use margin-bottom (not padding) so the gap is transparent — padding would paint
+   the curtain's opaque background over the footer and hide it forever. */
+.curtain-content {
+  position: relative;
+  z-index: 2;
+  background-color: #020617;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 15% -5%, rgba(79,209,255,0.07), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 95% 25%, rgba(168,85,247,0.06), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(249,115,22,0.035), transparent 55%),
+    radial-gradient(circle at 50% 0%, #111827 0%, #020617 42%, #01040c 100%);
+  background-attachment: fixed;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+  margin-bottom: 0; /* set by JS = footer height */
+}
 /* HEADER */
 header {
   position:fixed; top:0; left:0; right:0;
@@ -866,9 +882,38 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
   line-height:0.98;
   letter-spacing:-0.02em;
 }
-.hero-text h1 span {
-  background:linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-  -webkit-background-clip:text; color:transparent;
+/* Continuous gradient on the phrase (one element — not per letter) */
+.hero-text h1 .hero-grad {
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+/* Opening assemble — plain letters stagger; gradient phrase moves as one unit */
+.hero-text h1 .hero-ch,
+.hero-text h1 .hero-grad {
+  opacity: 0;
+  transform: translateY(18px) scale(0.94);
+  transition:
+    opacity .55s cubic-bezier(.2,.8,.2,1),
+    transform .55s cubic-bezier(.2,.8,.2,1);
+}
+.hero-text h1 .hero-ch {
+  display: inline-block;
+}
+.hero-text h1.is-assembled .hero-ch,
+.hero-text h1.is-assembled .hero-grad {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-text h1 .hero-ch,
+  .hero-text h1 .hero-grad {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 .hero-text p {
   margin-top:1.25rem;
@@ -1279,10 +1324,14 @@ body.ready .drag-hint {
 }
 
 /* ═══════════════════════════════════════════
-   AWWARDS-LEVEL FOOTER — bold statement + architecture
+   AWWARDS-LEVEL FOOTER — curtain-reveal + architecture
    ═══════════════════════════════════════════ */
 .site-footer {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
   isolation: isolate;
   background:
     radial-gradient(ellipse 100% 60% at 50% -10%, rgba(79,209,255,0.1), transparent 50%),
@@ -1291,6 +1340,19 @@ body.ready .drag-hint {
     linear-gradient(180deg, #020617 0%, #050814 40%, #000 100%);
   border-top: 1px solid rgba(148,163,184,0.15);
   overflow: hidden;
+}
+/* Phones: footer is taller than the viewport — fixed would hide the statement + form.
+   Fall back to normal document flow so the whole block is scrollable and visible. */
+@media (max-width: 900px) {
+  .site-footer {
+    position: relative;
+    z-index: 2;
+    overflow: visible;
+  }
+  .curtain-content {
+    margin-bottom: 0 !important;
+    box-shadow: none;
+  }
 }
 .site-footer::before {
   content: "";
@@ -1366,13 +1428,17 @@ body.ready .drag-hint {
   color: rgba(148,163,184,0.88);
   letter-spacing: 0.04em;
 }
-.footer-statement-meta span {
+.footer-statement-meta .live-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.28);
+  background: rgba(15,23,42,0.55);
+  font-variant-numeric: tabular-nums;
 }
-.footer-statement-meta span::before {
-  content: "";
+.footer-statement-meta .status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -1380,26 +1446,30 @@ body.ready .drag-hint {
   box-shadow:
     0 0 6px var(--accent),
     0 0 14px rgba(79,209,255,0.45);
-  opacity: 0.95;
   flex-shrink: 0;
   animation: metaDotPulse 2.8s ease-in-out infinite;
 }
-.footer-statement-meta span:nth-child(2)::before {
-  background: var(--accent2);
+.footer-statement-meta .live-pill.is-away .status-dot {
+  background: var(--accent3);
   box-shadow:
-    0 0 6px var(--accent2),
-    0 0 14px rgba(168,85,247,0.45);
-  animation-delay: 0.9s;
+    0 0 6px var(--accent3),
+    0 0 14px rgba(249,115,22,0.4);
+}
+.footer-statement-meta .live-pill.is-open .status-dot {
+  background: #34d399;
+  box-shadow:
+    0 0 6px #34d399,
+    0 0 14px rgba(52,211,153,0.45);
 }
 @keyframes metaDotPulse {
   0%, 100% { transform: scale(1); opacity: 0.85; }
   50% { transform: scale(1.2); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .footer-statement-meta span::before { animation: none; }
+  .footer-statement-meta .status-dot { animation: none; }
 }
 
-/* Glass form panel — responsible glassmorphism */
+/* Glass form panel — responsible glassmorphism + cursor glow */
 .footer-form-panel {
   position: relative;
   border-radius: 22px;
@@ -1415,6 +1485,8 @@ body.ready .drag-hint {
   backdrop-filter: blur(20px) saturate(1.15);
   -webkit-backdrop-filter: blur(20px) saturate(1.15);
   overflow: hidden;
+  --fmx: 50%;
+  --fmy: 40%;
 }
 .footer-form-panel::before {
   content: "";
@@ -1423,6 +1495,38 @@ body.ready .drag-hint {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(79,209,255,0.45), rgba(168,85,247,0.35), transparent);
   opacity: 0.7;
+  z-index: 2;
+}
+.footer-form-glow {
+  position: absolute;
+  width: min(340px, 90%);
+  height: min(340px, 90%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(79,209,255,0.28) 0%,
+    rgba(168,85,247,0.14) 35%,
+    transparent 68%
+  );
+  left: var(--fmx);
+  top: var(--fmy);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity .3s ease;
+  z-index: 0;
+  display: none;
+  will-change: left, top, opacity;
+}
+body.has-fine-pointer .footer-form-glow { display: block; }
+body.has-fine-pointer .footer-form-panel.is-glowing .footer-form-glow,
+body.has-fine-pointer .footer-form-panel:hover .footer-form-glow {
+  opacity: 1;
+}
+@media (max-width: 900px) {
+  .footer-form-glow,
+  body.has-fine-pointer .footer-form-glow { display: none !important; }
 }
 .footer-contact-form {
   display: flex;
@@ -1541,6 +1645,8 @@ body.ready .drag-hint {
   border-radius: 12px;
   font-size: 0.9rem;
   line-height: 1.45;
+  position: relative;
+  z-index: 1;
 }
 .footer-form-status.is-success {
   display: block;
@@ -1575,15 +1681,23 @@ body.ready .drag-hint {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 0.9rem;
+  /* Continuous gradient across the whole wordmark */
   background: linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   background-size: 200% 200%;
   background-position: 0% 50%;
   display: inline-block;
   margin-bottom: 1rem;
   cursor: pointer;
-  transition: filter .25s, background-position 1.2s ease;
+  transition: filter .25s, background-position 1.2s ease, opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1);
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+}
+.footer-brand-block .footer-logo.is-assembled {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 .footer-brand-block .footer-logo:hover {
   filter: brightness(1.15);
@@ -1593,6 +1707,13 @@ body.ready .drag-hint {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-brand-block .footer-logo {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: filter .25s, background-position 1.2s ease !important;
+  }
 }
 .footer-brand-block p {
   font-size: 0.88rem;
@@ -1758,9 +1879,9 @@ body.ready .drag-hint {
 @media (max-width: 900px) {
   .footer-statement {
     grid-template-columns: 1fr;
-    gap: 2.15rem;
-    margin-bottom: 3rem;
-    padding-bottom: 2.75rem;
+    gap: 1.75rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.25rem;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -1770,16 +1891,44 @@ body.ready .drag-hint {
     grid-column: 1 / -1;
   }
   .site-footer::after { opacity: 0.4; }
+  /* Keep statement + form readable and touch-friendly on tablets/phones */
+  .footer-statement-copy h2 {
+    font-size: clamp(1.85rem, 7vw, 2.75rem);
+    line-height: 1.08;
+  }
+  .footer-statement-copy p {
+    font-size: 1rem;
+    max-width: none;
+  }
+  .footer-statement-meta {
+    gap: 0.55rem;
+  }
+  .footer-statement-meta .live-pill {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.8rem 0.4rem 0.6rem;
+  }
+  .footer-contact-form input,
+  .footer-contact-form textarea {
+    font-size: 16px; /* prevents iOS zoom on focus */
+    min-height: 48px;
+  }
+  .footer-contact-form textarea {
+    min-height: 120px;
+  }
+  .footer-contact-form button {
+    min-height: 52px;
+    font-size: 1rem;
+  }
 }
 @media (max-width: 560px) {
   .footer-inner {
-    padding: 4rem 1.35rem 0;
+    padding: 3.25rem 1.2rem 0;
   }
   .footer-statement-copy h2 {
-    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    font-size: clamp(1.75rem, 8.5vw, 2.35rem);
   }
   .footer-form-panel {
-    padding: 1.25rem 1.1rem 1.15rem;
+    padding: 1.2rem 1rem 1.1rem;
   }
   .footer-grid {
     grid-template-columns: 1fr;
@@ -1810,14 +1959,27 @@ body.ready .drag-hint {
   position:fixed; left:0; top:0; z-index:25;
   pointer-events:none; overflow:hidden;
   border-radius:18px;
-  border:1px solid rgba(79,209,255,0.45);
+  border:1px solid rgba(79,209,255,0.55);
   background:radial-gradient(circle at top left, #111827, #020617);
   box-shadow:
-    0 30px 70px rgba(0,0,0,0.6),
-    0 0 44px rgba(79,209,255,0.2),
-    0 0 0 1px rgba(255,255,255,0.04) inset;
+    0 30px 70px rgba(0,0,0,0.65),
+    0 0 60px rgba(79,209,255,0.35),
+    0 0 120px rgba(168,85,247,0.18),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
   will-change:transform, width, height;
   transition:opacity .35s ease;
+}
+.dock-ghost::after {
+  content:"";
+  position:absolute; inset:-40%;
+  background:radial-gradient(circle, rgba(79,209,255,0.2) 0%, transparent 55%);
+  pointer-events:none;
+  animation:dockTrailPulse 0.9s ease-in-out infinite;
+  z-index:0;
+}
+@keyframes dockTrailPulse {
+  0%, 100% { opacity:0.45; transform:scale(0.92); }
+  50% { opacity:0.85; transform:scale(1.05); }
 }
 .dock-ghost .dock-clone {
   position:absolute !important; left:0 !important; top:0 !important;
@@ -1826,38 +1988,73 @@ body.ready .drag-hint {
   transform:none !important; will-change:auto;
   cursor:default; pointer-events:none;
   border:0; box-shadow:none; border-radius:0;
+  z-index:1;
 }
 
-/* Flying clone: freeze everything at its "finished" look (otherwise the clone replays the
-   type-in / bar-fill entrance animations and would fly in empty) */
+/* Flying clone: freeze everything at its "finished" look */
 .dock-ghost .dock-clone,
 .dock-ghost .dock-clone * { animation:none !important; }
 .dock-ghost .dock-clone .code-body .line { opacity:1 !important; transform:none !important; }
 .dock-ghost .dock-clone .panel-ui .bar i,
 .dock-ghost .dock-clone .bar i { width:var(--w, 70%) !important; }
-/* Label that rides with the panel mid-flight */
 .dock-tag {
   position:absolute; inset:0; z-index:5;
   display:flex; align-items:center; justify-content:center;
-  padding:0 12px; text-align:center; text-wrap:balance;
-  font:600 10.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing:0.12em; text-transform:uppercase;
-  color:var(--accent); text-shadow:0 0 16px rgba(79,209,255,0.65);
+  padding:0 14px; text-align:center; text-wrap:balance;
+  font:600 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--accent); text-shadow:0 0 20px rgba(79,209,255,0.8);
   opacity:0; pointer-events:none;
 }
-/* Landing pulse on the card the panel just became */
 @keyframes dockLand {
-  0%   { border-color:rgba(79,209,255,0.9);
-         box-shadow:0 20px 40px rgba(15,23,42,0.7), 0 0 0 1px rgba(79,209,255,0.55), 0 0 70px rgba(79,209,255,0.4); }
+  0%   { border-color:rgba(79,209,255,1);
+         box-shadow:0 20px 40px rgba(15,23,42,0.7), 0 0 0 2px rgba(79,209,255,0.7), 0 0 90px rgba(79,209,255,0.55); }
   100% { border-color:rgba(148,163,184,0.32);
          box-shadow:0 20px 40px rgba(15,23,42,0.7), 0 0 0 1px rgba(79,209,255,0), 0 0 0 rgba(79,209,255,0); }
 }
-.case-study.dock-land { animation:dockLand 1.2s ease-out; }
-/* Touch devices: swipes over a panel scroll the page; only the title bar drags */
+.case-study.dock-land { animation:dockLand 1.35s ease-out; }
+/* Dim the page slightly while a panel is in flight — focuses the eye */
+body.is-docking::before {
+  opacity: 0.55;
+  transition: opacity .35s ease;
+}
+.dock-coach {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 1.25rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(79,209,255,0.35);
+  background: rgba(79,209,255,0.08);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.dock-coach.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+.dock-coach .coach-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: metaDotPulse 1.8s ease-in-out infinite;
+}
 @media (any-pointer: coarse) {
   .hero-panel { touch-action:pan-y; }
   .hero-panel .titlebar, .hero-panel .ui-header { touch-action:none; min-height:40px; cursor:grab; }
   .dock-ghost .dock-clone .rim-light, .dock-ghost .dock-clone .scanline { display:none; }
+  .dock-ghost::after { display:none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dock-ghost::after, .dock-coach .coach-dot { animation: none !important; }
+  body.is-docking::before { opacity: 0.4; }
 }
 </style>
 </head>
@@ -1903,6 +2100,7 @@ body.ready .drag-hint {
 </svg>
 <a class="skip-link" href="#hero">Skip to content</a>
 <div class="page">
+<div class="curtain-content" id="curtainContent">
 <header id="siteHeader">
   <div class="logo">D Wilds Studio</div>
   <button class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="navOverlay">
@@ -2071,7 +2269,7 @@ body.ready .drag-hint {
   </div>
   <p class="drag-hint">Drag the panels — they stay where you leave them</p>
   <div class="hero-text">
-    <h1>Engineering <span>immersive navigation systems</span>.</h1>
+    <h1 id="heroHeadline">Engineering <span class="hero-grad">immersive navigation systems.</span></h1>
     <p>A curated index of production-ready navigation architectures — each designed as a complete system with motion, depth, and precise interaction.</p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="scrollToSection('case-studies')">See the work</button>
@@ -2082,6 +2280,10 @@ body.ready .drag-hint {
 
 <section id="case-studies">
   <div class="section-title">Case Studies</div>
+  <div class="dock-coach" id="dockCoach" aria-hidden="true">
+    <span class="coach-dot" aria-hidden="true"></span>
+    <span class="coach-label">Scroll — panels become the work</span>
+  </div>
   <p class="section-intro">Two shipped tools — problem, approach, and result. Both run fully in the browser with no account required.</p>
   <div class="case-studies">
     <article class="case-study">
@@ -2422,6 +2624,7 @@ body.ready .drag-hint {
 </section>
 
 </main>
+</div><!-- /.curtain-content — slides up to reveal the fixed footer underneath -->
 
 <footer class="site-footer" id="siteFooter" role="contentinfo">
   <div class="footer-inner">
@@ -2432,11 +2635,19 @@ body.ready .drag-hint {
         <h2>Ready to build something <span>immersive</span>?</h2>
         <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
         <div class="footer-statement-meta">
-          <span>Usually replies within 24h</span>
-          <span>No pitch decks required</span>
+          <span class="live-pill is-open" id="liveStatusPill">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="liveStatusText">Open for projects</span>
+          </span>
+          <span class="live-pill" id="liveTimePill">
+            <span id="liveClock">--:--</span>
+            <span aria-hidden="true">·</span>
+            <span id="liveTzLabel">local</span>
+          </span>
         </div>
       </div>
-      <div class="footer-form-panel">
+      <div class="footer-form-panel" id="footerFormPanel">
+        <div class="footer-form-glow" aria-hidden="true"></div>
         <form id="contactForm" class="footer-contact-form" novalidate>
           <!-- Honeypot: leave empty — bots fill it, humans never see it -->
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
@@ -2464,7 +2675,7 @@ body.ready .drag-hint {
     <!-- Architecture grid -->
     <div class="footer-grid">
       <div class="footer-brand-block">
-        <div class="footer-logo" role="button" tabindex="0" onclick="scrollToSection('hero')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('hero')}">D Wilds Studio</div>
+        <div class="footer-logo" id="footerLogo" role="button" tabindex="0" onclick="scrollToSection('hero')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('hero')}" aria-label="D Wilds Studio — back to top">D Wilds Studio</div>
         <p>Production-ready navigation systems engineered with motion, depth, and precise interaction.</p>
         <div class="footer-social">
           <a href="https://github.com/w3bmstr" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
@@ -2540,10 +2751,23 @@ body.ready .drag-hint {
   }
 })();
 
-/* Smooth scroll */
+/* Smooth scroll — contact lives in the fixed curtain footer, so scroll to page end */
 function scrollToSection(id){
-  const el=document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:"smooth"});
+  if (id === "contact") {
+    // Desktop curtain: scroll to page end so fixed footer is fully revealed.
+    // Mobile: footer is in normal flow — scroll to the contact block itself.
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      const el = document.getElementById("contact");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    const footer = document.getElementById("siteFooter");
+    const target = document.documentElement.scrollHeight - (footer ? footer.offsetHeight : 0);
+    window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
 }
 
 /* Contact form — pure JS, zero third-party (mailto + clipboard) */
@@ -2635,7 +2859,8 @@ function openNav(){
   document.body.style.overflow = "hidden";
   if (!reduceNavMotion && !navOverlay.dataset.particles) {
     navOverlay.dataset.particles = "1";
-    for (let i = 0; i < 11; i++) {
+    const nCount = window.matchMedia("(max-width: 900px)").matches ? 5 : 11;
+    for (let i = 0; i < nCount; i++) {
       const p = document.createElement("span");
       p.className = "nav-particle";
       p.style.left = (5 + Math.random() * 90) + "%";
@@ -2772,6 +2997,54 @@ requestAnimationFrame(() => {
   document.body.classList.add("ready");
 });
 
+/* Hero headline assemble — plain letters stagger; gradient phrase stays ONE continuous gradient */
+(function () {
+  const h1 = document.getElementById("heroHeadline");
+  if (!h1) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const plainBefore = "Engineering ";
+  const gradPhrase = "immersive navigation systems";
+  const plainAfter = ".";
+  h1.textContent = "";
+
+  // Plain letters — individual stagger
+  [...plainBefore].forEach((ch, i) => {
+    const span = document.createElement("span");
+    span.className = "hero-ch";
+    span.textContent = ch === " " ? "\u00A0" : ch;
+    span.style.transitionDelay = (i * 0.028) + "s";
+    h1.appendChild(span);
+  });
+
+  // Gradient phrase + period as ONE unit (keeps continuous gradient, period stays attached)
+  const grad = document.createElement("span");
+  grad.className = "hero-grad";
+  grad.textContent = gradPhrase + plainAfter;
+  grad.style.transitionDelay = (plainBefore.length * 0.028) + "s";
+  h1.appendChild(grad);
+
+  function assemble() {
+    h1.classList.add("is-assembled");
+  }
+
+  if (reduce) {
+    assemble();
+    return;
+  }
+  const start = () => setTimeout(assemble, 420);
+  if (document.body.classList.contains("ready")) start();
+  else {
+    const obs = new MutationObserver(() => {
+      if (!document.body.classList.contains("ready")) return;
+      obs.disconnect();
+      start();
+    });
+    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    setTimeout(assemble, 1200);
+  }
+})();
+
 /* Portfolio View all toggle */
 (function () {
   const btn = document.getElementById("portfolioToggle");
@@ -2845,8 +3118,14 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
 
   if (reduceMotion) return;
 
-  // Ambient particles
-  for (let i = 0; i < 9; i++) {
+  // Performance: fewer particles + lighter drift on phones / save-data
+  const isPhone = window.matchMedia("(max-width: 900px)").matches
+    || window.matchMedia("(any-pointer: coarse)").matches;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  const particleCount = (isPhone || saveData) ? 4 : 9;
+  const driftScale = (isPhone || saveData) ? 0.55 : 1;
+
+  for (let i = 0; i < particleCount; i++) {
     const p = document.createElement("span");
     p.className = "particle";
     p.style.left = (8 + Math.random() * 84) + "%";
@@ -2858,12 +3137,13 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
     shell.appendChild(p);
   }
 
-  // Panels park where you leave them; gentle drift orbits that parked spot
   function makeState(el, zBase, parallaxScale, driftAmp, driftSpeed, phase) {
     return {
-      el, zBase, parallaxScale, driftAmp, driftSpeed, phase,
+      el, zBase, parallaxScale,
+      driftAmp: driftAmp * driftScale,
+      driftSpeed, phase,
       x: 0, y: 0,
-      parkX: 0, parkY: 0,  // last released position — they stay here
+      parkX: 0, parkY: 0,
       vx: 0, vy: 0,
       dragging: false,
       dragStartX: 0, dragStartY: 0,
@@ -2871,7 +3151,6 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
       zBoost: 0
     };
   }
-  // Larger drift range so they roam more while idle
   const code = makeState(panelCode, 18, {x:-32,y:-20,ry:-7,rx:5}, 14, 0.00055, 0);
   const ui   = makeState(panelUi,   36, {x: 40,y: 24,ry: 8,rx:-6}, 16, 0.00042, 2.1);
   const panels = [code, ui];
@@ -2972,11 +3251,20 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
   let t0 = performance.now();
   let rafId = 0;
   let heroVisible = true;
+  let frameSkip = 0; // phones: run physics every other frame when idle
 
   function tick(now) {
     if (!heroVisible) {
       rafId = 0;
       return;
+    }
+    const dragging = panels.some((p) => p.dragging);
+    if (isPhone && !dragging) {
+      frameSkip ^= 1;
+      if (frameSkip) {
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
     }
     const t = now - t0;
     curX += (targetX - curX) * ease;
@@ -3143,19 +3431,20 @@ function hapticTick(pattern, why) {
     return { g, clone, tag };
   }
 
-  // Animate the ghost from a fixed start rect to a LIVE target rect (so it still lands
-  // correctly if the page is scrolling, e.g. after a nav click).
-  function flight(pair, gh, from, getTo, dur, contentAt, done) {
+  // Cinematic flight with a slight arc so the path reads as intentional, not linear lerp
+  function flight(pair, gh, from, getTo, dur, contentAt, done, arcSign) {
     const tok = pair.token;
     const t0 = performance.now();
+    const arc = (arcSign || 1) * (narrow() ? 28 : 48);
     function frame(now) {
       if (pair.token !== tok) return;
       const raw = Math.min(1, (now - t0) / dur);
       const p = ease(raw);
       const to = getTo();
+      const lift = Math.sin(Math.PI * p) * arc; // peaks mid-flight
       place(gh.g, {
-        x: from.x + (to.x - from.x) * p,
-        y: from.y + (to.y - from.y) * p,
+        x: from.x + (to.x - from.x) * p + lift * 0.35 * (arcSign || 1),
+        y: from.y + (to.y - from.y) * p - Math.abs(lift) * 0.25,
         w: from.w + (to.w - from.w) * p,
         h: from.h + (to.h - from.h) * p
       });
@@ -3167,24 +3456,28 @@ function hapticTick(pattern, why) {
     pair.raf = requestAnimationFrame(frame);
   }
 
-  // Landing payoff: glow pulse on the card + a tiny haptic tick where the phone supports it
   function land(pair) {
     pair.card.classList.remove("dock-land");
-    void pair.card.offsetWidth;                       // restart the animation if it's mid-run
+    void pair.card.offsetWidth;
     pair.card.classList.add("dock-land");
-    setTimeout(() => pair.card.classList.remove("dock-land"), 1300);
+    setTimeout(() => pair.card.classList.remove("dock-land"), 1400);
     hapticTick([35, 30, 55], "land");
   }
 
-  function dock(pair) {
+  function setDocking(on) {
+    document.body.classList.toggle("is-docking", !!on);
+  }
+
+  function dock(pair, arcSign) {
     pair.busy = true; pair.state = "docking";
     ++pair.token;
+    setDocking(true);
     const from = panelRect(pair.panel);
     const gh = makeGhost(pair.panel, from, pair.from + " \u2192 " + pair.name);
     pair.ghost = gh.g;
     pair.panel.classList.add("is-docked");
-    flight(pair, gh, from, () => rectOf(pair.card), narrow() ? 780 : 950,
-      (r) => 1 - clamp01(r / 0.55),
+    flight(pair, gh, from, () => rectOf(pair.card), narrow() ? 820 : 1050,
+      (r) => 1 - clamp01(r / 0.5),
       () => {
         pair.card.classList.remove("dock-hold");
         pair.card.classList.add("is-visible");
@@ -3192,13 +3485,21 @@ function hapticTick(pattern, why) {
         gh.g.style.opacity = "0";
         setTimeout(() => gh.g.remove(), 400);
         pair.ghost = null; pair.state = "docked"; pair.busy = false;
+        if (!pairs.some((p) => p.busy)) setDocking(false);
+        const coach = document.getElementById("dockCoach");
+        if (coach) {
+          coach.classList.remove("is-on");
+          const label = coach.querySelector(".coach-label");
+          if (label) label.textContent = "Panels became the work";
+        }
         evaluate(false);
-      });
+      }, arcSign);
   }
 
-  function undock(pair) {
+  function undock(pair, arcSign) {
     pair.busy = true; pair.state = "undocking";
     ++pair.token;
+    setDocking(true);
     const from = rectOf(pair.card);
     pair.card.classList.add("dock-hold");
     const gh = makeGhost(pair.panel, from, pair.name + " \u2192 " + pair.from);
@@ -3206,15 +3507,16 @@ function hapticTick(pattern, why) {
     gh.g.style.opacity = "0";
     gh.clone.style.opacity = "0";
     requestAnimationFrame(() => { gh.g.style.opacity = "1"; });
-    flight(pair, gh, from, () => panelRect(pair.panel), narrow() ? 700 : 850,
-      (r) => clamp01((r - 0.45) / 0.55),
+    flight(pair, gh, from, () => panelRect(pair.panel), narrow() ? 720 : 900,
+      (r) => clamp01((r - 0.4) / 0.55),
       () => {
         pair.panel.classList.remove("is-docked");
         gh.g.style.opacity = "0";
         setTimeout(() => gh.g.remove(), 250);
         pair.ghost = null; pair.state = "idle"; pair.busy = false;
+        if (!pairs.some((p) => p.busy)) setDocking(false);
         evaluate(false);
-      });
+      }, -(arcSign || 1));
   }
 
   function cancelFlight(pair) {
@@ -3240,13 +3542,35 @@ function hapticTick(pattern, why) {
   function evaluate(snap) {
     if (!enabled) return;
     const vh = window.innerHeight;
-    const dockAt = narrow() ? 0.72 : 0.62;     // dock when the card's top rises above this fraction of the viewport
-    const undockAt = narrow() ? 0.94 : 0.92;   // return only after it drops below this (hysteresis)
-    pairs.forEach((pair) => {
+    const dockAt = narrow() ? 0.72 : 0.58;
+    const undockAt = narrow() ? 0.94 : 0.92;
+    const coach = document.getElementById("dockCoach");
+    // Show coach once when case studies approach
+    if (coach && !coach.dataset.shown) {
+      const firstTop = pairs[0].card.getBoundingClientRect().top;
+      if (firstTop < vh * 0.92 && firstTop > vh * 0.2) {
+        coach.dataset.shown = "1";
+        coach.classList.add("is-on");
+        coach.setAttribute("aria-hidden", "false");
+      }
+    }
+    pairs.forEach((pair, i) => {
       if (pair.busy) return;
       const top = pair.card.getBoundingClientRect().top;
-      if (pair.state === "idle" && top < vh * dockAt) snap ? snapDock(pair) : dock(pair);
-      else if (pair.state === "docked" && top > vh * undockAt) undock(pair);
+      if (pair.state === "idle" && top < vh * dockAt) {
+        if (snap) snapDock(pair);
+        else {
+          // Stagger the second panel so the sequence reads clearly
+          const delay = i === 0 ? 0 : 180;
+          const arc = i === 0 ? 1 : -1;
+          if (delay) {
+            pair.busy = true;
+            setTimeout(() => { pair.busy = false; dock(pair, arc); }, delay);
+          } else dock(pair, arc);
+        }
+      } else if (pair.state === "docked" && top > vh * undockAt) {
+        undock(pair, i === 0 ? 1 : -1);
+      }
     });
   }
 
@@ -3259,7 +3583,9 @@ function hapticTick(pattern, why) {
   function setHint(on) {
     if (!hint) return;
     const lead = coarse.matches ? "Drag a panel by its title bar" : "Drag the panels";
-    hint.textContent = lead + " \u2014 they stay where you leave them" + (on ? ". Then keep scrolling." : "");
+    hint.textContent = on
+      ? lead + " — then scroll. They become the case studies."
+      : lead + " — they stay where you leave them";
   }
 
   function enable() {
@@ -3267,7 +3593,7 @@ function hapticTick(pattern, why) {
     enabled = true;
     pairs.forEach((pair) => pair.card.classList.add("dock-hold"));
     window.addEventListener("scroll", onScroll, { passive: true });
-    evaluate(true);                   // e.g. page reloaded partway down
+    evaluate(true);
   }
   function disable() {
     if (!enabled) return;
@@ -3308,7 +3634,7 @@ function checkSections(){
 window.addEventListener("load",checkSections);
 window.addEventListener("scroll",checkSections);
 
-/* Footer: year, back-to-top, ambient particles */
+/* Footer: curtain reveal, live status, form glow, logo assemble, year, particles */
 (function () {
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -3318,10 +3644,116 @@ window.addEventListener("scroll",checkSections);
   });
 
   const footer = document.getElementById("siteFooter");
+  const curtain = document.getElementById("curtainContent");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* 1. Curtain reveal: desktop only (phones use normal flow so statement+form stay visible) */
+  function syncCurtain() {
+    if (!footer || !curtain) return;
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      curtain.style.marginBottom = "0px";
+      return;
+    }
+    curtain.style.marginBottom = footer.offsetHeight + "px";
+  }
+  syncCurtain();
+  if (window.ResizeObserver && footer) {
+    new ResizeObserver(syncCurtain).observe(footer);
+  }
+  window.addEventListener("resize", syncCurtain);
+  window.addEventListener("load", () => {
+    requestAnimationFrame(syncCurtain);
+    setTimeout(syncCurtain, 120);
+  });
+
+  /* 2. Live local time + availability status */
+  const clockEl = document.getElementById("liveClock");
+  const statusText = document.getElementById("liveStatusText");
+  const statusPill = document.getElementById("liveStatusPill");
+  const tzLabel = document.getElementById("liveTzLabel");
+
+  function updateLiveSignal() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    if (clockEl) clockEl.textContent = hh + ":" + mm;
+    const hour = now.getHours();
+    const open = hour >= 9 && hour < 18;
+    if (statusPill && statusText) {
+      statusPill.classList.toggle("is-open", open);
+      statusPill.classList.toggle("is-away", !open);
+      statusText.textContent = open ? "Open for projects" : "Replies within 24h";
+    }
+    if (tzLabel) {
+      try {
+        const parts = new Intl.DateTimeFormat(undefined, { timeZoneName: "short" }).formatToParts(now);
+        const tz = parts.find((p) => p.type === "timeZoneName");
+        tzLabel.textContent = tz ? tz.value : "local";
+      } catch (_) {
+        tzLabel.textContent = "local";
+      }
+    }
+  }
+  updateLiveSignal();
+  setInterval(updateLiveSignal, 30000);
+
+  /* 3. Cursor-reactive spotlight on the form panel (fine pointer / desktop only) */
+  const formPanel = document.getElementById("footerFormPanel");
+  const fineForm = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    && !window.matchMedia("(max-width: 900px)").matches;
+  if (formPanel && fineForm) {
+    document.body.classList.add("has-fine-pointer");
+    const moveGlow = (e) => {
+      const r = formPanel.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      formPanel.style.setProperty("--fmx", x + "%");
+      formPanel.style.setProperty("--fmy", y + "%");
+    };
+    formPanel.addEventListener("pointerenter", (e) => {
+      formPanel.classList.add("is-glowing");
+      moveGlow(e);
+    });
+    formPanel.addEventListener("pointermove", moveGlow);
+    formPanel.addEventListener("pointerleave", () => {
+      formPanel.classList.remove("is-glowing");
+    });
+  }
+
+  /* 4. Closing echo: whole wordmark fades up — keeps ONE continuous gradient */
+  const logo = document.getElementById("footerLogo");
+  if (logo) {
+    function assembleLogo() {
+      if (logo.classList.contains("is-assembled")) return;
+      logo.classList.add("is-assembled");
+    }
+
+    if (reduce) {
+      assembleLogo();
+    } else if ("IntersectionObserver" in window) {
+      const target = logo.closest(".footer-brand-block") || footer || logo;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          requestAnimationFrame(() => setTimeout(assembleLogo, 80));
+          io.disconnect();
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
+      io.observe(target);
+      requestAnimationFrame(() => {
+        const r = target.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.92 && r.bottom > 0) assembleLogo();
+      });
+    } else {
+      assembleLogo();
+    }
+  }
+
+  /* Ambient particles (paused off-screen; fewer on phones) */
   if (!footer || reduce) return;
 
-  for (let i = 0; i < 8; i++) {
+  const fCount = window.matchMedia("(max-width: 900px)").matches ? 4 : 8;
+  for (let i = 0; i < fCount; i++) {
     const p = document.createElement("span");
     p.className = "footer-particle";
     p.setAttribute("aria-hidden", "true");
@@ -3335,7 +3767,6 @@ window.addEventListener("scroll",checkSections);
     footer.appendChild(p);
   }
 
-  // Pause particle animations while the footer is off-screen
   if ("IntersectionObserver" in window) {
     new IntersectionObserver((entries) => {
       entries.forEach((en) => {
