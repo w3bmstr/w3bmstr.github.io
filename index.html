@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>D Wilds Studio – Navigation Systems</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="description" content="D Wilds Studio — production-ready navigation systems with motion, depth, and precise interaction. Explore immersive web design and development." />
 <meta name="theme-color" content="#050814" />
 <meta name="color-scheme" content="dark" />
@@ -80,6 +80,9 @@
 .skip-link:focus { top:1rem; outline:2px solid #fff; outline-offset:2px; }
 /* RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: var(--font-body);
   color: var(--fg);
@@ -92,6 +95,20 @@ body {
     radial-gradient(ellipse 60% 40% at 50% 100%, rgba(249,115,22,0.035), transparent 55%),
     radial-gradient(circle at 50% 0%, #111827 0%, #020617 42%, #01040c 100%);
   background-attachment: fixed;
+}
+/* Mobile: hide system scrollbars — scroll still works, chrome stays cinematic */
+@media (max-width: 900px) {
+  html, body {
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* legacy Edge */
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+    background: transparent !important;
+  }
 }
 /* Soft ambient grid across the page (very restrained) */
 body::before {
@@ -1365,6 +1382,16 @@ body.ready .drag-hint {
   overscroll-behavior: auto;
   transform: none;
   pointer-events: none; /* enabled when fully revealed so page scroll isn't stolen */
+  /* Notch / home-indicator safe area */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* Hide footer’s own scrollbar (nested panel) */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.site-footer::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
 }
 .site-footer.is-revealed {
   pointer-events: auto;
@@ -2299,7 +2326,7 @@ body.is-docking::before {
     <span class="coach-dot" aria-hidden="true"></span>
     <span class="coach-label">Scroll — panels become the work</span>
   </div>
-  <p class="section-intro">Two shipped tools — problem, approach, and result. Both run fully in the browser with no account required.</p>
+  <p class="section-intro">Shipped tools — problem, approach, and result. Each runs fully in the browser with no account required.</p>
   <div class="case-studies">
     <article class="case-study">
       <div class="case-study-top">
@@ -2344,6 +2371,52 @@ body.is-docking::before {
         </div>
       </dl>
       <a class="case-study-link" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Gallery</span>
+        <h3>Photography Gallery</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Most portfolio galleries feel like templates — noisy chrome, weak hierarchy, and little respect for the image.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Built an image-first gallery with optional fine-art style presets, quiet typography, and editorial spacing that keeps the work in front.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A calm, production-ready photography system — original work, optional looks, and a layout that stays out of the way.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Finance</span>
+        <h3>LedgerOS</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Small teams need real bookkeeping — invoices, payroll, reports — without locking data into a SaaS they can’t audit offline.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Designed a full local ledger suite with double-entry logic, invoices, payroll, and reports that never leave the device.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A complete bookkeeping OS in the browser — private by default, offline-capable, and structured for real operations.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener noreferrer">
         Open live demo <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
@@ -2435,12 +2508,6 @@ body.is-docking::before {
 
   <div class="portfolio-featured-label">Featured</div>
   <div class="cards" id="portfolioFeatured">
-    <a class="card" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>Photography Gallery</h3>
-      <p>Original photography with optional fine-art style presets — quiet, editorial, and image-first.</p>
-      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
     <a class="card" href="https://w3bmstr.github.io/wilds-studio-accessible/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>Studio Accessible</h3>
@@ -2481,12 +2548,6 @@ body.is-docking::before {
       <span class="card-tag">Live</span>
       <h3>BodyOS</h3>
       <p>Personal protocol OS for health, fasting, habits, and recovery — all on-device.</p>
-      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-    </a>
-    <a class="card" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">Live</span>
-      <h3>LedgerOS</h3>
-      <p>Full bookkeeping suite — invoices, payroll, reports, and double-entry, all local.</p>
       <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
   </div>
@@ -3637,7 +3698,12 @@ function checkSections(){
       if(section.id==="services"||section.id==="portfolio"){
         section.classList.add("section-visible");
       }
-/* contact form now lives in footer — no section reveal needed */
+      // Extra case studies (beyond the two dock targets) reveal on enter
+      if(section.id==="case-studies"){
+        section.querySelectorAll(".case-study:not(.dock-hold)").forEach((c)=>{
+          c.classList.add("is-visible");
+        });
+      }
     }
   });
 }
