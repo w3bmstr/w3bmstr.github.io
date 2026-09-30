@@ -2177,7 +2177,7 @@ body.is-docking::before {
 }
 @media (any-pointer: coarse) {
   .hero-panel { touch-action:pan-y; }
-  .hero-panel .titlebar, .hero-panel .ui-header { touch-action:none; min-height:40px; cursor:grab; }
+  .hero-panel .titlebar, .hero-panel .ui-header, .hero-panel .gallery-header, .hero-panel .ledger-header { touch-action:none; min-height:40px; cursor:grab; }
   .dock-ghost .dock-clone .rim-light, .dock-ghost .dock-clone .scanline { display:none; }
   .dock-ghost::after { display:none; }
 }
@@ -3395,7 +3395,7 @@ document.querySelector("header .logo")?.addEventListener("click", () => {
     el.addEventListener("pointerdown", (e) => {
       if (e.button !== undefined && e.button !== 0) return;
       // Touch/pen: only the title bar starts a drag, so swiping over a panel still scrolls the page
-      if (e.pointerType && e.pointerType !== "mouse" && !e.target.closest(".titlebar, .ui-header")) return;
+      if (e.pointerType && e.pointerType !== "mouse" && !e.target.closest(".titlebar, .ui-header, .gallery-header, .ledger-header")) return;
       e.preventDefault();
       e.stopPropagation();
       state.dragging = true;
