@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>D Wilds Studio – Navigation Systems</title>
+<title>Daniel Wilds – Web Design &amp; Development</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="description" content="D Wilds Studio — production-ready navigation systems with motion, depth, and precise interaction. Explore immersive web design and development." />
-<meta name="theme-color" content="#050814" />
+<meta name="description" content="Daniel Wilds — web designer and developer. HTML, CSS, JavaScript. Custom websites from start to finish — clean, reliable, W3C compliant." />
+<meta name="theme-color" content="#0a1f1c" />
 <meta name="color-scheme" content="dark" />
 <meta name="author" content="Daniel Wilds" />
 <meta name="robots" content="index, follow" />
@@ -14,19 +14,19 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="D Wilds Studio" />
-<meta property="og:title" content="D Wilds Studio – Navigation Systems" />
-<meta property="og:description" content="Production-ready navigation systems engineered with motion, depth, and precise interaction." />
+<meta property="og:title" content="Daniel Wilds – Web Design & Development" />
+<meta property="og:description" content="Daniel Wilds — web designer and developer. HTML, CSS, JavaScript. Custom websites from start to finish — clean, reliable, W3C compliant." />
 <meta property="og:url" content="https://w3bmstr.github.io/" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:image" content="https://w3bmstr.github.io/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="D Wilds Studio — immersive navigation systems" />
+<meta property="og:image:alt" content="Daniel Wilds — website design and internet programming" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="D Wilds Studio – Navigation Systems" />
-<meta name="twitter:description" content="Production-ready navigation systems engineered with motion, depth, and precise interaction." />
+<meta name="twitter:title" content="Daniel Wilds – Web Design & Development" />
+<meta name="twitter:description" content="Daniel Wilds — web designer and developer. HTML, CSS, JavaScript. Custom websites from start to finish — clean, reliable, W3C compliant." />
 <meta name="twitter:image" content="https://w3bmstr.github.io/og-image.png" />
 
 <!-- Favicon -->
@@ -43,7 +43,7 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "D Wilds Studio",
-  "description": "Production-ready navigation systems with motion, depth, and precise interaction.",
+  "description": "Web designer and developer. HTML, CSS, JavaScript. Custom websites from start to finish.",
   "url": "https://w3bmstr.github.io/",
   "email": "2026websites@gmail.com",
   "founder": {
@@ -57,7 +57,7 @@
     "https://w3bmstr.github.io/"
   ],
   "areaServed": "Worldwide",
-  "serviceType": ["Web Design", "Web Development", "Navigation Systems"]
+  "serviceType": ["Website Design", "Web Development", "Internet Programming", "Web Applications"]
 }
 </script>
 <style>
@@ -206,17 +206,45 @@ header.scrolled {
   font-family:var(--font-display);
   font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
   font-size:0.9rem;
-  background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
-  -webkit-background-clip:text; color:transparent;
-  background-size:200% 200%;
-  background-position:0% 50%;
   cursor:pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--fg);
+  transition: opacity .25s;
+}
+.logo:hover { opacity: 0.88; }
+.logo-text {
+  background: linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
   transition: background-position 1.2s ease, filter .25s;
 }
-.logo:hover {
-  background-position:100% 50%;
+.logo:hover .logo-text {
+  background-position: 100% 50%;
   filter: brightness(1.12);
 }
+.logo-mark {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.logo-mark span {
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0.9;
+}
+.logo-mark span:nth-child(2) { opacity: 0.55; }
+.logo-mark span:nth-child(3) { opacity: 0.55; }
+.logo-mark span:nth-child(4) { opacity: 0.3; }
+.logo:hover .logo-mark span { opacity: 1; }
+
 @keyframes logoShimmer {
   0%{background-position:0% 50%;}
   50%{background-position:100% 50%;}
@@ -578,7 +606,7 @@ main { margin-top:64px; }
 /* ─── HERO 3D SCENE ─────────────────────────────────────────── */
 .hero-3d-shell {
   width:100%;
-  height:min(340px, 52vw);
+  height:min(420px, 62vw);
   border-radius:24px;
   overflow:hidden;
   position:relative;
@@ -712,8 +740,8 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
 @keyframes rimSpin { to { transform:rotate(360deg); } }
 /* ── CODE PANEL ── */
 .panel-code {
-  width:66%; height:52%;
-  top:9%; left:6%;
+  width:46%; height:44%;
+  top:5%; left:3.5%;
   background:
     linear-gradient(160deg, rgba(10,18,40,0.97), rgba(20,40,90,0.88));
   z-index:2;
@@ -790,11 +818,12 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
 }
 /* ── UI PANEL ── */
 .panel-ui {
-  width:48%; height:44%;
-  bottom:8%; right:5%;
+  width:46%; height:44%;
+  top:5%; right:3.5%;
+  bottom:auto;
   background:
     linear-gradient(150deg, rgba(18,10,36,0.97), rgba(70,30,110,0.85));
-  z-index:3;
+  z-index:2;
 }
 .panel-ui .ui-header {
   display:flex; align-items:center; justify-content:space-between;
@@ -878,11 +907,13 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
   to   { width:var(--w, 70%); }
 }
 .panel-gallery {
-  width:30%; height:27%;
-  top:5%; right:4%;
+  width:46%; height:44%;
+  bottom:5%; left:3.5%;
+  top:auto;
+  right:auto;
   background:
     linear-gradient(150deg, rgba(10,30,36,0.97), rgba(10,60,70,0.85));
-  z-index:4;
+  z-index:2;
 }
 .panel-gallery .gallery-header {
   display:flex; align-items:center; justify-content:space-between;
@@ -922,11 +953,12 @@ body.has-fine-pointer .hero-3d-shell:hover .cursor-glow { opacity:1; }
 .panel-gallery .shot:nth-child(5) { background:linear-gradient(145deg, var(--accent2), var(--accent)); opacity:0.8; }
 .panel-gallery .shot:nth-child(6) { background:linear-gradient(145deg, var(--accent), var(--accent3)); opacity:0.65; }
 .panel-ledger {
-  width:34%; height:25%;
-  bottom:5%; left:9%;
+  width:46%; height:44%;
+  bottom:5%; right:3.5%;
+  left:auto;
   background:
     linear-gradient(150deg, rgba(32,20,10,0.97), rgba(70,45,10,0.85));
-  z-index:1;
+  z-index:2;
 }
 .panel-ledger .ledger-header {
   display:flex; align-items:center; justify-content:space-between;
@@ -1258,12 +1290,28 @@ section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
 
 /* Case studies */
 .case-studies {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.25rem;
 }
+/* When panels fly down they land in a 2×2 (then more work below) */
+@media (min-width: 720px) {
+  .case-studies {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.35rem;
+  }
+  /* Half-width cards: stack Problem / Approach / Result */
+  .case-studies .case-study-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 1100px) {
+  .case-studies {
+    gap: 1.5rem;
+  }
+}
 .case-study {
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 1.5rem 1.4rem 1.35rem;
   background:
     linear-gradient(165deg, rgba(255,255,255,0.045) 0%, transparent 42%),
@@ -1273,6 +1321,36 @@ section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
   opacity: 0;
   transform: translateY(16px);
   transition: opacity .5s ease, transform .5s ease, border-color .25s, box-shadow .35s;
+}
+.case-study-media {
+  margin: -1.5rem -1.4rem 1.1rem;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #05070f;
+  border-bottom: 1px solid rgba(148,163,184,0.22);
+  position: relative;
+}
+.case-study-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.case-study:hover .case-study-media img {
+  transform: scale(1.035);
+}
+.case-study-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(2,6,23,0.5) 100%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-study-media img { transition: none; }
 }
 .case-study.is-visible {
   opacity: 1;
@@ -1810,27 +1888,36 @@ body.has-fine-pointer .footer-form-panel:hover .footer-form-glow {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 0.9rem;
-  /* Continuous gradient across the whole wordmark */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: var(--fg);
+  background: none;
+  transition: opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1);
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+}
+.footer-brand-block .footer-logo .logo-text {
   background: linear-gradient(120deg, var(--accent), var(--accent2), var(--accent3));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   background-size: 200% 200%;
   background-position: 0% 50%;
-  display: inline-block;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  transition: filter .25s, background-position 1.2s ease, opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1);
-  opacity: 0;
-  transform: translateY(14px) scale(0.96);
+  transition: filter .25s, background-position 1.2s ease;
 }
 .footer-brand-block .footer-logo.is-assembled {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-.footer-brand-block .footer-logo:hover {
+.footer-brand-block .footer-logo:hover .logo-text {
   filter: brightness(1.15);
   background-position: 100% 50%;
+}
+.footer-brand-block .footer-logo:hover .logo-mark span {
+  opacity: 1;
 }
 .footer-brand-block .footer-logo:focus-visible {
   outline: 2px solid var(--accent);
@@ -2185,6 +2272,181 @@ body.is-docking::before {
   .dock-ghost::after, .dock-coach .coach-dot { animation: none !important; }
   body.is-docking::before { opacity: 0.4; }
 }
+
+/* Hero clarity layer */
+.hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.9);
+  margin: 0 0 0.85rem;
+}
+.hero-trust {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.75);
+  letter-spacing: 0.02em;
+}
+.hero-text h1 {
+  max-width: 16ch;
+}
+.hero-text > p:not(.hero-eyebrow):not(.hero-trust) {
+  max-width: 42ch;
+}
+/* Case study evidence polish */
+.case-study-media {
+  box-shadow: inset 0 -1px 0 rgba(148,163,184,0.15);
+}
+.case-study-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(2,6,23,0.35) 0%, transparent 40%);
+  opacity: 0.7;
+}
+.case-study-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.75rem;
+}
+.case-study-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 209, 255, 0.35);
+  color: var(--accent);
+  background: rgba(79, 209, 255, 0.08);
+}
+.case-study-badge.live {
+  border-color: rgba(52, 211, 153, 0.4);
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+}
+/* Conversion path — services cards point clearly */
+.service-card .card-cta-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.85;
+}
+.portfolio-archive .cards {
+  opacity: 0.92;
+}
+
+
+/* Hero panels — keep 2×2 on small screens */
+@media (max-width: 900px) {
+  .hero-3d-shell {
+    height: min(360px, 78vw);
+  }
+  .panel-code,
+  .panel-ui,
+  .panel-gallery,
+  .panel-ledger {
+    width: 46.5%;
+    height: 44%;
+  }
+}
+@media (max-width: 480px) {
+  .hero-3d-shell {
+    height: min(320px, 92vw);
+    border-radius: 18px;
+  }
+  .hero-panel {
+    border-radius: 14px;
+  }
+}
+
+
+/* ── 10/10 case study grid polish ── */
+.case-studies .case-study {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.case-studies .case-study-media {
+  flex-shrink: 0;
+}
+.case-studies .case-study-link {
+  margin-top: auto;
+}
+@media (min-width: 720px) {
+  .case-studies .case-study-media {
+    aspect-ratio: 16 / 10;
+  }
+  .case-studies .case-study h3 {
+    font-size: 1.15rem;
+  }
+}
+.case-study-link {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.case-study-link .arrow {
+  transition: transform .25s ease;
+}
+.case-study-link:hover .arrow {
+  transform: translateX(4px);
+}
+/* Hero 2×2 panel content fits the equal cells */
+.panel-code .code-body {
+  font-size: clamp(9px, 1.35vw, 12px);
+}
+.panel-ui .metrics,
+.panel-ledger .ledger-rows {
+  font-size: clamp(10px, 1.4vw, 12px);
+}
+
+
+/* Space under Selected Work title (intro removed) */
+#case-studies .section-title {
+  margin-bottom: 1.75rem;
+}
+@media (min-width: 720px) {
+  #case-studies .section-title {
+    margin-bottom: 2.25rem;
+  }
+}
+/* Extra air above Selected Work — offsets hero-trust / LinkedIn line added later */
+#case-studies {
+  padding-top: 5.75rem; /* was 4rem via section; +~1.75rem for trust line */
+}
+@media (min-width: 720px) {
+  #case-studies {
+    padding-top: 6.5rem;
+  }
+}
+.hero-trust {
+  margin: 1rem 0 0.25rem; /* keep line tight to actions; section padding carries the gap */
+}
+
+
+/* Quieter chrome — identity is the 2×2, not particle noise */
+.hero-3d-shell .orbit {
+  opacity: 0.35;
+}
+.hero-3d-shell .particle {
+  opacity: 0.25 !important;
+}
+.hero-panel .rim-light {
+  opacity: 0.35;
+  animation-duration: 28s;
+}
+.nav-overlay .nav-particle {
+  opacity: 0 !important;
+}
+
 </style>
 </head>
 <body class="is-loading">
@@ -2231,7 +2493,10 @@ body.is-docking::before {
 <div class="page">
 <div class="curtain-content" id="curtainContent">
 <header id="siteHeader">
-  <div class="logo">D Wilds Studio</div>
+  <div class="logo" role="banner">
+    <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+    <span class="logo-text">D Wilds Studio</span>
+  </div>
   <button class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="navOverlay">
     <div class="menu-icon">
       <span></span><span></span><span></span>
@@ -2423,31 +2688,35 @@ body.is-docking::before {
       </div>
     </div>
   </div>
-  <p class="drag-hint">Drag the panels — they stay where you leave them</p>
+  <p class="drag-hint">Drag the panels, or scroll — they fly down into the work</p>
   <div class="hero-text">
-    <h1 id="heroHeadline">Engineering <span class="hero-grad">immersive navigation systems.</span></h1>
-    <p>A curated index of production-ready navigation architectures — each designed as a complete system with motion, depth, and precise interaction.</p>
+    <p class="hero-eyebrow">Web design · Web development · Internet programming</p>
+    <h1 id="heroHeadline">I build websites <span class="hero-grad">from start to finish.</span></h1>
+    <p>Daniel Wilds — web designer and developer. HTML, CSS, and JavaScript. Any site you need, built clean, error-free, and W3C compliant.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="scrollToSection('case-studies')">See the work</button>
-      <button class="btn-secondary" onclick="scrollToSection('portfolio')">View systems</button>
+      <button class="btn-primary" onclick="scrollToSection('case-studies')">See my work</button>
+      <button class="btn-secondary" onclick="scrollToSection('contact')">Get in touch</button>
     </div>
+    <p class="hero-trust">Open to all projects · <a href="https://www.linkedin.com/in/daniel-wilds/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:3px">LinkedIn</a></p>
   </div>
 </section>
 
 <section id="case-studies">
-  <div class="section-title">Case Studies</div>
-  <div class="dock-coach" id="dockCoach" aria-hidden="true">
-    <span class="coach-dot" aria-hidden="true"></span>
-    <span class="coach-label">Scroll — panels become the work</span>
-  </div>
-  <p class="section-intro">Shipped tools — problem, approach, and result. Each runs fully in the browser with no account required.</p>
+  <div class="section-title">Selected Work</div>
   <div class="case-studies">
     <article class="case-study">
-      <div class="case-study-top">
+            <div class="case-study-media">
+        <img src="spreadsheetsaga.png" alt="SpreadsheetSaga workspace with command palette, multi-sheet tabs, and product sample data" loading="lazy" width="1600" height="900">
+      </div>
+<div class="case-study-top">
         <span class="case-study-tag tool">Software</span>
         <h3>SpreadsheetSaga</h3>
       </div>
-      <dl class="case-study-grid">
+            <div class="case-study-badge-row">
+        <span class="case-study-badge live">Live demo</span>
+        <span class="case-study-badge">Web app</span>
+      </div>
+<dl class="case-study-grid">
         <div class="case-study-block">
           <dt>Problem</dt>
           <dd>Teams needed a serious spreadsheet workspace without uploading sensitive data to a cloud suite.</dd>
@@ -2462,15 +2731,22 @@ body.is-docking::before {
         </div>
       </dl>
       <a class="case-study-link" href="https://w3bmstr.github.io/spreadsheetsaga/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
+        Open live site <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
     <article class="case-study">
-      <div class="case-study-top">
+      <div class="case-study-media">
+        <img src="groove-player.png" alt="Groove Player interface showing a track loaded on a turntable-style player with queue and waveform controls" loading="lazy" width="1600" height="900">
+      </div>
+<div class="case-study-top">
         <span class="case-study-tag tool">Audio</span>
         <h3>Groove Player</h3>
       </div>
-      <dl class="case-study-grid">
+            <div class="case-study-badge-row">
+        <span class="case-study-badge live">Live demo</span>
+        <span class="case-study-badge">Web app</span>
+      </div>
+<dl class="case-study-grid">
         <div class="case-study-block">
           <dt>Problem</dt>
           <dd>Most browser players are thin wrappers — no real EQ, queue control, or local file workflow for MP3/MP4.</dd>
@@ -2485,15 +2761,22 @@ body.is-docking::before {
         </div>
       </dl>
       <a class="case-study-link" href="https://w3bmstr.github.io/MP3-MP4/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
+        Open live site <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
     <article class="case-study">
-      <div class="case-study-top">
+            <div class="case-study-media">
+        <img src="photography-gallery.png" alt="Photography Gallery — A Few Shots I've Taken with style presets" loading="lazy" width="1600" height="900">
+      </div>
+<div class="case-study-top">
         <span class="case-study-tag tool">Gallery</span>
         <h3>Photography Gallery</h3>
       </div>
-      <dl class="case-study-grid">
+            <div class="case-study-badge-row">
+        <span class="case-study-badge live">Live demo</span>
+        <span class="case-study-badge">Gallery</span>
+      </div>
+<dl class="case-study-grid">
         <div class="case-study-block">
           <dt>Problem</dt>
           <dd>Most portfolio galleries feel like templates — noisy chrome, weak hierarchy, and little respect for the image.</dd>
@@ -2508,15 +2791,22 @@ body.is-docking::before {
         </div>
       </dl>
       <a class="case-study-link" href="https://w3bmstr.github.io/gallery" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
+        Open live site <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
     <article class="case-study">
-      <div class="case-study-top">
+      <div class="case-study-media">
+        <img src="ledgeros.png" alt="LedgerOS dashboard showing revenue, outstanding invoices, expenses by category, and recent activity" loading="lazy" width="1600" height="900">
+      </div>
+<div class="case-study-top">
         <span class="case-study-tag tool">Finance</span>
         <h3>LedgerOS</h3>
       </div>
-      <dl class="case-study-grid">
+            <div class="case-study-badge-row">
+        <span class="case-study-badge live">Live demo</span>
+        <span class="case-study-badge">Web app</span>
+      </div>
+<dl class="case-study-grid">
         <div class="case-study-block">
           <dt>Problem</dt>
           <dd>Small teams need real bookkeeping — invoices, payroll, reports — without locking data into a SaaS they can’t audit offline.</dd>
@@ -2531,163 +2821,96 @@ body.is-docking::before {
         </div>
       </dl>
       <a class="case-study-link" href="https://w3bmstr.github.io/LedgerOS/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
+        Open live site <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
-    <article class="case-study">
-      <div class="case-study-top">
-        <span class="case-study-tag tool">Documents</span>
-        <h3>MyPDF</h3>
-      </div>
-      <dl class="case-study-grid">
-        <div class="case-study-block">
-          <dt>Problem</dt>
-          <dd>Annotating, signing, or marking up a PDF usually means uploading a private document — a contract, an ID, a form — to someone else's server first.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Approach</dt>
-          <dd>Built a fully local PDF viewer with an ink and annotation layer, signature capture, and a built-in scanner, so the file never leaves the device.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Result</dt>
-          <dd>A private, fast PDF workspace — open, mark up, sign, and export, with nothing ever touching a server.</dd>
-        </div>
-      </dl>
-      <a class="case-study-link" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </article>
-    <article class="case-study">
-      <div class="case-study-top">
-        <span class="case-study-tag tool">Scanning</span>
-        <h3>ScanMagic</h3>
-      </div>
-      <dl class="case-study-grid">
-        <div class="case-study-block">
-          <dt>Problem</dt>
-          <dd>Turning paper into a searchable PDF usually means a scanning app that quietly uploads every photo you take.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Approach</dt>
-          <dd>Built an on-device scanner with edge detection, cleanup filters, and OCR that runs entirely in the browser, exporting straight to a multi-page PDF.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Result</dt>
-          <dd>A pocket scanner that turns real paper into searchable, exportable PDFs — without a single image leaving the device.</dd>
-        </div>
-      </dl>
-      <a class="case-study-link" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </article>
-    <article class="case-study">
-      <div class="case-study-top">
-        <span class="case-study-tag tool">Calculator</span>
-        <h3>Lumina Calculator</h3>
-      </div>
-      <dl class="case-study-grid">
-        <div class="case-study-block">
-          <dt>Problem</dt>
-          <dd>Students and professionals juggle three or four separate calculator apps for scientific work, graphing, and financial math.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Approach</dt>
-          <dd>Built one precision calculator covering scientific functions, function graphing, financial formulas, and unit conversion in a single interface.</dd>
-        </div>
-        <div class="case-study-block">
-          <dt>Result</dt>
-          <dd>A single calculator that replaces the drawer of apps — accurate, fast, and fully usable offline.</dd>
-        </div>
-      </dl>
-      <a class="case-study-link" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
-        Open live demo <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </article>
+    
+    
   </div>
 </section>
 
 <section id="services">
   <div class="section-title">Services</div>
-  <p class="section-intro">From interface systems to production code — designed as complete experiences, not isolated pages. Each engagement is scoped to ship something real.</p>
+  <p class="section-intro">Design and development for any kind of website — business, portfolio, app, or something custom. Start to finish.</p>
   <div class="cards services-cards">
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Design</span>
       <h3>Web Design</h3>
-      <p>High-end interfaces with depth, motion, and mobile-first structure — built as systems, not one-off screens.</p>
+      <p>Clean layouts, clear structure, and a site that looks good on every screen.</p>
       <ul class="service-points">
-        <li>UI systems &amp; design language</li>
-        <li>Responsive &amp; adaptive layouts</li>
-        <li>Motion &amp; interaction design</li>
-        <li>Accessibility-first structure</li>
+        <li>Custom design from scratch</li>
+        <li>Mobile-friendly layouts</li>
+        <li>Simple, clear navigation</li>
+        <li>Accessible and easy to use</li>
       </ul>
-      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Build</span>
       <h3>Web Development</h3>
-      <p>Modern front-end builds with performance budgets, clean architecture, and code you can maintain.</p>
+      <p>HTML, CSS, and JavaScript — built clean, tested, and W3C compliant.</p>
       <ul class="service-points">
-        <li>Production HTML / CSS / JS</li>
-        <li>Component &amp; layout systems</li>
-        <li>Performance &amp; Core Web Vitals</li>
-        <li>Cross-browser &amp; device QA</li>
+        <li>HTML / CSS / JavaScript</li>
+        <li>Fast, reliable code</li>
+        <li>Works across browsers</li>
+        <li>Error-free and maintainable</li>
       </ul>
-      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Code</span>
       <h3>Internet Programming</h3>
-      <p>Custom logic, integrations, and interactive layers that power data-driven experiences in the browser.</p>
+      <p>Forms, tools, and interactive features that make a site actually work.</p>
       <ul class="service-points">
-        <li>APIs &amp; third-party integrations</li>
-        <li>Forms, auth flows &amp; tooling</li>
-        <li>Client-side apps &amp; utilities</li>
-        <li>Automation &amp; local-first tools</li>
+        <li>Forms and interactive features</li>
+        <li>Web apps and utilities</li>
+        <li>Integrations when you need them</li>
+        <li>Custom functionality</li>
       </ul>
-      <span class="card-cta">Discuss a project <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
-      <span class="card-tag">Systems</span>
-      <h3>Navigation Systems</h3>
-      <p>Commission a complete navigation architecture — cinematic, accessible, adaptive, or mobile — tailored to your brand.</p>
+      <span class="card-tag">Complete</span>
+      <h3>Full Projects</h3>
+      <p>Whole websites from start to finish — design and build together.</p>
       <ul class="service-points">
-        <li>Custom nav &amp; menu systems</li>
-        <li>Mega-menus &amp; mobile docks</li>
-        <li>Keyboard &amp; screen-reader flow</li>
-        <li>Adaptation of existing demos</li>
+        <li>New sites from scratch</li>
+        <li>Redesigns and rebuilds</li>
+        <li>Landing pages and portfolios</li>
+        <li>Ongoing fixes and updates</li>
       </ul>
-      <span class="card-cta">Commission a system <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Brand</span>
       <h3>Branding &amp; Identity</h3>
-      <p>Visual identity that carries through type, color, motion, and interface — coherent from first paint to footer.</p>
+      <p>Colors, type, and style that match your site so everything feels like one brand.</p>
       <ul class="service-points">
-        <li>Logo &amp; wordmark systems</li>
-        <li>Color, type &amp; spacing tokens</li>
-        <li>UI kit &amp; component language</li>
-        <li>Launch assets &amp; social marks</li>
+        <li>Logo and wordmark</li>
+        <li>Colors and typography</li>
+        <li>Consistent site style</li>
+        <li>Simple brand assets</li>
       </ul>
-      <span class="card-cta">Discuss branding <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
     <article class="card service-card" tabindex="0" role="button" onclick="scrollToSection('contact')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('contact')}">
       <span class="card-tag">Care</span>
       <h3>Maintenance &amp; Support</h3>
-      <p>Keep shipped systems fast, secure, and current — small iterations, dependency updates, and performance checks.</p>
+      <p>Fixes, updates, and small improvements after the site is live.</p>
       <ul class="service-points">
-        <li>Ongoing fixes &amp; polish</li>
-        <li>Dependency &amp; security updates</li>
-        <li>Performance monitoring</li>
-        <li>Feature additions over time</li>
+        <li>Bug fixes and polish</li>
+        <li>Content and feature updates</li>
+        <li>Security and upkeep</li>
+        <li>Help when you need it</li>
       </ul>
-      <span class="card-cta">Talk about support <span class="arrow" aria-hidden="true">→</span></span>
+      <span class="card-cta">Get in touch <span class="arrow" aria-hidden="true">→</span></span>
     </article>
   </div>
 </section>
 
 <section id="portfolio">
-  <div class="section-title">Navigation Systems</div>
-  <p class="section-intro">A curated selection of production-ready systems. Explore, adapt, or commission one tailored to your brand.</p>
+  <div class="section-title">More Work</div>
+  <p class="section-intro">More live demos you can open and try.</p>
 
   <div class="portfolio-featured-label">Featured</div>
   <div class="cards" id="portfolioFeatured">
@@ -2727,21 +2950,43 @@ body.is-docking::before {
       <p>High-octane interactive dock with fluid motion and precision.</p>
       <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
+  </div>
+
+  <button type="button" class="portfolio-toggle" id="portfolioToggle" aria-expanded="false" aria-controls="portfolioArchive">
+    View full archive <span class="toggle-count">(24 more)</span>
+  </button>
+
+  <div class="portfolio-archive" id="portfolioArchive" hidden>
+    <div class="category-label">Accessible &amp; Editorial</div>
+    <div class="cards">
+    <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <h3>MyPDF</h3>
+      <p>A private, fast PDF workspace — open, mark up, sign, and export, with nothing ever touching a server.</p>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <h3>ScanMagic</h3>
+      <p>A pocket scanner that turns real paper into searchable, exportable PDFs — without a single image leaving the device.</p>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <h3>Lumina Calculator</h3>
+      <p>Precision calculator with scientific, graphing, and conversion modes — all in the browser.</p>
+      <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+
+
     <a class="card" href="https://w3bmstr.github.io/BodyOS/" target="_blank" rel="noopener noreferrer">
       <span class="card-tag">Live</span>
       <h3>BodyOS</h3>
       <p>Personal protocol OS for health, fasting, habits, and recovery — all on-device.</p>
       <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
     </a>
-  </div>
-
-  <button type="button" class="portfolio-toggle" id="portfolioToggle" aria-expanded="false" aria-controls="portfolioArchive">
-    View all systems <span class="toggle-count">(20 more)</span>
-  </button>
-
-  <div class="portfolio-archive" id="portfolioArchive" hidden>
-    <div class="category-label">Accessible &amp; Editorial</div>
-    <div class="cards">
       <a class="card" href="https://w3bmstr.github.io/wilds-accessible-nav/" target="_blank" rel="noopener noreferrer">
         <span class="card-tag">Live</span>
         <h3>Index Navigation</h3>
@@ -2812,18 +3057,6 @@ body.is-docking::before {
 
     <div class="category-label">Software &amp; Tools</div>
     <div class="cards">
-      <a class="card" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>MyPDF</h3>
-        <p>Private PDF viewer and ink editor — annotate, sign, and scan without uploads.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
-      <a class="card" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>ScanMagic</h3>
-        <p>Document scanner with OCR, filters, and multi-page PDF export.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
       <a class="card" href="https://w3bmstr.github.io/noteflow/" target="_blank" rel="noopener noreferrer">
         <span class="card-tag">Live</span>
         <h3>NoteFlow</h3>
@@ -2860,13 +3093,7 @@ body.is-docking::before {
         <p>Offline day planner with calendar, tasks, notes, habits, and email.</p>
         <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
       </a>
-      <a class="card" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>Lumina Calculator</h3>
-        <p>Precision scientific calculator with graphing, finance, and unit conversion.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
-      <a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener noreferrer">
+<a class="card" href="https://w3bmstr.github.io/CADcalc/" target="_blank" rel="noopener noreferrer">
         <span class="card-tag">Live</span>
         <h3>CADcalc</h3>
         <p>CAD and engineering calculation tools for design workflows.</p>
@@ -2894,8 +3121,8 @@ body.is-docking::before {
     <!-- Contact form as the footer statement -->
     <div class="footer-statement" id="contact">
       <div class="footer-statement-copy">
-        <h2>Ready to build something <span>immersive</span>?</h2>
-        <p>Tell me about your project and I’ll respond with ideas, timelines, and a clear plan.</p>
+        <h2>Have a project <span>in mind</span>?</h2>
+        <p>Tell me what you need. I’ll reply with a clear plan and timeline.</p>
         <div class="footer-statement-meta">
           <span class="live-pill is-open" id="liveStatusPill">
             <span class="status-dot" aria-hidden="true"></span>
@@ -2937,8 +3164,11 @@ body.is-docking::before {
     <!-- Architecture grid -->
     <div class="footer-grid">
       <div class="footer-brand-block">
-        <div class="footer-logo" id="footerLogo" role="button" tabindex="0" onclick="scrollToSection('hero')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('hero')}" aria-label="D Wilds Studio — back to top">D Wilds Studio</div>
-        <p>Production-ready navigation systems engineered with motion, depth, and precise interaction.</p>
+        <div class="footer-logo" id="footerLogo" role="button" tabindex="0" onclick="scrollToSection('hero')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToSection('hero')}" aria-label="D Wilds Studio — back to top">
+          <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span class="logo-text">D Wilds Studio</span>
+        </div>
+        <p>Web design and development — HTML, CSS, JavaScript. Sites built from start to finish.</p>
         <div class="footer-social">
           <a href="https://github.com/w3bmstr" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
@@ -3257,8 +3487,8 @@ requestAnimationFrame(() => {
   if (!h1) return;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const plainBefore = "Engineering ";
-  const gradPhrase = "immersive navigation systems";
+  const plainBefore = "I build websites ";
+  const gradPhrase = "from start to finish";
   const plainAfter = ".";
   h1.textContent = "";
 
@@ -3309,7 +3539,7 @@ requestAnimationFrame(() => {
     if (open) {
       archive.hidden = true;
       btn.setAttribute("aria-expanded", "false");
-      btn.innerHTML = 'View all systems <span class="toggle-count">(20 more)</span>';
+      btn.innerHTML = 'View full archive <span class="toggle-count">(24 more)</span>';
     } else {
       archive.hidden = false;
       btn.setAttribute("aria-expanded", "true");
@@ -3749,12 +3979,7 @@ function hapticTick(pattern, why) {
         setTimeout(() => gh.g.remove(), 400);
         pair.ghost = null; pair.state = "docked"; pair.busy = false;
         if (!pairs.some((p) => p.busy)) setDocking(false);
-        const coach = document.getElementById("dockCoach");
-        if (coach) {
-          coach.classList.remove("is-on");
-          const label = coach.querySelector(".coach-label");
-          if (label) label.textContent = "Panels became the work";
-        }
+        /* dock coach removed */
         evaluate(false);
       }, arcSign);
   }
@@ -3807,16 +4032,6 @@ function hapticTick(pattern, why) {
     const vh = window.innerHeight;
     const dockAt = narrow() ? 0.72 : 0.58;
     const undockAt = narrow() ? 0.94 : 0.92;
-    const coach = document.getElementById("dockCoach");
-    // Show coach once when case studies approach
-    if (coach && !coach.dataset.shown) {
-      const firstTop = pairs[0].card.getBoundingClientRect().top;
-      if (firstTop < vh * 0.92 && firstTop > vh * 0.2) {
-        coach.dataset.shown = "1";
-        coach.classList.add("is-on");
-        coach.setAttribute("aria-hidden", "false");
-      }
-    }
     pairs.forEach((pair, i) => {
       if (pair.busy) return;
       const top = pair.card.getBoundingClientRect().top;
@@ -3848,8 +4063,8 @@ function hapticTick(pattern, why) {
     if (!hint) return;
     const lead = coarse.matches ? "Drag a panel by its title bar" : "Drag the panels";
     hint.textContent = on
-      ? lead + " — then scroll. They become the case studies."
-      : lead + " — they stay where you leave them";
+      ? lead + " — or scroll. They fly down into the four case studies below."
+      : lead + " — they stay put until you scroll";
   }
 
   function enable() {
