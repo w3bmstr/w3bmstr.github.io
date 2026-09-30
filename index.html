@@ -2534,6 +2534,75 @@ body.is-docking::before {
         Open live demo <span class="arrow" aria-hidden="true">→</span>
       </a>
     </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Documents</span>
+        <h3>MyPDF</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Annotating, signing, or marking up a PDF usually means uploading a private document — a contract, an ID, a form — to someone else's server first.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Built a fully local PDF viewer with an ink and annotation layer, signature capture, and a built-in scanner, so the file never leaves the device.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A private, fast PDF workspace — open, mark up, sign, and export, with nothing ever touching a server.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/MyPDF/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Scanning</span>
+        <h3>ScanMagic</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Turning paper into a searchable PDF usually means a scanning app that quietly uploads every photo you take.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Built an on-device scanner with edge detection, cleanup filters, and OCR that runs entirely in the browser, exporting straight to a multi-page PDF.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A pocket scanner that turns real paper into searchable, exportable PDFs — without a single image leaving the device.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/scanmagic/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
+    <article class="case-study">
+      <div class="case-study-top">
+        <span class="case-study-tag tool">Calculator</span>
+        <h3>Lumina Calculator</h3>
+      </div>
+      <dl class="case-study-grid">
+        <div class="case-study-block">
+          <dt>Problem</dt>
+          <dd>Students and professionals juggle three or four separate calculator apps for scientific work, graphing, and financial math.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Approach</dt>
+          <dd>Built one precision calculator covering scientific functions, function graphing, financial formulas, and unit conversion in a single interface.</dd>
+        </div>
+        <div class="case-study-block">
+          <dt>Result</dt>
+          <dd>A single calculator that replaces the drawer of apps — accurate, fast, and fully usable offline.</dd>
+        </div>
+      </dl>
+      <a class="case-study-link" href="https://w3bmstr.github.io/premium-scientific-calculator/" target="_blank" rel="noopener noreferrer">
+        Open live demo <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </article>
   </div>
 </section>
 
@@ -3822,7 +3891,7 @@ function checkSections(){
       if(section.id==="services"||section.id==="portfolio"){
         section.classList.add("section-visible");
       }
-      // Extra case studies (beyond the two dock targets) reveal on enter
+      // Extra case studies (beyond the four dock targets) reveal on enter
       if(section.id==="case-studies"){
         section.querySelectorAll(".case-study:not(.dock-hold)").forEach((c)=>{
           c.classList.add("is-visible");
