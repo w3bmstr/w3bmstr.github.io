@@ -1288,6 +1288,79 @@ section { padding:4rem 1.5rem; max-width:1040px; margin:0 auto; }
   border-color: rgba(79,209,255,0.45);
 }
 
+/* Games strip — always visible, intentional placement */
+.portfolio-games-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2.25rem 0 0.4rem;
+  font-weight: 600;
+}
+.portfolio-games-intro {
+  font-size: 0.9rem;
+  color: rgba(209,213,219,0.8);
+  margin: 0 0 1.1rem;
+  max-width: 36rem;
+  line-height: 1.5;
+}
+.portfolio-games {
+  margin-bottom: 0.25rem;
+}
+/* Featured vs archive hierarchy */
+#portfolioFeatured .card {
+  box-shadow: 0 24px 48px rgba(15,23,42,0.8), 0 0 0 1px rgba(79,209,255,0.06);
+  border-color: rgba(148,163,184,0.42);
+}
+#portfolioFeatured .card:hover {
+  border-color: rgba(79,209,255,0.6);
+  box-shadow: 0 32px 56px rgba(15,23,42,0.92), 0 0 36px rgba(79,209,255,0.1);
+}
+.portfolio-archive .card {
+  opacity: 0.94;
+  box-shadow: 0 14px 32px rgba(15,23,42,0.55);
+  border-color: rgba(148,163,184,0.28);
+}
+.portfolio-archive .card:hover {
+  opacity: 1;
+}
+.portfolio-archive .card.is-visible {
+  opacity: 0.94;
+}
+.portfolio-archive .card.is-visible:hover {
+  opacity: 1;
+}
+/* Game cards + New badge */
+.card-game {
+  position: relative;
+  border-color: rgba(168,85,247,0.28);
+  background:
+    linear-gradient(165deg, rgba(168,85,247,0.06) 0%, transparent 42%),
+    radial-gradient(circle at top, #111827, #020617);
+}
+.card-game:hover {
+  border-color: rgba(168,85,247,0.55);
+  box-shadow: 0 28px 50px rgba(15,23,42,0.9), 0 0 30px rgba(168,85,247,0.1);
+}
+.card-badge-new {
+  position: absolute;
+  top: 1rem;
+  right: 4.35rem; /* sits left of the Live tag */
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--accent2), var(--accent3));
+  color: #0b1020;
+  box-shadow: 0 0 16px rgba(168,85,247,0.35);
+  z-index: 1;
+}
+.card-game h3 {
+  padding-right: 7.5rem; /* room for New + Live tags */
+}
+
 /* Case studies */
 .case-studies {
   display: grid;
@@ -2184,6 +2257,9 @@ body.has-fine-pointer .footer-form-panel:hover .footer-form-glow {
     0 0 0 1px rgba(255,255,255,0.06) inset;
   will-change:transform, width, height;
   transition:opacity .35s ease;
+  transform-style:preserve-3d;
+  perspective:900px;
+  transform-origin:center center;
 }
 .dock-ghost::after {
   content:"";
@@ -2952,8 +3028,34 @@ body.is-docking::before {
     </a>
   </div>
 
+  <div class="portfolio-games-label">Games</div>
+  <p class="portfolio-games-intro">Browser games — no accounts, no uploads. Open and play.</p>
+  <div class="cards portfolio-games" id="portfolioGames">
+    <a class="card card-game is-new" href="https://w3bmstr.github.io/clockwork-octopus/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <span class="card-badge-new">New</span>
+      <h3>Clockwork Octopus</h3>
+      <p>Swim, steer, and explore as a clockwork octopus — 3D underwater movement with boost, look, and zoom.</p>
+      <span class="card-cta">Play <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+    <a class="card card-game is-new" href="https://w3bmstr.github.io/3DownDynasty/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <span class="card-badge-new">New</span>
+      <h3>3 Down Dynasty</h3>
+      <p>Draft legends, spin real CFL franchises across decades, and chase the perfect 18–0 Dominion Cup season.</p>
+      <span class="card-cta">Play <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+    <a class="card card-game is-new" href="https://w3bmstr.github.io/veil/" target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">Live</span>
+      <span class="card-badge-new">New</span>
+      <h3>VEIL</h3>
+      <p>Steer the contagion — mutate, adapt, and become permanent before the world erases you.</p>
+      <span class="card-cta">Play <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+  </div>
+
   <button type="button" class="portfolio-toggle" id="portfolioToggle" aria-expanded="false" aria-controls="portfolioArchive">
-    View full archive <span class="toggle-count">(24 more)</span>
+    View full archive <span class="toggle-count">(21 more)</span>
   </button>
 
   <div class="portfolio-archive" id="portfolioArchive" hidden>
@@ -3103,28 +3205,6 @@ body.is-docking::before {
         <span class="card-tag">Live</span>
         <h3>Any Place AV Suite</h3>
         <p>Sources, mix, EQ, and record — multi-cam cut/fade and local recording in the browser.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
-    </div>
-
-    <div class="category-label">Games</div>
-    <div class="cards">
-      <a class="card" href="https://w3bmstr.github.io/clockwork-octopus/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>Clockwork Octopus</h3>
-        <p>Swim, steer, and explore as a clockwork octopus — 3D underwater movement with boost, look, and zoom.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
-      <a class="card" href="https://w3bmstr.github.io/3DownDynasty/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>3 Down Dynasty</h3>
-        <p>Draft legends, spin real CFL franchises across decades, and chase the perfect 18–0 Dominion Cup season.</p>
-        <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
-      </a>
-      <a class="card" href="https://w3bmstr.github.io/veil/" target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">Live</span>
-        <h3>VEIL</h3>
-        <p>Steer the contagion — mutate, adapt, and become permanent before the world erases you.</p>
         <span class="card-cta">Live demo <span class="arrow" aria-hidden="true">→</span></span>
       </a>
     </div>
@@ -3561,7 +3641,7 @@ requestAnimationFrame(() => {
     if (open) {
       archive.hidden = true;
       btn.setAttribute("aria-expanded", "false");
-      btn.innerHTML = 'View full archive <span class="toggle-count">(24 more)</span>';
+      btn.innerHTML = 'View full archive <span class="toggle-count">(21 more)</span>';
     } else {
       archive.hidden = false;
       btn.setAttribute("aria-expanded", "true");
@@ -3918,8 +3998,14 @@ function hapticTick(pattern, why) {
     else if (r.top > window.innerHeight) y = window.innerHeight;
     return { x: r.left, y, w: r.width, h: r.height };
   };
-  const place = (g, r) => {
-    g.style.transform = "translate3d(" + r.x + "px," + r.y + "px,0)";
+  // place() supports optional twist (rotateY/Z) + scale for cinematic flight
+  const place = (g, r, twist) => {
+    const ry = (twist && twist.ry) || 0;
+    const rz = (twist && twist.rz) || 0;
+    const sc = (twist && twist.s) || 1;
+    g.style.transform =
+      "translate3d(" + r.x + "px," + r.y + "px,0) " +
+      "rotateY(" + ry + "deg) rotateZ(" + rz + "deg) scale(" + sc + ")";
     g.style.width = r.w + "px";
     g.style.height = r.h + "px";
   };
@@ -3946,22 +4032,32 @@ function hapticTick(pattern, why) {
     return { g, clone, tag };
   }
 
-  // Cinematic flight with a slight arc so the path reads as intentional, not linear lerp
+  // Cinematic flight: arc + mid-air twist + slight scale pulse
   function flight(pair, gh, from, getTo, dur, contentAt, done, arcSign) {
     const tok = pair.token;
     const t0 = performance.now();
-    const arc = (arcSign || 1) * (narrow() ? 28 : 48);
+    const sign = arcSign || 1;
+    const arc = sign * (narrow() ? 28 : 48);
+    const maxTwistY = sign * (narrow() ? 18 : 28);   // degrees — flips direction with arc
+    const maxTwistZ = sign * (narrow() ? 6 : 10);
     function frame(now) {
       if (pair.token !== tok) return;
       const raw = Math.min(1, (now - t0) / dur);
       const p = ease(raw);
       const to = getTo();
       const lift = Math.sin(Math.PI * p) * arc; // peaks mid-flight
+      // Twist peaks mid-flight and settles to 0 (sin envelope)
+      const twistAmt = Math.sin(Math.PI * p);
+      const scale = 1 + 0.06 * twistAmt; // subtle swell mid-air
       place(gh.g, {
-        x: from.x + (to.x - from.x) * p + lift * 0.35 * (arcSign || 1),
+        x: from.x + (to.x - from.x) * p + lift * 0.35 * sign,
         y: from.y + (to.y - from.y) * p - Math.abs(lift) * 0.25,
         w: from.w + (to.w - from.w) * p,
         h: from.h + (to.h - from.h) * p
+      }, {
+        ry: maxTwistY * twistAmt,
+        rz: maxTwistZ * twistAmt,
+        s: scale
       });
       gh.clone.style.opacity = contentAt(raw);
       gh.tag.style.opacity = tagAt(raw);
